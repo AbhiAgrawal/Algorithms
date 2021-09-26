@@ -1,0 +1,46 @@
+class Solution:
+    def wallsAndGates(self, rooms: List[List[int]]) -> None:
+        """
+        Do not return anything, modify rooms in-place instead.
+        """
+        if not rooms or not rooms[0]:
+            None
+        
+        queue = []
+        
+        for r in range(len(rooms)):
+            for c in range(len(rooms[0])):
+                if rooms[r][c] == 0:
+                    queue.append([r,c,0])
+        self.bfs(rooms, queue)
+        return rooms
+    
+    
+    
+    
+    def bfs(self, rooms: List[List[int]], queue: List[List[int]])-> None:
+        visited = [[False for i in range(len(rooms[0]))] for j in range(len(rooms))]
+        
+        while not len(queue) == 0:
+            pair = queue.pop(0)
+            dist_from_gate = pair[2]+1
+            r1 = pair[0]
+            c1 = pair[1]
+            
+            if(r1-1>=0 and rooms[r1-1][c1] > 0 and not visited[r1-1][c1]):
+               rooms[r1-1][c1]=dist_from_gate
+               queue.append([r1-1,c1,dist_from_gate])
+               visited[r1-1][c1] = True
+            if(r1+1<len(rooms) and rooms[r1+1][c1] > 0 and not visited[r1+1][c1]):
+               rooms[r1+1][c1]=dist_from_gate
+               queue.append([r1+1,c1,dist_from_gate])
+               visited[r1+1][c1] = True
+            if(c1+1<len(rooms[0]) and rooms[r1][c1+1] > 0 and not visited[r1][c1+1]):
+               rooms[r1][c1+1]=dist_from_gate
+               queue.append([r1,c1+1,dist_from_gate])
+               visited[r1][c1+1] = True 
+            if(c1-1>=0 and rooms[r1][c1-1] > 0 and not visited[r1][c1-1]):
+               rooms[r1][c1-1]=dist_from_gate
+               queue.append([r1,c1-1,dist_from_gate])
+               visited[r1][c1-1] = True 
+                
