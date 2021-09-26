@@ -1,0 +1,35 @@
+class Solution:
+    #basically as soon as you see 1 increase number_of_islands and run BFS from that node and mark all adjacent 1s basically entire island to 0. then pick up next node which is 1 (that is new island), repeat the same. you will total numbner of islands
+ 
+    def numIslands(self, grid: List[List[str]]) -> int:
+        #return len(grid)
+        number_of_islands = 0
+        if len(grid) == 0:
+            return 0
+        for r in range(len(grid)):
+            for c in range(len(grid[0])):
+                if grid[r][c]=='1':
+                    number_of_islands += 1
+                    self.markAllAdjacentCellsAsVisited(grid,r,c)
+        return number_of_islands
+    
+    def markAllAdjacentCellsAsVisited(self, grid: List[List[str]], r: int, c: int)-> None:   
+        neighbours = []
+        grid[r][c]='0'
+        neighbours.append([r,c])
+        while not len(neighbours) == 0:
+            pair = neighbours.pop(0)
+            r1 = pair[0]
+            c1 = pair[1]
+            if(r1-1>=0 and grid[r1-1][c1] == '1'):
+               grid[r1-1][c1]='0'
+               neighbours.append([r1-1,c1])
+            if(r1+1<len(grid) and grid[r1+1][c1] == '1'):
+               grid[r1+1][c1]='0'
+               neighbours.append([r1+1,c1])
+            if(c1+1<len(grid[0]) and grid[r1][c1+1] == '1'):
+               grid[r1][c1+1]='0'
+               neighbours.append([r1,c1+1])
+            if(c1-1>=0 and grid[r1][c1-1] == '1'):
+               grid[r1][c1-1]='0'
+               neighbours.append([r1,c1-1])
