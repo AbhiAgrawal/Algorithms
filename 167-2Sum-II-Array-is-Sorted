@@ -1,0 +1,22 @@
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        
+        length = len(numbers)
+        
+        left = 0
+        right = length - 1
+        
+        while(left < right):
+            sum = numbers[left] + numbers[right]
+            if sum == target:
+                #please note indices expected is from 1 and not 0 so result will be plus 1 
+                return [left+1, right+1]
+            elif sum < target:
+                left = left + 1
+            else:
+                right = right -1
+        
+        return -1
+            
+            
+        
