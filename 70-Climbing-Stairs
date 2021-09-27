@@ -1,0 +1,17 @@
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        #basically fibonacci
+        if (n < 4):
+            return n
+        x = 2
+        y = 3
+        result = 0
+        for i in range(4,n+1):
+            result = x + y
+            x = y
+            y = result
+        
+        
+        return result
+        
+        
