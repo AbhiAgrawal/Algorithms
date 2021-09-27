@@ -1,0 +1,25 @@
+class Solution:
+    # go through Aditya Verma's video
+    def change(self, amount: int, coins: List[int]) -> int:
+        if(amount == 0):
+            return 1
+        
+        n = len(coins)
+        
+        
+        DP = [[0 for i in range(amount+1)] for j in range(n+1)]
+        
+        DP[0][0] = 1
+        for i in range(n+1):
+            for j in range(amount+1):
+                if j == 0:
+                    DP[i][j] = 1
+                elif i == 0:
+                    DP[i][j] = 0
+                else:
+                    if(coins[i-1]<= amount):
+                        DP[i][j] = DP[i-1][j] + DP[i][j-coins[i-1]]
+                    else:
+                        DP[i][j] = DP[i-1][j]
+        return DP[n][amount] 
+        
