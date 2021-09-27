@@ -1,0 +1,43 @@
+class Solution:
+    
+    #this is an extension of 2sum and 2sum 2 problem
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        result = []
+        
+        length = len(nums)
+        
+        if length < 3:
+            return result
+        
+        nums.sort()
+        for i in range(length - 2):
+            num1 = nums[i]
+            self.twoSumII(nums, i, result)        
+        return result
+    
+    
+    def twoSumII(self, nums: List[int], i: int, result: List[List[int]]):
+        length = len(nums)
+        
+        
+        left = i + 1
+        right = length - 1
+        
+        while(left < right):
+            sum = nums[i] + nums[left] + nums[right]
+            
+            if(sum == 0):
+                temp = [nums[i],nums[left],nums[right]]
+                
+                #to avoid adding duplicates
+                if temp not in result:
+                    result.append(temp)
+                left = left + 1
+                right = right - 1    
+            elif sum > 0:
+                right = right - 1
+            else:
+                left = left + 1
+               
+                
+                
