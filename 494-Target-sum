@@ -1,0 +1,44 @@
+class Solution:
+    
+    # https://www.youtube.com/watch?v=Hw6Ygp3JBYw&lc=UgxLRL4BcZNLCxQIEVJ4AaABAg
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        sum_arr = sum(nums)
+        
+        if(sum_arr<target):
+            return 0
+        
+        #to fix this test case [7,9,3,8,0,2,4,8,3,9] target 0. answer should be 0 but we returned 78. below if check will fix the problem
+        if(sum_arr - target) %2 != 0:
+            return 0
+        
+        subset_sum = (sum_arr - target) //2
+                
+        
+        #To handle Zeros .. if zeros are present in the array.. the answer changes as there are 2 values of 0 +0, -0, similarly if there are 2 0s there 4 variations..
+        zero_variation = 2 **(nums.count(0))
+        
+        nums = [i for i in nums if i != 0]
+        
+        n = len(nums)
+       
+        #to fix this corner case [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],0   
+        if(n == 0 and target == 0):
+            return zero_variation
+        
+        DP = [[0 for i in range(subset_sum+1)] for j in range(n+1)]
+        DP[0][0] = 1
+        for i in range(n+1):
+            curr = nums[i-1]
+            for j in range(subset_sum+1):
+                if j == 0:
+                    DP[i][j] = 1
+                elif i == 0:
+                    DP[i][j] = 0
+                else:
+                    if(j<curr):
+                        DP[i][j] = DP[i-1][j]
+                    else:
+                        DP[i][j] = DP[i-1][j] + DP[i-1][j - curr]
+        
+        return zero_variation*DP[n][subset_sum]
+        
