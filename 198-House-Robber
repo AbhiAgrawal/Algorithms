@@ -1,0 +1,43 @@
+class Solution:
+    
+    def __init__(self):
+        self.memo = {}
+    def rob(self, nums: List[int]) -> int:
+        return self.checkMaxUsingMemo(nums, len(nums))
+        
+    def checkMaxRecursive(self, nums: List[int], n: int) -> int:  
+        
+        #base conditions .. understand nicely with 0 element, 1 elemen or  2 elements
+        if n == 0:
+            return 0
+        if n == 1:
+            return nums[0]
+        if n == 2:
+            return max(nums[0],nums[1])
+        #check the last element.. 2 things.. if you include last elemetn.. then skip second last, or skip lsat elemetn and consider second last
+        return max((nums[n-1] + self.checkMaxRecursive(nums,n-2)),self.checkMaxRecursive(nums,n-1))
+    
+    def checkMaxUsingMemo(self, nums: List[int], n: int) -> int:  
+        memo = {}
+        if n == 0:
+            return 0
+        if n == 1:
+            return nums[0]
+        if n == 2:
+            return max(nums[0],nums[1])
+        
+        
+        #pull the data from cache
+        if n in self.memo:
+            return self.memo[n]
+        
+        ans = max((nums[n-1] + self.checkMaxUsingMemo(nums,n-2)),self.checkMaxUsingMemo(nums,n-1))
+        
+        #save the data in cache
+        self.memo[n] = ans
+        return ans
+    
+    
+    
+        
+        
