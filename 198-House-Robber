@@ -18,7 +18,6 @@ class Solution:
         return max((nums[n-1] + self.checkMaxRecursive(nums,n-2)),self.checkMaxRecursive(nums,n-1))
     
     def checkMaxUsingMemo(self, nums: List[int], n: int) -> int:  
-        memo = {}
         if n == 0:
             return 0
         if n == 1:
