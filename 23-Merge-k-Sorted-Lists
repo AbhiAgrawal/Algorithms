@@ -5,6 +5,7 @@
 #         self.next = next
 class Solution:
     ########PLEASE NOTE: FOR USING RECURSIVE MERGE 2 LISTS U GET TIME LIMIT EXCEEDED
+        ##### also check greedy approach in solution that is faster and seems similar to what we are doing.. 
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         
         if(len(lists) == 0):
