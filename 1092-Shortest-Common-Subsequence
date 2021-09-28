@@ -1,0 +1,57 @@
+class Solution:
+    #https://www.youtube.com/watch?v=823Grn4_dCQ&list=PL_z_8CaSLPWekqhdCPmFohncHwz8TY2Go&index=24
+    #https://www.youtube.com/watch?v=VDhRg-ZJTuc&list=PL_z_8CaSLPWekqhdCPmFohncHwz8TY2Go&index=28
+    def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
+        
+        DP =  self.calcMaxLenLongComSubseqTable(str1, len(str1), str2, len(str2))
+        
+        n = len(str1)
+        m = len(str2)
+        # length of shortest super subsequence = n + m - LCS
+        
+        i = n
+        j = m
+        result = ""
+        while(i>0 and j>0):
+            if(str1[i-1] == str2[j-1]):
+                result = str1[i-1] + result
+                i = i - 1
+                j = j - 1
+            else:
+                if (DP[i-1][j] > DP[i][j-1]):
+                    result = str1[i-1] + result
+                    i = i-1
+                else:
+                    result = str2[j-1] + result
+                    j = j-1
+        #prepend rest of the if str1 is remaining then prepend str1 or prepend str2
+        if(i>0):
+            result = str1[0:i] + result
+        if(j>0):
+            result = str2[0:j] + result
+        return result           
+        
+   
+    def calcMaxLenLongComSubseq(self, text1: str, n: int, text2: str, m: int) -> int:
+        
+        if n == 0 or m == 0:
+            return 0
+        else:
+            if text1[n-1] == text2[m-1]:
+                return 1 + self.calcMaxLenLongComSubseq(text1, n-1, text2, m-1)
+            else:
+                return max(self.calcMaxLenLongComSubseq(text1, n-1, text2, m), self.calcMaxLenLongComSubseq(text1, n, text2, m-1))
+            
+    def calcMaxLenLongComSubseqTable(self, text1: str, n: int, text2: str, m: int) -> int:
+        DP = [[0 for i in range(m+1)] for j in range(n+1)]
+        for i in range(n+1):
+            for j in range(m+1):
+                if(i == 0 or j == 0):
+                    DP[i][j] = 0
+                elif(text1[i-1] == text2[j-1]):
+                    DP[i][j] = 1 + DP[i-1][j-1]
+                else:
+                    DP[i][j] = max(DP[i-1][j],DP[i][j-1])
+        return DP      
+            
+        
