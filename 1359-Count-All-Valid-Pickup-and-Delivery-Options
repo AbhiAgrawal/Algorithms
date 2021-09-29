@@ -1,0 +1,6 @@
+class Solution:
+    def countOrders(self, n: int) -> int:
+        
+        ###https://leetcode.com/problems/count-all-valid-pickup-and-delivery-options/discuss/1468825/Easy-to-understand
+        return (math.factorial(2*n) // (2**n)) % (10**9 + 7)
+        
