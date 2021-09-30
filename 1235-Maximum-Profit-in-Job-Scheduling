@@ -1,34 +1,4 @@
 class Solution:
-    memo = dict()
-    def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
-        
-        if(len(startTime) == 1):
-            return profit[0] 
-        
-        jobs = list(zip(startTime, endTime, profit))
-        jobs.sort()
-        (s, e, p) = zip(*jobs)
-
-        return self.jobSchedulingReverse(s, e, p, 0, min(startTime))
-    
-    
-    def jobSchedulingReverse(self, startTime: List[int], endTime: List[int], profit: List[int], i: int, end: int) -> int:
-        
-        if(i == len(startTime)):
-            return 0
-        
-        if(startTime[i] < end):
-            
-            return self.jobSchedulingReverse(startTime, endTime, profit, i+1, end)
-        else:
-            return max(profit[i] + self.jobSchedulingReverse(startTime, endTime, profit, i+1, endTime[i]),
-                      self.jobSchedulingReverse(startTime, endTime, profit, i+1, end))
-        
-        
-    
-        
-        
-   class Solution:
     def __init__(self):
         self.memo = {}
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
@@ -39,9 +9,21 @@ class Solution:
         jobs = list(zip(startTime, endTime, profit))
         jobs.sort()
         (s, e, p) = zip(*jobs)
-        return  self.jobSchedulingReverse(s, e, p, 0, s[0])
 
-    def jobSchedulingReverse(self, startTime: List[int], endTime: List[int], profit: List[int], i: int, end: int) -> int:
+        return self.jobSchedulingMemo(s, e, p, 0, min(startTime))
+    
+    
+    def jobSchedulingRecursiveNoMemo(self, startTime: List[int], endTime: List[int], profit: List[int], i: int, end: int) -> int:
+        
+        if(i == len(startTime)):
+            return 0
+        
+        j = bisect_left(startTime, endTime[i], i+1, len(startTime))
+        k = i+1
+        return max(profit[i] + self.jobSchedulingRecursiveNoMemo(startTime, endTime, profit, j, endTime[i]),
+                  self.jobSchedulingRecursiveNoMemo(startTime, endTime, profit, k, startTime[i]))
+    
+    def jobSchedulingMemo(self, startTime: List[int], endTime: List[int], profit: List[int], i: int, end: int) -> int:
         
         if(i == len(startTime)):
             return 0
@@ -49,12 +31,12 @@ class Solution:
         j = bisect_left(startTime, endTime[i], i+1, len(startTime))
         k = i+1
         if(j, endTime[i]) not in self.memo.keys():            
-            self.memo[(j, endTime[i])] = self.jobSchedulingReverse(startTime, endTime, profit, j, endTime[i])
+            self.memo[(j, endTime[i])] = self.jobSchedulingMemo(startTime, endTime, profit, j, endTime[i])
         if(k, startTime[i]) not in self.memo.keys():    
-            self.memo[(k, startTime[i])] = self.jobSchedulingReverse(startTime, endTime, profit, k, startTime[i])
+            self.memo[(k, startTime[i])] = self.jobSchedulingMemo(startTime, endTime, profit, k, startTime[i])
         return max(profit[i] + self.memo[(j, endTime[i])],
                   self.memo[(k, startTime[i])])
         
         
     
-             
+        
