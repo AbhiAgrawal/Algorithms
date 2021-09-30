@@ -5,16 +5,20 @@ class Solution:
         
         if(len(startTime) == 1):
             return profit[0] 
-        
+        #zip is used make the 3 arrays as tuple . this will helpful for sorting
+        #first we want to sort based on start time    
         jobs = list(zip(startTime, endTime, profit))
         jobs.sort()
+        
+        #get back start end and profit
         (s, e, p) = zip(*jobs)
-
+        
+        #start from index 0 and end param will be lowest start time
         return self.jobSchedulingMemo(s, e, p, 0, min(startTime))
     
     
     def jobSchedulingRecursiveNoMemo(self, startTime: List[int], endTime: List[int], profit: List[int], i: int, end: int) -> int:
-        
+        #if we are reaching end of 
         if(i == len(startTime)):
             return 0
         
@@ -25,9 +29,16 @@ class Solution:
     
     def jobSchedulingMemo(self, startTime: List[int], endTime: List[int], profit: List[int], i: int, end: int) -> int:
         
+        #if we are reaching end of array then no more profit return 0
         if(i == len(startTime)):
             return 0
         
+        
+        #'Find leftmost item greater than or equal to x'
+        ## 2 things. either include current job or not include.. if include then take the profit+look for next job where starttime<=endtime[i] thats we are using bisect_left.. basically binary search
+        ## dont include the item so go to the next item so k = i+1 but then update end top start time[i] since you dont want previous job.
+         ##https://docs.python.org/3/library/bisect.html
+            
         j = bisect_left(startTime, endTime[i], i+1, len(startTime))
         k = i+1
         if(j, endTime[i]) not in self.memo.keys():            
