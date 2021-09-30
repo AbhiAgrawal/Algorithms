@@ -1,0 +1,43 @@
+class Solution:
+    ### similar to https://leetcode.com/problems/number-of-islands/
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        maxAreaOfIsland = 0
+        
+        for r in range(len(grid)):
+            for c in range(len(grid[0])):
+                if(grid[r][c] == 1):
+                    maxAreaOfIsland = max(maxAreaOfIsland,self.useBFSToCalcArea(grid, r, c))
+        return maxAreaOfIsland            
+    
+    
+    def useBFSToCalcArea(self, grid: List[List[int]], r: int, c: int) -> int:
+        area = 0
+        area +=1
+        neighbours = []
+        grid[r][c] = 0 #mark it 0 so that we dont check it again
+        neighbours.append([r,c])
+        while len(neighbours) != 0:
+            pair = neighbours.pop()
+            r1 = pair[0]
+            c1 = pair[1]
+            if(r1-1>=0 and grid[r1-1][c1] == 1):
+                grid[r1-1][c1] = 0
+                area +=1
+                neighbours.append([r1-1,c1])
+            if(r1+1<len(grid) and grid[r1+1][c1] == 1):
+                grid[r1+1][c1] = 0
+                area +=1
+                neighbours.append([r1+1,c1])   
+            if(c1-1>=0 and grid[r1][c1-1] == 1):
+                grid[r1][c1-1] = 0
+                area +=1
+                neighbours.append([r1,c1-1])
+            if(c1+1<len(grid[0]) and grid[r1][c1+1] == 1):
+                grid[r1][c1+1] = 0
+                area +=1
+                neighbours.append([r1,c1+1])
+        return area        
+        
+        
+
+        
