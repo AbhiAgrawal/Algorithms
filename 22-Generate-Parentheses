@@ -1,0 +1,31 @@
+class Solution:
+    
+    #useful thing to check brute force approach from solutions
+    #openN == closeN == N, valid
+    #openN < N, add (
+    #closeN < openN add )
+    
+    def generateParenthesis(self, n: int) -> List[str]:
+        
+        result = []
+        stack = []
+        
+        def generate(openN: int, closeN: int):
+            if openN == closeN and closeN == n:
+                result.append("".join(stack))
+            if openN < n:
+                stack.append("(")
+                generate(openN+1, closeN)
+                stack.pop()
+            if closeN < openN:
+                stack.append(")")
+                generate(openN, closeN+1)
+                stack.pop()
+        generate(0,0)
+        return result
+                
+            
+            
+        
+        
+        
