@@ -1,0 +1,34 @@
+def get_all_patterns(n):
+    
+    #we are using extra picked_up and delivered set() for better time complexity. we coiuldhave just searched in pattern array but then search
+    # would have been linear to avoid that.. we are using another set variable..
+    patterns = []
+    pattern = []
+
+    def find_pattern(picked_up, delivered):
+        if len(pattern) == 2*n:
+            patterns.append("->".join(pattern))
+        for i in range(1, n+1):
+            pick_up = 'P' + str(i)
+            delivery = 'D' + str(i)
+            
+            if pick_up not in picked_up:
+                picked_up.add(pick_up)
+                pattern.append(pick_up)
+                find_pattern(picked_up, delivered)
+                pattern.pop()
+                picked_up.remove(pick_up)
+                
+            if pick_up in picked_up and delivery not in delivered:
+                delivered.add(delivery)
+                pattern.append(delivery)
+                find_pattern(picked_up, delivered)
+                pattern.pop()
+                delivered.remove(delivery)
+    
+    find_pattern(set(), set())
+    
+    return patterns
+
+print(get_all_patterns(2))
+    
