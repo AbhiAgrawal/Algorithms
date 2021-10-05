@@ -1,0 +1,40 @@
+def isValid(orders):
+    ###lot of edge cases so please check carefully
+    pickup = set()
+    delivery = set()
+    
+    for order in orders:
+        orderType = order[:1]
+        orderNumber = int(order[1:])
+        if orderType == 'P':
+            if orderNumber in pickup:
+                return False
+            pickup.add(orderNumber)
+        elif orderType == 'D':
+            if orderNumber not in pickup:
+                return False
+            if orderNumber in delivery:
+                return False
+            delivery.add(orderNumber)    
+    return True        
+    
+list_orders = [
+    ['P1', 'P2', 'D1', 'D2'], 
+    ['P1', 'D1', 'P2', 'D2'], 
+    ['P1', 'D2', 'D1', 'P2'], 
+    ['P1', 'D2'], 
+    ['P1', 'P2'], 
+    ['P1', 'D1', 'D1'], 
+    [], 
+    ['P1', 'P1', 'D1'], 
+    ['P1', 'P1', 'D1', 'D1'], 
+    ['P1', 'D1', 'P1'], 
+    ['P1', 'D1', 'P1', 'D1']
+]
+
+for order in list_orders:
+    print(order, isValid(order))
+        
+        
+        
+    
