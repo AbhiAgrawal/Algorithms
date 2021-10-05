@@ -1,7 +1,11 @@
 def get_all_patterns(n):
-    
+
+    # print all valid order paths e.g.: delivery after pickup given n
+    #https://leetcode.com/problems/count-all-valid-pickup-and-delivery-options/ but also list 
+
     #we are using extra picked_up and delivered set() for better time complexity. we coiuldhave just searched in pattern array but then search
     # would have been linear to avoid that.. we are using another set variable..
+
     patterns = []
     pattern = []
 
