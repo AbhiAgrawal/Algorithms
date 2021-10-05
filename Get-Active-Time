@@ -1,0 +1,50 @@
+def getMinutes(ts):
+    ts = ts.strip()
+    colon = ts.index(':')
+    hour = int(ts[:colon])
+    min = int(ts[colon+1:colon+3])
+    day = ts[colon+3:]
+    
+    if(hour == 12):
+        hour = 0
+    if(day == "pm"):
+        hour = hour+12
+    return hour*60+min
+    
+  
+
+def get_active_time(activity):
+    active_time = 0 
+    start = 0
+    pick_up_count = 0 
+    for ts in activity:
+        time, actionType = ts.split("|")
+        actionType = actionType.strip()
+        if actionType == 'pickup' and pick_up_count == 0:
+            start = getMinutes(time)
+        if actionType == 'pickup':
+            pick_up_count += 1    
+        if actionType == 'dropoff':
+            pick_up_count -=1 
+        if pick_up_count == 0:
+            active_time = active_time + (getMinutes(time) - start)
+            start = 0
+    return active_time  
+    
+    
+
+
+activity = [
+        '8:30am | pickup',
+        '9:10am | dropoff',
+        '10:20am| pickup',
+        '12:15pm| pickup',
+        '12:45pm| dropoff',
+        '2:25pm | dropoff',
+    ]
+print(get_active_time(activity))    
+    
+
+
+    
+        
