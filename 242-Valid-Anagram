@@ -1,0 +1,10 @@
+class Solution(object):
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        #various ways this can be one is hashmap other way is sort
+        return "". join(sorted(s)) == "". join(sorted(t)) #did this based on sort s and sort t and compare
+        
