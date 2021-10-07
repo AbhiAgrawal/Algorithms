@@ -1,0 +1,59 @@
+class Solution:
+    #solved using sliding window
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        n1 = len(s1)
+        n2 = len(s2)
+        if n2 < n1:    ### if s2 len is less than s1 length than just return false
+            return False
+        s1CountMap = {}
+        
+        #create a dictionary of char to count for s1. we will compare just count and chars as its any perm allowed
+        for s in s1:
+            if s not in s1CountMap:
+                s1CountMap[s] = 0
+            s1CountMap[s] += 1
+        s2CountMap = {}    
+        
+        left = 0
+        right = 0
+        
+        for s in s2:
+            # if s is not in s1 that means we need to all prior char so just reset and bring left to right of curr char
+            if s not in s1CountMap:
+                s2CountMap.clear()
+                left = right+1 #reset
+                
+            else:
+                if s not in s2CountMap: # if s is not in s2CountMap, add s2CountMap[s]
+                    s2CountMap[s] = 0
+                s2CountMap[s] += 1 ## then increment
+                if self.checkIfEqual(s1CountMap, s2CountMap): # then compare 2 dict if they are same return true
+                    return True
+                if s2CountMap[s] > s1CountMap[s]: #if curr char count in s2 is greater than s1 that means.. we need to slide left and somehow remove that extra count from s2CountMap that we will achieve by moving left 
+                    while s2CountMap[s] > s1CountMap[s]:
+                        s2CountMap[s2[left]] -= 1 # if left is moved so reduce the count of 1st char in window and so on
+                        if s2CountMap[s2[left]] == 0:
+                            del s2CountMap[s2[left]]
+                        left +=1    #incr left
+            right+=1    # incr window from right
+        return False    
+                
+                
+    
+    
+    
+    def checkIfEqual(self, s1CountMap: dict, s2CountMap: dict) -> bool:
+        if sum(s1CountMap.values()) != sum(s2CountMap.values()):
+            return False
+        for key in s1CountMap.keys():
+            if key not in s2CountMap:   return False
+            if s1CountMap[key] != s2CountMap[key]: return False
+        return True    
+            
+        
+        
+        
+        
+        
+        
+        
