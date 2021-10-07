@@ -1,0 +1,61 @@
+class Solution:
+    #solved using sliding window. COmpletely dependent on this problem https://leetcode.com/problems/permutation-in-string/
+    #its exactly same 2 changes.. find more than 1 solution and return starting index of that soltion
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        ns = len(s)
+        np = len(p)
+        if ns < np:    ### if ns len is less than np length than just return false
+            return []
+        pCountMap = {}
+        
+        #create a dictionary of char to count for p. we will compare just count and chars as its any perm allowed
+        for c in p:
+            if c not in pCountMap:
+                pCountMap[c] = 0
+            pCountMap[c] += 1
+        sCountMap = {}    
+        
+        left = 0
+        right = 0
+        
+        result = []
+        for char in s:
+            # if s is not in s1 that means we need to all prior char so just reset and bring left to right of curr char
+            if char not in pCountMap:
+                sCountMap.clear()
+                left = right+1 #reset
+                
+            else:
+                if char not in sCountMap: # if s is not in sCountMap, add sCountMap[s]
+                    sCountMap[char] = 0
+                sCountMap[char] += 1 ## then increment
+                if sCountMap[char] > pCountMap[char]: #if curr char count in s is greater than p that means.. we need to slide left and somehow remove that extra count from sCountMap that we will achieve by moving left 
+                    while sCountMap[char] > pCountMap[char]:
+                        sCountMap[s[left]] -= 1 # if left is moved so reduce the count of 1st char in window and so on
+                        if sCountMap[s[left]] == 0:
+                            del sCountMap[s[left]]
+                        left +=1    #incr left
+                if self.checkIfEqual(pCountMap, sCountMap): # then compare 2 dict if they are same return true
+                    result.append(left) #####we found 1 solution        
+            right+=1    # incr window from right
+        return result    
+                
+                
+    
+    
+    
+    def checkIfEqual(self, sCountMap: dict, pCountMap: dict) -> bool:
+        if sum(pCountMap.values()) != sum(sCountMap.values()):
+            return False
+        for key in pCountMap.keys():
+            if key not in sCountMap:   return False
+            if pCountMap[key] != sCountMap[key]: return False
+        return True    
+            
+        
+        
+        
+        
+        
+        
+        
