@@ -1,0 +1,64 @@
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        ### leetcode solution is good refer approach one
+        dict_t = Counter(t)
+        
+        l = 0
+        r = 0
+        
+        formed = 0
+        
+        required = len(dict_t)
+        
+        dict_window = defaultdict(int)
+        
+        ans = float(math.inf),None, None
+        
+        while r < len(s):
+                        
+            c = s[r]
+            
+            dict_window[c] += 1 ##add into dictionary
+            
+            ### update valid_substring_count
+            if c in dict_t and dict_window[c] == dict_t[c]:
+                formed += 1
+            
+            while l<=r and formed == required:
+                c1 = s[l]
+                    
+                if r-l+1 < ans[0]:
+                    ans = (r-l+1,l,r)
+                    
+                dict_window[c1] -= 1
+                if c1 in dict_t and dict_window[c1] < dict_t[c1]:
+                    formed -=1    
+                
+                l+=1
+            r+=1
+
+        if ans[1] is None:
+            return ""
+        else:
+            return s[ans[1]:ans[2]+1]
+                
+                
+                
+                
+                
+                    
+            
+            
+        
+                
+                
+        
+        
+    
+      
+        
+      
+        
+        
+        
+        
