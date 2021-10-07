@@ -27,14 +27,15 @@ class Solution:
                 if s not in s2CountMap: # if s is not in s2CountMap, add s2CountMap[s]
                     s2CountMap[s] = 0
                 s2CountMap[s] += 1 ## then increment
-                if self.checkIfEqual(s1CountMap, s2CountMap): # then compare 2 dict if they are same return true
-                    return True
                 if s2CountMap[s] > s1CountMap[s]: #if curr char count in s2 is greater than s1 that means.. we need to slide left and somehow remove that extra count from s2CountMap that we will achieve by moving left 
                     while s2CountMap[s] > s1CountMap[s]:
                         s2CountMap[s2[left]] -= 1 # if left is moved so reduce the count of 1st char in window and so on
                         if s2CountMap[s2[left]] == 0:
                             del s2CountMap[s2[left]]
                         left +=1    #incr left
+                if self.checkIfEqual(s1CountMap, s2CountMap): # then compare 2 dict if they are same return true
+                    return True
+                
             right+=1    # incr window from right
         return False    
                 
