@@ -1,0 +1,30 @@
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+
+        c = Counter(words)
+        word_len = len(words[0])
+        seq_len = len(words)*word_len
+        N = len(s)
+        
+        def success(i, word):
+			# Copy of word counts to remove from as needed
+            counter = c.copy()
+            counter[word] -= 1
+            
+            # Continue removing as long as sequence is not complete or until invalid word is encountered
+            for i in range(i, i+seq_len-word_len, word_len):
+                w = s[i:i+word_len]
+                if not counter[w]:
+                    return False
+                counter[w] -= 1
+            
+            # Sequence built successfully
+            return True
+        
+        # Return indices where there is a valid word and valid combo of words from thereafter 
+        result = []
+        for i in range(N-seq_len+1):
+            w = s[i:i+word_len]
+            if w in c and success(i+word_len,w):
+                result.append(i)
+        return result        
