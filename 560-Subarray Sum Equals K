@@ -1,0 +1,18 @@
+class Solution(object):
+    def subarraySum(self, nums, k):
+        ##see the solution... its not very super intuitive
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        sum=0
+        count=0
+        map = defaultdict(int)
+        map[0]=1 
+        for num in nums:
+            sum+=num
+            count+=map[sum-k]
+            map[sum] +=1
+        return count            
+        
