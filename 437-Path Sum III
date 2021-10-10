@@ -1,0 +1,38 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    ### combination of https://leetcode.com/problems/sum-root-to-leaf-numbers/ and https://leetcode.com/problems/subarray-sum-equals-k/
+    def pathSum(self, root: Optional[TreeNode], k:int) -> int:
+        count = 0
+        stack = []
+        map = defaultdict(int)
+        map[0]=1
+        stack.append((root,0,map))
+        
+        
+        while stack:
+            root, curr_sum,map = stack.pop()
+            if root is not None:
+                
+                ####below is same as https://leetcode.com/problems/subarray-sum-equals-k/
+                curr_sum +=root.val
+                count += map[curr_sum-k]
+                map[curr_sum] += 1 
+                
+                ##add in stack only if node exists
+                if(root.right is not None):
+                    stack.append((root.right, curr_sum, map))
+                
+                ### we had to do similar thing in path sum 2 but you cant do defaultdict(map).. we need to have default dict funationality.. if key is not there assign 0 so doing it manually.. or other option is wheerever you are doing map[key] check if key exists..
+                ## add in stack only if node exists.. this will help significantly here.. as we are creating new map every time
+                if(root.left is not None): 
+                    map1 = defaultdict(int)
+                    for key in map.keys():
+                        map1[key] = map[key]
+
+                    stack.append((root.left, curr_sum, map1))    
+        return count    
