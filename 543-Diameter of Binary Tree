@@ -12,8 +12,6 @@ class Solution:
         def longest_path(node):
             if not node:
                 return 0
-            if node.left is None and node.right is None:
-                return 1
             nonlocal diameter
             # recursively find the longest path in
             # both left child and right child
