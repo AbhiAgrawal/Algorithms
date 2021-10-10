@@ -1,0 +1,29 @@
+
+import collections
+
+
+
+def findSimilarRestaurants(name, list):
+    result=[]
+    for input in list:
+        if len(input) != len(name):
+            continue
+        if name == input:
+            result.append(input)
+            continue
+        count = 0
+        temp_result= []
+        for i in range(len(input)):
+            if name[i] != input[i]:
+                temp_result.append((i,name[i], input[i]))
+        if len(temp_result) != 2:
+                continue
+        if temp_result[0][1] == temp_result[1][2] and temp_result[0][2] ==temp_result[1][1]:
+                result.append(input)    
+    return result            
+            
+print(findSimilarRestaurants("omega grill",  ["omeag grill", "omeea grill", "omega gril", "omegla gril"]))
+
+
+
+    
