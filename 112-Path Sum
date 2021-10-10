@@ -4,6 +4,7 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+###This is DFS problem going from root to leaf
 class Solution:
     def hasPathSum(self, root: Optional[TreeNode], sum: int) -> bool:
         
