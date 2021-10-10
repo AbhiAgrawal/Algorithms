@@ -1,0 +1,30 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        ### similar to https://leetcode.com/problems/diameter-of-binary-tree/
+        max_sum = -math.inf
+        
+        def max_gain(root):
+            if root is None:
+                return 0
+            
+            nonlocal max_sum
+            
+            left_gain = max(max_gain(root.left),0) ## this protects from picking up -ve leaf node. try running by removing it.. u will know
+            right_gain = max(max_gain(root.right),0)
+
+            price_path = root.val + left_gain+right_gain
+            
+            max_sum = max(max_sum, price_path)
+            
+            return root.val + max(left_gain, right_gain)
+        
+        
+        max_gain(root)
+        return max_sum
