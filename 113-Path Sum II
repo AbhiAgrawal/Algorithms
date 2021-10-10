@@ -24,7 +24,7 @@ class Solution:
         path.pop() 
     
     
-    ####iterative mode
+    ####iterative mode.. same as https://leetcode.com/problems/sum-root-to-leaf-numbers/solution/
     def pathSum1(self, root: Optional[TreeNode], sum: int) -> List[List[int]]:
         root_to_leaf = []
         stack = []
