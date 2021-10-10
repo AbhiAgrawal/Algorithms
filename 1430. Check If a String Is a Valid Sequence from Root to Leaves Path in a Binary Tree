@@ -1,0 +1,26 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    ### same as https://leetcode.com/problems/binary-tree-paths/
+    def isValidSequence(self, root: Optional[TreeNode], arr: List[int]) -> bool:
+        pathList=[]
+        stack=[]
+        stack.append((root,[]))
+        while stack:
+            root,path = stack.pop()
+            if root is not None:
+                path.append(root.val)
+                if root.left is None and root.right is None and path == arr:
+                    return True
+                if root.right is not None:
+                    stack.append((root.right, path))
+                if root.left is not None:
+                    stack.append((root.left, list(path)))
+                
+        return False        
+                    
+            
