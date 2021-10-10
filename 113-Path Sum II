@@ -38,7 +38,7 @@ class Solution:
                 if root.left is None and root.right is None and sum == 0:
                     root_to_leaf.append(list(path))
                 else:    
-                    stack.append((root.right, list(path), sum))    
-                    stack.append((root.left, list(path), sum))
+                    stack.append((root.right, path, sum))    
+                    stack.append((root.left, list(path), sum)) ## dont have same path create a new path
                   
         return root_to_leaf    
