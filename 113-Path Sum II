@@ -21,4 +21,24 @@ class Solution:
         else:    
             self.recurseTree(root.left, sum, path, pathList)
             self.recurseTree(root.right, sum, path, pathList)
-        path.pop()    
+        path.pop() 
+    
+    
+    ####iterative mode
+    def pathSum1(self, root: Optional[TreeNode], sum: int) -> List[List[int]]:
+        root_to_leaf = []
+        stack = []
+        stack.append((root,[],sum))
+        
+        while stack:
+            root, path,sum = stack.pop()
+            if root is not None:
+                path.append(root.val)
+                sum-=root.val
+                if root.left is None and root.right is None and sum == 0:
+                    root_to_leaf.append(list(path))
+                else:    
+                    stack.append((root.right, list(path), sum))    
+                    stack.append((root.left, list(path), sum))
+                  
+        return root_to_leaf    
