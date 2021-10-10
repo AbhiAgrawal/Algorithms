@@ -1,0 +1,26 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    ###simialr to https://leetcode.com/problems/sum-root-to-leaf-numbers/
+    def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
+        pathList=[]
+        stack=[]
+        stack.append((root,str(root.val)))
+        while stack:
+            root,path = stack.pop()
+            if root is not None:
+                
+                if root.left is None and root.right is None:
+                    pathList.append(path)
+                if root.right is not None:
+                    stack.append((root.right, path+"->"+str(root.right.val)))
+                if root.left is not None:
+                    stack.append((root.left, path+"->"+str(root.left.val)))
+                
+        return pathList        
+                    
+        
