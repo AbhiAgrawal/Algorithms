@@ -1,0 +1,46 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+###this is duplicate question to https://leetcode.com/problems/populating-next-right-pointers-in-each-node/ but this is done in place
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        """
+        :type root: TreeNode
+        :rtype: List[float]
+        """
+        levels = []
+        if root is None:
+            return root
+        level_length = 0
+        level = 0
+        queue = deque()
+        queue.append(root)
+        while queue:
+            level_length = len(queue)
+            levels.append([])     
+            for i in range(level_length):
+                node = queue.popleft()
+                
+                ###levels[level].append(node) ###append the node
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+                ####below is in place
+                if queue:
+                    node.next = queue[0]    
+            node.next = None ####if its the last node then it should point to null        
+                    
+            level+=1 
+
+        return root 
+            
+        
+        
+        
