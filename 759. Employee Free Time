@@ -1,0 +1,24 @@
+"""
+# Definition for an Interval.
+class Interval:
+    def __init__(self, start: int = None, end: int = None):
+        self.start = start
+        self.end = end
+"""
+
+class Solution:
+    ###similar to https://leetcode.com/problems/merge-intervals/ first merge wheerever there are gaps thats free time
+    ###https://leetcode.com/problems/employee-free-time/discuss/170551/Simple-Python-9-liner-beats-97-(with-explanation)
+    def employeeFreeTime(self, schedule: '[[Interval]]') -> '[Interval]':
+        ints = sorted([i for s in schedule for i in s], key=lambda x: x.start)
+        
+        res, pre = [], ints[0]
+        for i in ints[1:]:
+            if i.start <= pre.end:
+                pre.end = max(pre.end,i.end)
+            elif i.start > pre.end:
+                res.append(Interval(pre.end, i.start))
+                pre = i
+        return res
+        
+        
