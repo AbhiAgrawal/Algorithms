@@ -1,0 +1,24 @@
+class Solution:
+    ###read leetcode approach 3 Approach 3: Two Pointers
+    def threeSumSmaller(self, nums: List[int], target: int) -> int:
+        n = len(nums)
+        if n<3:
+            return 0
+        count=0
+        nums.sort()
+        
+        for i in range(n-2):
+            left=i+1
+            right = n-1
+            while(left<right):
+                sum = nums[i] + nums[left] + nums[right]
+                if sum<target: 
+                    count+=(right-left) ### this is the most important part
+                    left+=1
+                elif sum>=target:
+                    right-=1
+                    
+        return count       
+                    
+        
+        
