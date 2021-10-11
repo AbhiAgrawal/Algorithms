@@ -1,0 +1,38 @@
+class Solution:
+    
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        left = 0
+        right = n-1
+        while(left<right):
+            if nums[left] == 0: ####if left is 0 increment left
+                left+=1
+            elif nums[right] == 2: ####if right is 2 decrement right
+                right-=1
+            elif nums[left] > nums[right]: ###if left > right ... just swap
+                ###swap for 0,1 or 0,2 or 1,2
+                nums[left], nums[right] = nums[right], nums[left]
+            else: ###both are same and both are 1s as 0s and 2s are already handled in above checks
+                ###look for 0 or 2 between 2 1st for swapping
+                pt = left+1
+                while(pt < right):
+                    if nums[pt] == 0:
+                        ###swap and increment left as we saw 0 and break
+                        nums[left], nums[pt] = nums[pt], nums[left]
+                        left+=1
+                        break
+                    elif nums[pt] == 2:
+                        ####swap and decrement right
+                        nums[right] = 2
+                        nums[pt] = 1
+                        right -=1
+                        break
+                    pt+=1
+                if pt == right: #### this means we have reached the end 
+                    break
+        return nums 
+            
+        
