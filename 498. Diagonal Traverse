@@ -1,0 +1,38 @@
+class Solution:
+    ###v easy if you draw on a paper you will understand the logic
+    ###first increment r once r is reached to m increment c
+    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
+        res=[]
+        if len(mat)<1:
+            return res
+        m = len(mat)
+        n = len(mat[0])
+        
+        r = 0
+        c = 0
+        count = 0 
+        while   (r < m or c < n):
+            i = r
+            j = c
+            temp = []
+            count +=1
+            while i < m and i>=0 and j < n and j >= 0:
+                temp.append(mat[i][j])
+                i-=1
+                j+=1
+            ###set a count alternatively put reverse and normal    
+            if count % 2 == 1:
+                res.extend(temp)
+            else:
+                res.extend(temp[::-1])
+            if(r < m-1):    
+                r+=1
+            else:
+                c+=1
+            if c == n:
+                break
+        return res
+                
+            
+    
+        
