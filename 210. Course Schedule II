@@ -1,0 +1,33 @@
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        ####please please look into https://leetcode.com/problems/course-schedule/
+        ### exact same code only final return statement will change
+        ###may be variable name changed but apart form it exact same
+        adj_list = defaultdict(list)
+        indegree_map = defaultdict(int)
+        topological_order = []
+        
+        for dest, src in prerequisites:
+            adj_list[src].append(dest)
+            indegree_map[dest] +=1 ### incremement destination
+        
+        zero_indegree_queue = deque([k for k in range(numCourses) if indegree_map[k] == 0])
+        
+        while zero_indegree_queue:
+            v = zero_indegree_queue.popleft()
+            topological_order.append(v)
+            
+            for neighbour in adj_list[v]:
+                indegree_map[neighbour] -=1
+
+                if indegree_map[neighbour] == 0:
+                    zero_indegree_queue.append(neighbour)
+        return topological_order if len(topological_order) == numCourses else []        
+                
+        
+        
+            
+         
+        
+            
+        
