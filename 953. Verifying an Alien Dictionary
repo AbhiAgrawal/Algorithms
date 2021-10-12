@@ -1,0 +1,21 @@
+class Solution:
+    
+    ###leetcode explains the solution very nicely
+    def isAlienSorted(self, words: List[str], order: str) -> bool:
+        order_map = dict()
+        for i, c in enumerate(order):
+            order_map[c] = i
+            
+        for i in range(len(words)-1):
+            for j in range(len(words[i])):
+                
+                if j>= len(words[i+1]):#if all characters are same and word i+1 ended before word i. return false "apple" and "app"
+                    return False
+                if words[i][j] != words[i+1][j]:#compare character is diff and word 1 char is bigger than word 2 char return False else go to next i
+                    if order_map[words[i][j]]>order_map[words[i+1][j]]:
+                        return False
+                    break
+        return True            
+            
+            
+        
