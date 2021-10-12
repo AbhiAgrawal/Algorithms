@@ -1,0 +1,42 @@
+class Solution:
+
+    marked = []
+    stack = []
+    edgeTo = []
+    adj = []
+    isCycle = False
+    
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        n = numCourses
+        self.marked = [False]*n
+        self.edgeTo = [-1]*n
+        self.adj = [list() for _ in range(n)]
+        
+        self.build_adj(numCourses, prerequisites)
+        
+        for i in range(n):
+            if self.marked[i] == False:
+                self.dfs(i) 
+        print(self.stack)
+        print(self.edgeTo)
+        print(self.isCycle)
+        return self.isCycle != True
+    
+    def dfs(self, s:int)-> None:
+        self.marked[s] = True
+        conn_nodes = self.adj[s]
+        for v in conn_nodes: ### go through each node
+            if self.marked[v] == False:
+                self.edgeTo[v] = s
+                self.dfs(v)
+            else:
+                self.isCycle = True
+        self.stack.append(s)       
+            
+    def build_adj(self, numCourses: int, prerequisites: List[List[int]])-> None:
+        ###build list of lists basically adjacency matrix
+        # for i in range(numCourses):
+        #     self.adj.append(list())
+        for entry in prerequisites:
+            self.adj[entry[0]].append(entry[1])
+        
