@@ -33,12 +33,11 @@ class Solution:
             topological_sorted_order.append(v)
 
             # Reduce in-degree for all the neighbors
-            if v in adj_list:
-                for neighbor in adj_list[v]:
-                    indegree[neighbor] -= 1
+            for neighbor in adj_list[v]:
+                indegree[neighbor] -= 1
 
-                    # Add neighbor to Q if in-degree becomes 0
-                    if indegree[neighbor] == 0:
-                        zero_indegree_queue.append(neighbor)
+                # Add neighbor to Q if in-degree becomes 0
+                if indegree[neighbor] == 0:
+                    zero_indegree_queue.append(neighbor)
 
         return True if len(topological_sorted_order) == numCourses else False
