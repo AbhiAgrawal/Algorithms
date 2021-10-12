@@ -1,0 +1,24 @@
+class Solution:
+    
+    ###very nicely explained soluiton in leetcode.. basically create hash map of nums2 
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        map = dict()
+        res = []
+        n = len(nums2)
+        for i, num in enumerate(nums2):
+            map[num] = i
+        for num in nums1:
+            i = map[num]
+            j = i
+            while j < n:
+                if nums2[j]>num:
+                    res.append(nums2[j])
+                    break
+                j+=1    
+            if j == n:
+                res.append(-1)
+                    
+        return res            
+        
+        
+        
