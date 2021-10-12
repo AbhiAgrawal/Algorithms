@@ -1,0 +1,44 @@
+class Solution:
+
+   ####Approach 3: Topological Sort leetcode nicely explains
+#     To better understand the above algorithm, we summarize a few points here:
+
+# In order to find a global order, we can start from those nodes which do not have any prerequisites (i.e. indegree of node is zero), we then incrementally add new nodes to the global order, following the dependencies (edges).
+# Once we follow an edge, we then remove it from the graph.
+# With the removal of edges, there would more nodes appearing without any prerequisite dependency, in addition to the initial list in the first step.
+# The algorithm would terminate when we can no longer remove edges from the graph. There are two possible outcomes:
+# 1). If there are still some edges left in the graph, then these edges must have formed certain cycles, which is similar to the deadlock situation. It is due to these cyclic dependencies that we cannot remove them during the above processes.
+# 2). Otherwise, i.e. we have removed all the edges from the graph, and we got ourselves a topological order of the graph.
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        adj_list = defaultdict(list)
+        indegree = defaultdict(int)
+        
+        ####note here its opposite read the question carefully
+        for dest, src in prerequisites:
+            adj_list[src].append(dest)
+
+            # Record each node's in-degree.. number of incoming nodes
+            indegree[dest] = indegree[dest] + 1
+
+        # Queue for maintainig list of nodes that have 0 in-degree
+        zero_indegree_queue = deque([k for k in range(numCourses) if indegree[k] == 0])
+
+        topological_sorted_order = []
+
+        # Until there are nodes in the Q
+        while zero_indegree_queue:
+
+            # Pop one node with 0 in-degree
+            v = zero_indegree_queue.popleft()
+            topological_sorted_order.append(v)
+
+            # Reduce in-degree for all the neighbors
+            if v in adj_list:
+                for neighbor in adj_list[v]:
+                    indegree[neighbor] -= 1
+
+                    # Add neighbor to Q if in-degree becomes 0
+                    if indegree[neighbor] == 0:
+                        zero_indegree_queue.append(neighbor)
+
+        return True if len(topological_sorted_order) == numCourses else False
