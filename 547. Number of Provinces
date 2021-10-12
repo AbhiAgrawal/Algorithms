@@ -1,0 +1,21 @@
+class Solution:
+    ##bfs solution of leetcode solutions
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        n = len(isConnected)
+        visited = [0]*n
+        queue = []
+        count=0
+        for s in range(n):
+            if visited[s] == 0:
+                queue.append(s)
+                visited[s] = 1
+                while queue:
+                    t = queue.pop(0)
+                    for j in range(n):
+                        if isConnected[t][j] == 1 and visited[j] == 0:
+                            visited[t] = 1
+                            queue.append(j)
+                count+=1
+        return count       
+                            
+        
