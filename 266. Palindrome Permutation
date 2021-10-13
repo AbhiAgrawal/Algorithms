@@ -1,0 +1,15 @@
+
+class Solution:
+    
+    def canPermutePalindrome(self, s: str) -> bool:
+        ##hashmap counter and then every element count should be even number except atmost 1
+        dict = defaultdict(int)
+        for c in s:
+            dict[c]+=1
+        odd = False
+        for val in dict.values():
+            if val %2 == 1:
+                if odd:
+                    return False
+                odd = True
+        return True
