@@ -1,0 +1,27 @@
+class Solution:
+    ###too goooood video https://www.youtube.com/watch?v=WiEqhI7v2FY&ab_channel=AlgorithmsMadeEasy
+    ## very easy dont get bogged down
+    dirs = [[0,1],[1,0],[0,-1],[-1,0]]
+    
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        m = len(matrix)
+        n = len(matrix[0])
+        longest_path = 1
+        memo = [[0 for i in range(n)] for j in range(m)]
+        dir = [[0,1],[1,0],[0,-1],[-1,0]]
+        for i in range(m):
+            for j in range(n):
+                path = self.dfs(matrix, m, n, i, j,memo) ## run dfs from each cell and calc longest path from that cell
+                longest_path = max(path, longest_path) ## calc max
+        return longest_path
+    
+    def dfs(self, matrix: List[List[int]], m: int, n: int, i: int, j:int, memo: List[List[int]])->int:
+        if memo[i][j] != 0: return memo[i][j]
+        max_path = 0
+        for dir in self.dirs:
+            x = i + dir[0]
+            y = j + dir[1]
+            if x>=0 and y>=0 and x<m and y<n and matrix[x][y]>matrix[i][j]:
+                max_path = max(max_path, self.dfs(matrix, m, n, x, y, memo))
+        memo[i][j] = max_path+1         
+        return memo[i][j]       
