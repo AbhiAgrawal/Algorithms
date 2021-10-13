@@ -1,0 +1,9 @@
+class Solution:
+    ### check leetcode solution as here.. here.. i have converted to lower and removed non alpha numeric and then just compared reverse and normal string.. we cna use 2 pointer approach as well.. mentioned in leetcode
+    def isPalindrome(self, s: str) -> bool:
+        t=s.lower()
+        t = ''.join(filter(str.isalnum, t))
+        return t == t[::-1]
+        
+        
+        
