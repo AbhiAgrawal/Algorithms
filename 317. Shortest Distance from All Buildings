@@ -1,0 +1,46 @@
+class Solution:
+    ####https://leetcode.com/problems/shortest-distance-from-all-buildings/discuss/76891/Java-solution-with-explanation-and-time-complexity-analysis
+    ####https://leetcode.com/problems/shortest-distance-from-all-buildings/discuss/76877/Python-solution-72ms-beats-100-BFS-with-pruning
+    ###i have used above logic but made some changes so dont folow above code as it is
+    def shortestDistance(self, grid: List[List[int]]) -> int:
+        rows, cols = len(grid),len(grid[0])
+        
+        distance = [[0]*cols for _ in range(rows)] ## this will contains distance from each empty land to all buildings
+        reach = [[0]*cols for _ in range(rows)] ## this will contain for each empty land if we came accross all buildings
+        
+        
+        def bfs(i, j, cnt): 
+            queue = deque()
+            queue.append([i,j,0])## 0 is dist from building, so starting from 0
+            while queue:
+                r,c,step = queue.popleft()
+                for x, y in ((0,-1),(0,1),(1,0),(-1,0)):
+                    nr, nc = r+x,c+y
+                    if 0<=nr<rows and 0<=nc<cols and grid[nr][nc] == 0 and reach[nr][nc] == cnt:
+                        distance[nr][nc] += step+1  ###incrememnt the distance of empty land from i, j
+                        reach[nr][nc]+=1 ###incr the reach.. basically nr, nc empty land was able to reach from i,j
+                        queue.append([nr,nc,step+1])###append to the queue
+                       
+        ###run bfs from each building. this bfs should go through all buildings that it can reach..              
+        cnt = 0
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == 1: ## we saw a bulding so run bfs
+                    bfs(i,j,cnt)
+                    cnt+=1 ### incr the count basically means go to the next building
+        
+        ##calc min dist from each empty land
+        min_dist = float(math.inf)
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == 0 and reach[i][j] == cnt: ## its an empty land and it reached all buildings 
+                    min_dist = min(min_dist, distance[i][j])
+             
+        if min_dist == math.inf:
+            return -1
+        return min_dist
+        
+        
+        
+        
+        
