@@ -1,0 +1,24 @@
+class Solution:
+    
+    ### very very important question and tricky in the sense you might miss the index calc 
+    def validPalindrome(self, s: str) -> bool:
+        n = len(s)
+        l = 0
+        r = n-1
+        count=0
+        while(l<r):
+            if s[l] != s[r]:
+                ## below ona dn two calc is extrmemly imoportant
+                one = s[l:r]### basically one from l to r-1 but in python and two from l+1 to r
+                two = s[l+1:r+1]
+                return one == one[::-1] or two == two[::-1]
+            l+=1
+            r-=1
+        return True
+                
+                
+        
+        
+        
+        
+        
