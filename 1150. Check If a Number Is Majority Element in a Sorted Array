@@ -1,0 +1,22 @@
+class Solution:
+    ### algo is simple
+    #1. majority element means middle elements as to be target.. if its not return false
+    ## for even len there would eb 2 middle.. both shoudl be target
+    ## find left most value equal to target
+    ## hi = lo + k and then see if hi is still that target.. that between lo and hi all are target which will make it majority element
+    def isMajorityElement(self, nums, target):
+        n = len(nums)
+        k = n //2
+        if nums[k] != target:
+            return False
+        if n%2 == 0 and nums[k-1] != target:
+            return False
+        
+        k = len(nums) // 2
+        if nums[k] != target:
+            return False
+        lo = bisect.bisect_left(nums, target, 0, k) ### Locate the leftmost value exactly equal to x
+        hi = lo + k
+        return nums[hi] == target
+        
+        
