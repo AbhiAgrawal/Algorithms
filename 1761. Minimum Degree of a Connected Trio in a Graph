@@ -1,0 +1,23 @@
+class Solution:
+    
+    ###https://www.youtube.com/watch?v=F_rmpodwBBQ&ab_channel=HappyCoding nice explanation
+    #def minTrioDegreen(self, n: int, edges: List[List[int]]) -> int:
+        
+    def minTrioDegree(self, n: int, edges: List[List[int]]) -> int:     
+        
+        graph = defaultdict(set)
+        for u,v in edges:
+            graph[u].add(v)
+            graph[v].add(u)
+        
+        ans = sys.maxsize
+        
+        for n1 in range(1, n+1):
+            for n2 in graph[n1]:
+                for n3 in graph[n1]:
+                    if n1<n2<n3 and n2 in graph[n3]: ### by adding n1<n2<n3 it becomes faster
+
+                        ans = min(ans, len(graph[n1]) + len(graph[n2]) + len(graph[n3]) - 6)
+                        
+        return ans if ans < sys.maxsize else -1               
+        
