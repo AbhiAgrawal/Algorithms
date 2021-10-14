@@ -20,19 +20,20 @@ class Solution:
         #     result.append(maximum)
         # return result 
         output = []
-        q = deque() ### this will hold indices
+        q = deque() ### this will hold indices, not the numbers
         l = r = 0
         while(r < len(nums)):
-            ###pop smaller values from q
+            ###pop smaller values from q.. put rth index before that remove elements smaller than rth index
             while q and nums[q[-1]]<nums[r]:
                 q.pop()
             q.append(r)
             
-            ###remove left val from window
+            ###remove left val from window.. this is important. if lth index is greater than q[0] index.
+            ### that means that index canot be considered.. try [8,7,6,9] 2 . you will understand
             if l>q[0]:
                 q.popleft()
                 
-            if r+1>=k: ###window is atleast size k
+            if r+1>=k: ###window is atleast size k.. once u reach.. k then this will run for each increment
                 output.append(nums[q[0]])
                 l+=1
             r+=1 
