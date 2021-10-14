@@ -1,0 +1,14 @@
+class Solution:
+    ###leetcode approach 3
+    def thirdMax(self, nums: List[int]) -> int:
+        maximums = set()
+        for n in nums:
+            maximums.add(n)
+            if len(maximums) >3:
+                maximums.remove(min(maximums))
+        if len(maximums) == 3:
+            return min(maximums)
+        else:
+            return max(maximums)
+        
+        
