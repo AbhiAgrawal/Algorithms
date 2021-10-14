@@ -7,30 +7,24 @@ class Solution:
         if len(grid) == 0:
             return 0
         
+        m = len(grid)
+        n = len(grid[0])
+        dirs = [[0,1],[0,-1],[1,0],[-1,0]]
     
         def markAllAdjacentCellsAsVisited(grid, r, c):   
-            neighbours = []
+            queue = []
             grid[r][c]='0'
-            neighbours.append([r,c])
-            while not len(neighbours) == 0:
-                pair = neighbours.pop(0)
-                r1 = pair[0]
-                c1 = pair[1]
-                if(r1-1>=0 and grid[r1-1][c1] == '1'):
-                   grid[r1-1][c1]='0'
-                   neighbours.append([r1-1,c1])
-                if(r1+1<len(grid) and grid[r1+1][c1] == '1'):
-                   grid[r1+1][c1]='0'
-                   neighbours.append([r1+1,c1])
-                if(c1+1<len(grid[0]) and grid[r1][c1+1] == '1'):
-                   grid[r1][c1+1]='0'
-                   neighbours.append([r1,c1+1])
-                if(c1-1>=0 and grid[r1][c1-1] == '1'):
-                   grid[r1][c1-1]='0'
-                   neighbours.append([r1,c1-1])
+            queue.append([r,c])
+            while queue:
+                r1, c1 = queue.pop(0)
+                for x,y in dirs:
+                    nr, nc = r1+x, c1+y
+                    if 0<=nr<m and 0<=nc<n and grid[nr][nc] == '1':
+                        grid[nr][nc]='0'
+                        queue.append([nr, nc])
                     
-        for r in range(len(grid)):
-            for c in range(len(grid[0])):
+        for r in range(m):
+            for c in range(n):
                 if grid[r][c]=='1':
                     number_of_islands += 1
                     markAllAdjacentCellsAsVisited(grid,r,c)
