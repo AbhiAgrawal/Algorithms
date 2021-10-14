@@ -1,0 +1,45 @@
+class Solution:
+    ###https://www.youtube.com/watch?v=DfljaUwZsOk
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        
+        # result = []
+        # n = len(nums)        
+        # start = 0
+        # maximum = nums[start]
+        # for i in range(n-k+1):            
+        #     j = max(i,start)        
+        #     idx = max(i,start)
+        #     maximum = nums[idx]
+        #     if i > 0 and maximum > nums[i]:
+        #         j = i+k-1    
+        #     while j < i+k:
+        #         if nums[j]>maximum:
+        #             maximum = nums[j]
+        #             start = j
+        #         j+=1    
+        #     result.append(maximum)
+        # return result 
+        output = []
+        q = deque() ### this will hold indices
+        l = r = 0
+        while(r < len(nums)):
+            ###pop smaller values from q
+            while q and nums[q[-1]]<nums[r]:
+                q.pop()
+            q.append(r)
+            
+            ###remove left val from window
+            if l>q[0]:
+                q.popleft()
+                
+            if r+1>=k: ###window is atleast size k
+                output.append(nums[q[0]])
+                l+=1
+            r+=1 
+        return output     
+                
+            
+        
+        
+        
+        
