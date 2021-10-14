@@ -1,0 +1,25 @@
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        set1 = set(nums1)
+        result = set()
+        for n in nums2:
+            if n in set1:
+                result.add(n)
+        return result        
+        
+    ###below solution for no extra space and still o(n)..u can assume list is sorted
+    #  def intersection(a, b):
+    # m, n = len(a), len(b)
+    # ans = []
+    # i, j = 0, 0
+    # while i < m and j < n:
+    #     if a[i] < b[j]:
+    #         i += 1
+    #     elif a[i] > b[j]:
+    #         j += 1
+    #     else:
+    #         if not ans or ans[-1] != a[i]:
+    #             ans.append(a[i])
+    #         i += 1
+    #         j += 1
+    # return ans   
