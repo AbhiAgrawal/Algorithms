@@ -11,7 +11,7 @@ class Solution:
         r = 0
         c = 0
         count = 0 
-        while   (r < m or c < n):
+        while (c < n):
             i = r
             j = c
             temp = []
@@ -25,12 +25,12 @@ class Solution:
                 res.extend(temp)
             else:
                 res.extend(temp[::-1])
-            if(r < m-1):    
+            
+            
+            if (r < m-1):    
                 r+=1
             else:
                 c+=1
-            if c == n:
-                break
         return res
                 
             
