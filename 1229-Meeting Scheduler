@@ -1,6 +1,11 @@
 class Solution:
     def minAvailableDuration(self, slots1: List[List[int]], slots2: List[List[int]], duration: int) -> List[int]:
         ###leetcode solution is nicely explained
+#         Iterate until pointer1 reaches the end of slots1 or pointer2 reaches the end of slots2:
+# Find the common slot of slots1[pointer1] and slots2[pointer2].
+# If the common slot is greater than or equal to duration, return the result.
+# Else, find the slot that ends earlier and move the pointer.
+
         slots1.sort()
         slots2.sort()
         
