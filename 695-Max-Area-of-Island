@@ -11,31 +11,20 @@ class Solution:
     
     
     def useBFSToCalcArea(self, grid: List[List[int]], r: int, c: int) -> int:
-        area = 0
-        area +=1
+        m = len(grid)
+        n = len(grid[0])
+        area = 1
         neighbours = []
         grid[r][c] = 0 #mark it 0 so that we dont check it again
         neighbours.append([r,c])
-        while len(neighbours) != 0:
-            pair = neighbours.pop()
-            r1 = pair[0]
-            c1 = pair[1]
-            if(r1-1>=0 and grid[r1-1][c1] == 1):
-                grid[r1-1][c1] = 0
-                area +=1
-                neighbours.append([r1-1,c1])
-            if(r1+1<len(grid) and grid[r1+1][c1] == 1):
-                grid[r1+1][c1] = 0
-                area +=1
-                neighbours.append([r1+1,c1])   
-            if(c1-1>=0 and grid[r1][c1-1] == 1):
-                grid[r1][c1-1] = 0
-                area +=1
-                neighbours.append([r1,c1-1])
-            if(c1+1<len(grid[0]) and grid[r1][c1+1] == 1):
-                grid[r1][c1+1] = 0
-                area +=1
-                neighbours.append([r1,c1+1])
+        while neighbours:
+            i,j = neighbours.pop()
+            for x,y in ((0,1),(1,0),(-1,0),(0,-1)):
+                nr,nc = i+x,j+y
+                if 0<=nr<m and 0<=nc<n and grid[nr][nc] == 1:
+                    neighbours.append([nr,nc])
+                    area+=1
+                    grid[nr][nc] = 0
         return area        
         
         
