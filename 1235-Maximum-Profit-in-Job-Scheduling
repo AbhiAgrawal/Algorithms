@@ -1,4 +1,7 @@
 class Solution:
+    
+    ###https://www.youtube.com/watch?v=3kU7VYcmffU&ab_channel=AlgorithmsMadeEasy this is very nicely explained
+    ####time complexity O(nlogn) space O(n)
     def __init__(self):
         self.memo = {}
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
@@ -6,48 +9,39 @@ class Solution:
         if(len(startTime) == 1):
             return profit[0] 
         #zip is used make the 3 arrays as tuple . this will helpful for sorting
-        #first we want to sort based on start time    
-        jobs = list(zip(startTime, endTime, profit))
+        #first we want to sort based on end time    
+        jobs = list(zip(endTime, startTime, profit))
         jobs.sort()
         
         #get back start end and profit
-        (s, e, p) = zip(*jobs)
+        (endlist, startlist, profitlist) = zip(*jobs)
         
-        #start from index 0 and end param will be lowest start time
-        return self.jobSchedulingMemo(s, e, p, 0, min(startTime))
-    
-    
-    def jobSchedulingRecursiveNoMemo(self, startTime: List[int], endTime: List[int], profit: List[int], i: int, end: int) -> int:
-        #if we are reaching end of 
-        if(i == len(startTime)):
-            return 0
+        ##maintain 2 lists.. in vidoe, they are maintainming one treemap instead we are maintaining 2 lists
+        dp_end = list()
+        dp_end.append(0)
         
-        j = bisect_left(startTime, endTime[i], i+1, len(startTime))
-        k = i+1
-        return max(profit[i] + self.jobSchedulingRecursiveNoMemo(startTime, endTime, profit, j, endTime[i]),
-                  self.jobSchedulingRecursiveNoMemo(startTime, endTime, profit, k, startTime[i]))
-    
-    def jobSchedulingMemo(self, startTime: List[int], endTime: List[int], profit: List[int], i: int, end: int) -> int:
+        dp_maxprofit= list()
+        dp_maxprofit.append(0)
         
-        #if we are reaching end of array then no more profit return 0
-        if(i == len(startTime)):
-            return 0
-        
-        
-        #'Find leftmost item greater than or equal to x'
-        ## 2 things. either include current job or not include.. if include then take the profit+look for next job where starttime<=endtime[i] thats we are using bisect_left.. basically binary search
-        ## dont include the item so go to the next item so k = i+1 but then update end top start time[i] since you dont want previous job.
-         ##https://docs.python.org/3/library/bisect.html
+        for i, end in enumerate(endlist):
+
+            # 'Find rightmost value less than or equal to x'
+            # i = bisect_right(a, x)
+            # if i:
+            #     return a[i-1]
+            # raise ValueError
+            ###we are looking for right most value less than equal to startlist[i]
+            j = bisect.bisect_right(dp_end, startlist[i]) 
+            profit = profitlist[i]+dp_maxprofit[j-1]
+            if(profit> dp_maxprofit[-1]): ###check the new profit calculated with last entry in dp
+                dp_end.append(end)
+                dp_maxprofit.append(profit)
+        return dp_maxprofit[-1]
             
-        j = bisect_left(startTime, endTime[i], i+1, len(startTime))
-        k = i+1
-        if(j, endTime[i]) not in self.memo.keys():            
-            self.memo[(j, endTime[i])] = self.jobSchedulingMemo(startTime, endTime, profit, j, endTime[i])
-        if(k, startTime[i]) not in self.memo.keys():    
-            self.memo[(k, startTime[i])] = self.jobSchedulingMemo(startTime, endTime, profit, k, startTime[i])
-        return max(profit[i] + self.memo[(j, endTime[i])],
-                  self.memo[(k, startTime[i])])
+        
+        
         
         
     
-        
+    
+    
