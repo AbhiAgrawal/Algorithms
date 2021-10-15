@@ -10,7 +10,11 @@ class Solution:
     ###similar to https://leetcode.com/problems/merge-intervals/ first merge wheerever there are gaps thats free time
     ###https://leetcode.com/problems/employee-free-time/discuss/170551/Simple-Python-9-liner-beats-97-(with-explanation)
     def employeeFreeTime(self, schedule: '[[Interval]]') -> '[Interval]':
-        ints = sorted([i for s in schedule for i in s], key=lambda x: x.start)
+        ##ints = sorted([i for s in schedule for i in s], key=lambda x: x.start)
+        ints  = []
+        for intervals in schedule:
+            ints.extend(intervals)
+        ints.sort(key=lambda x:x.start)    
         
         res, pre = [], ints[0]
         for i in ints[1:]:
