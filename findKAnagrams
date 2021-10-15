@@ -1,0 +1,31 @@
+###https://leetcode.com/discuss/interview-question/1505566/DoorDash-or-Coding-or-New-Grad
+import bisect
+import collections
+
+
+
+
+
+def findKAnagrams(name, list, K):
+    result=[]
+    nameCountMap = collections.Counter(name)
+    for input in list:
+        if len(input) != len(name):
+            continue
+        if name == input:
+            result.append(input)
+            continue
+        inputCountMap = collections.Counter(input)
+        diff = 0
+        for c in nameCountMap:
+            diff+=abs(nameCountMap[c] - inputCountMap[c])
+        if (diff/2)<=K:
+            result.append(input)
+        print(input," ",diff)    
+    return result    
+            
+print(findKAnagrams("omexyb grillg",   ["omgxca grille"], 2))
+
+
+
+    
