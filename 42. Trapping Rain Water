@@ -1,0 +1,26 @@
+class Solution:
+    ### https://www.youtube.com/watch?v=EdR3V5DBgyo&ab_channel=AlgorithmsMadeEasy 
+    ###very nicely explained
+    def trap(self, height: List[int]) -> int:
+        n = len(height)
+        max_height_right = [0]*n
+        max_height_left = [0]*n
+        
+        ###create max_height_left..
+        maximum = 0
+        for i,x in enumerate(height):
+            max_height_left[i] = max(maximum, x)
+            maximum = max_height_left[i]
+        
+        ### create max_height right..
+        maximum = height[-1]
+        for i in range(n-1,-1,-1):
+            max_height_right[i] = max(maximum, height[i])
+            maximum = max_height_right[i]
+            
+        ##compute water collected for each index
+        output = [0]*n
+        for i in range(1,n-1):
+            output[i] = max(min(max_height_left[i-1], max_height_right[i+1]) - height[i],0)## max(...,0) is done to avoid -ve values.. as if height is more than left right min then no water will be collected bsically 0
+        return sum(output)
+        
