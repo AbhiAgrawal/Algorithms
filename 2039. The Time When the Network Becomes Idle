@@ -1,0 +1,33 @@
+class Solution:
+    def networkBecomesIdle(self, edges: List[List[int]], patience: List[int]) -> int:
+        ###first do bfs traveersal from 0 and calc dist for each node from the origin O
+        ##then  use below formula
+        graph = defaultdict(set)
+        n = len(patience)
+        for u,v in edges:
+            graph[u].add(v)
+            graph[v].add(u)
+        distance = defaultdict(int)
+        distance[0] = 0
+        queue = deque()
+        queue.append([0,0])
+        cnt = 0
+        while queue:
+            node, step = queue.popleft()
+            for adj in graph[node]:
+                if adj !=0 and distance[adj] == 0:
+                    queue.append([adj, step+1])
+                    distance[adj] = step+1
+                           
+        maximum = 0
+        for i in range(1, n):
+            extraMessages = int((distance[i]*2 - 1)/patience[i]); # extra number of payload before the first message arrive back to data server.
+			## since a data server can only send a message before first message arrives back."
+			# and first message arrives at time[i]*2. so "time[i]*2-1
+            lastOut = extraMessages * patience[i]; ## find the last time when a data server sends a message
+            lastIn = lastOut + distance[i]*2; ### this is the result for current data server
+            maximum = max(maximum, lastIn);
+        return maximum+1        
+        
+        
+        
