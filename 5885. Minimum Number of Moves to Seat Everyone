@@ -1,0 +1,13 @@
+class Solution:
+    ##simple sort seats and students and then find diff between the two
+    def minMovesToSeat(self, seats: List[int], students: List[int]) -> int:
+        n = len(seats)
+        seats.sort()
+        students.sort()
+        diff = 0
+        for i in range(n):
+            diff+=abs(students[i] - seats[i])
+        return diff    
+        
+        
+        
