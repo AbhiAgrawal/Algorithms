@@ -1,0 +1,68 @@
+class Solution:
+    ## its lengthy but v easy.. prerequisite https://leetcode.com/problems/max-area-of-island/
+    ##https://www.youtube.com/watch?v=ggEq5JrnmH0&ab_channel=CodingDecoded
+    ###1. calc area of each island.
+    ###2. store each island area in all cells of that island self.max_area but also store island identifier
+    ###3. go through each grid cell if it is 0, then calc the neighbour area of islands+ 0th cell. so there would be atmost 4 neighbours for each cell. and here identifier will be helpfulso that we dont add more than once the same island
+    ###ex[[1,1],[1,0]] here 0 has 2 neighbours who are part of island but the island is the same we will add only once. islands_visited is the one we are using for that.  
+    
+    def __init__(self):
+        self.max_area = []
+        self.making_island_large = 0
+        
+        
+    def largestIsland(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        self.max_area = [[(0,0)] * n for _ in range(m)] ## this contains a tuple (area of that island, island number)
+        
+        self.maxAreaOfEachIsland(grid)
+        
+        for r in range(m):
+            for c in range(n): 
+                if(grid[r][c] == 0):
+                    islands_visited = set() ## to make sure if an island is visited we dont visited again for that 0 cell.
+                    area = 1 ##current cell
+                    for x,y in ((0,1),(1,0),(-1,0),(0,-1)):
+                        nr,nc = r+x,c+y
+                        if 0<=nr<m and 0<=nc<n and self.max_area[nr][nc][1] not in islands_visited:
+                            area+=self.max_area[nr][nc][0]
+                            islands_visited.add(self.max_area[nr][nc][1])
+                            
+                    self.making_island_large = max(self.making_island_large, area)
+        return  self.making_island_large           
+                
+        
+        
+    def maxAreaOfEachIsland(self, grid: List[List[int]]) -> None:
+        cnt = 1
+        for r in range(len(grid)):
+            for c in range(len(grid[0])):
+                if(grid[r][c] == 1):
+                    self.useBFSToCalcArea(grid, r, c, cnt)
+                    cnt+=1
+    
+    
+    def useBFSToCalcArea(self, grid: List[List[int]], r: int, c: int, count: int) -> None:
+        m = len(grid)
+        n = len(grid[0])
+        area = 1
+        neighbours = []
+        grid[r][c] = -1 #mark it -1 so that we dont check it again
+        nodesVisited = []
+        neighbours.append([r,c])
+        nodesVisited.append([r,c]) ## get list of all nodes visited in current bfs search
+        
+        
+        while neighbours:
+            i,j = neighbours.pop()
+            for x,y in ((0,1),(1,0),(-1,0),(0,-1)):
+                nr,nc = i+x,j+y
+                if 0<=nr<m and 0<=nc<n and grid[nr][nc] == 1:
+                    neighbours.append([nr,nc])
+                    nodesVisited.append([nr,nc])
+                    area+=1
+                    grid[nr][nc] = -1 ### all visited as -1
+        self.making_island_large = max(self.making_island_large, area)            
+        for row, col in nodesVisited: ####put max area calc in those bfs cells visited
+            self.max_area[row][col] = (area, count)   
