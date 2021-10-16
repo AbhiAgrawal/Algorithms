@@ -7,16 +7,14 @@ class Solution:
         max_height_left = [0]*n
         
         ###create max_height_left..
-        maximum = 0
-        for i,x in enumerate(height):
-            max_height_left[i] = max(maximum, x)
-            maximum = max_height_left[i]
+        max_height_left[0] = height[0]
+        for i in range(1,n):
+            max_height_left[i] = max(max_height_left[i-1], height[i])
         
         ### create max_height right..
-        maximum = height[-1]
-        for i in range(n-1,-1,-1):
-            max_height_right[i] = max(maximum, height[i])
-            maximum = max_height_right[i]
+        max_height_right[-1] = height[-1]
+        for i in range(n-2,-1,-1):
+            max_height_right[i] = max(max_height_right[i+1], height[i])
             
         ##compute water collected for each index
         output = [0]*n
