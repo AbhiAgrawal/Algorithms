@@ -1,0 +1,45 @@
+class Solution:
+    def winnerOfGame(self, colors: str) -> bool:
+        n = len(colors)
+        remove = "A"
+        start, curr = 0, 1
+        A_totalmoves, B_totalMoves = 0,0
+        while curr<n:
+            while curr<n and colors[start] == colors[curr]:
+                curr+=1
+            diff = curr-start
+            if diff>=3:
+                if colors[start] == "A":
+                    A_totalmoves+=(diff-2)
+                else:
+                    B_totalMoves+=(diff-2)
+            start = curr
+        print(A_totalmoves, "    ",B_totalMoves)    
+        if  A_totalmoves >  B_totalMoves:
+            return True
+        else:
+            return False
+                
+
+
+            
+                
+            
+            
+        
+#         while True:
+#             if remove == "A" and "AAA" not in colors:
+#                 return False
+#             elif remove == "A":
+#                 colors = colors.replace("AAA","AA",1) ###replace only 1 occurence
+#                 remove = "B"
+#             elif remove == "B" and "BBB" not in colors:
+#                 return True
+#             elif remove == "B":
+#                 colors = colors.replace("BBB","BB",1) ###replace only 1 occurence
+#                 remove="A"
+#             print(colors)    
+         
+#         return True
+                
+        
