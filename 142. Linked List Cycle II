@@ -1,0 +1,51 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+##Take two pointers. Let’s call them pointer1 and pointer2.
+##Initialize both pointers to point to the start of the LinkedList.
+##Find the length of the LinkedList cycle. Let’s assume that the length of the cycle is ‘K’ nodes.
+##Move pointer2 ahead by ‘K’ nodes.
+##Now, keep incrementing pointer1 and pointer2 until they both meet.
+##Their meeting point will be the start of the cycle.
+
+class Solution:
+    def detectCycle(self, head: ListNode) -> ListNode:
+        if head is None:
+            return None
+        
+        slow = self.cycle(head)
+        if slow is None:
+            return None
+        K = self.cycle_length(slow)
+        rear = head
+        front = head
+        for i in range(K): ### basically running K times.. if K is 4.. 0,1,2,3
+            rear = rear.next
+        while (rear != front):
+            rear = rear.next
+            front = front.next
+        return rear    
+    
+    def cycle(self, head: ListNode) -> ListNode:
+        slow, fast = head, head
+        
+        while fast is not None and fast.next is not None:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                return slow
+        return None
+    
+    def cycle_length(self, slow: ListNode) -> int:
+        curr = slow.next
+        length = 1
+        while curr != slow:
+            curr = curr.next
+            length+=1
+        return length   
+        
+        
+        
