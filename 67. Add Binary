@@ -1,0 +1,21 @@
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        
+        if len(a) < len(b): ### swap if a<b in terms of length
+            a,b=b,a
+        ###making length same of a and b..
+        if len(b) < len(a):
+            b = "0"*(len(a)-len(b)) + ""+b 
+        
+        carry = 0
+        output=""
+        for i in range(len(a)-1,-1,-1): ### start from end to start
+            carry,digit=divmod(int(a[i]) +int(b[i])+carry,2)
+            output = str(digit)+""+output
+        if carry == 1:
+            output = "1"+output
+        return output    
+        
+        
+        
+        
