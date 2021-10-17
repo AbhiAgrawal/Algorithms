@@ -1,0 +1,33 @@
+class Solution:
+    ### very intelligent solution
+    ##again same as https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/
+    ##but in stack push (c, curr count of that char)
+    def removeDuplicates(self, s: str, k: int) -> str:
+        ##below commented code is again a TLE
+        # chars = "abcdefghijklmnopqrstuvwxyz"
+        # charsList = []
+        # for c in chars:
+        #     string=c*k
+        #     charsList.append(string)
+        # currLen=-1
+        # while(currLen != len(s)):
+        #     currLen = len(s) 
+        #     for c in charsList:
+        #         s = s.replace(c,"")   
+        # return s
+        stack = []
+        for c in s:
+            if len(stack) == 0:
+                stack.append([c,1])
+            elif stack[-1][0] == c and stack[-1][1] == (k-1):##that means curr char is matching with top of stock and there are k-1 times a char already on top of stack and curr char is kth time.. pop.k-1 elements from stack     
+                count = 1
+                for count in range(1,k): #we need to run this k-1 times
+                    stack.pop()
+            elif stack[-1][0] == c:## element is same but not k-1 times
+                stack.append([c,stack[-1][1]+1])##add one to the count and push into stack
+            else: #completely diff char
+                stack.append([c,1])
+        res = ""        
+        for c in stack:
+            res = res+c[0]
+        return res
