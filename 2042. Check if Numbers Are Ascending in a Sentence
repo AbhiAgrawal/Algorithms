@@ -1,0 +1,15 @@
+class Solution:
+    def areNumbersAscending(self, s: str) -> bool:
+        listStr = s.split()
+        numberList = []
+        for word in listStr:
+            if not word[0].isdigit():
+                continue
+            numberList.append(int(word))
+        
+        
+        for i in range(1, len(numberList)):
+            if numberList[i]<=numberList[i-1]:
+                return False
+        return True    
+            
