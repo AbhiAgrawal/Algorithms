@@ -1,0 +1,18 @@
+class Solution:
+    def addStrings(self, a: str, b: str) -> str:
+        
+        if len(a) < len(b): ### swap if a<b in terms of length
+            a,b=b,a
+        ###making length same of a and b..
+        if len(b) < len(a):
+            b = "0"*(len(a)-len(b)) + ""+b 
+            
+        carry = 0
+        output=""
+        for i in range(len(a)-1,-1,-1):#### move from end ot start
+            carry,digit = divmod((int(a[i]) + int(b[i])+carry),10)
+            output = str(digit)+output
+        if carry>0:
+            output = str(carry)+output
+        return output    
+        
