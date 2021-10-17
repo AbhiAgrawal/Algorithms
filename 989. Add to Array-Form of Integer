@@ -1,0 +1,13 @@
+class Solution:
+    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
+        
+        output=[]
+        carry=k
+        for i in range(len(num)-1,-1,-1): ##move from end to start
+            carry,digit=divmod((num[i]+carry),10)
+            output.append(digit)
+        while carry!=0:
+            carry,digit=divmod(carry,10)
+            output.append(digit)
+        return output[::-1]
+        
