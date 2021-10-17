@@ -1,0 +1,29 @@
+class Solution:
+    ###approach 2 leetcode very nice
+    ###approach 1 is good but it gives TLE but approach 2 uses eatra space.
+    def removeDuplicates(self, s: str) -> str:
+        
+        # chars = "abcdefghijklmnopqrstuvwxyz"
+        # charsList = []
+        # for c in chars:
+        #     string=c+c
+        #     charsList.append(string)
+        # currLen=-1
+        # while(currLen != len(s)):
+        #     currLen = len(s) 
+        #     for c in charsList:
+        #         s = s.replace(c,"")
+        #     print(len(s))    
+        # return s
+        stack = []
+        for c in s:
+            if len(stack)!=0 and stack[-1] == c:
+                stack.pop()
+            else:
+                stack.append(c)
+        return "".join(stack)        
+                
+                
+        
+        
+        
