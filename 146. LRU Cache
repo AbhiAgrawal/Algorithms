@@ -1,4 +1,6 @@
 class LRUCache:
+    ##i m using ordereddict 
+    ## for hashmap and deque checkout https://leetcode.com/problems/lru-cache/solution/437570
 
     def __init__(self, capacity: int):
         self.size=capacity
