@@ -1,0 +1,19 @@
+class Solution:
+    ### very nice article https://leetcode.com/problems/reverse-integer/discuss/1527025/Python-easiest-solution-to-understand
+    def reverse(self, x: int) -> int:
+        sign = 1
+        if x<0:
+            sign = -1
+        elif x==0:
+            return 0
+        num = abs(x)
+        maximum = 2**31 - 1
+        
+        res=0
+        while num>0:
+            num,digit=divmod(num,10)
+            ## basically protecting from overflow. res * 10 + x > high..so, res > (high - x) // 10
+            if res>int((maximum-num)/10):
+                return 0
+            res=res*10+digit
+        return sign*res    
