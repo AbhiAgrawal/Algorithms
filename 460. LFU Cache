@@ -1,0 +1,35 @@
+class LFUCache:
+    ##one flaw https://leetcode.com/problems/lfu-cache/discuss/362620/This-question-should-be-banned-for-interviews/703472
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.freq_to_key = defaultdict(OrderedDict)## this has actual frequency to ordered key value pairs
+        self.key_to_freq = defaultdict(int)## this just contains key to frequency map
+        self.min_freq = 1
+        
+
+    def get(self, key: int) -> int:
+        if key not in self.key_to_freq:
+            return -1
+        freq = self.key_to_freq[key]
+        self.key_to_freq[key] = freq + 1
+        self.freq_to_key[freq+1][key] = self.freq_to_key[freq][key]
+        del self.freq_to_key[freq][key]
+        if self.min_freq == freq and not self.freq_to_key[freq]:
+            self.min_freq += 1
+        return self.freq_to_key[freq+1][key]
+        
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.key_to_freq:
+            self.get(key)
+            self.freq_to_key[self.key_to_freq[key]][key] = value
+        else:
+            self.capacity -= 1
+            self.key_to_freq[key] = 1
+            self.freq_to_key[1][key] = value
+            if self.capacity == -1:## basically items are more than capacity
+                self.capacity = 0
+                k, v = self.freq_to_key[self.min_freq].popitem(False)
+                del self.key_to_freq[k]
+            self.min_freq = 1
