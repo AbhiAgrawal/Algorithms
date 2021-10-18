@@ -20,8 +20,8 @@ class LRUCache:
         else:
             self.dict[key] = value
             if len(self.dict.keys()) > self.size: ##delete first entry
-                key = list(self.dict)[0] ###chekc the syntax
-                del self.dict[key]
+                #popitem(last=True).The popitem() method for ordered dictionaries returns and removes a (key, value) pair. The pairs are returned in LIFO order if last is true or FIFO order if false.
+                k,v = self.dict.popitem(False) ###chekc the syntax
      
     def move_to_end(self, key: int, val: int) -> None:
         del self.dict[key]
