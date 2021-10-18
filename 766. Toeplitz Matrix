@@ -1,4 +1,6 @@
 class Solution:
+    #####Follow up: please prepare for it    
+    
     ##below is O(m*n) time complexity and O(1) space complexity
     def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
         m, n = len(matrix), len(matrix[0])
