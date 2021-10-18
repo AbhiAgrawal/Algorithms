@@ -1,0 +1,29 @@
+class Solution:
+    def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
+        m = len(matrix)
+        n = len(matrix[0])
+        
+        #fill starts ##for ex given in Q, these are intial cells starting from bottom left [[2, 0], [1, 0], [0, 0], [0, 1], [0, 2], [0, 3]]
+        starts=[]
+        for row in range(m-1,-1,-1):
+            starts.append([row,0])
+        for col in range(1,n):
+            starts.append([0,col])
+        
+        
+        for row,col in starts:
+            num = matrix[row][col]
+            i,j=row+1,col+1
+            ##run diagonally down and comparing with inital num if not matching evne for single cell.. return False
+            while i<m and j<n:
+                if matrix[i][j] !=num:
+                    return False
+                i+=1
+                j+=1
+        return True    
+        
+        
+    
+    
+    
+        
