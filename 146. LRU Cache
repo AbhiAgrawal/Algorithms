@@ -1,0 +1,33 @@
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.size=capacity
+        self.dict = collections.OrderedDict()
+        
+
+    def get(self, key: int) -> int:
+        if key in self.dict.keys():
+            self.move_to_end(key,self.dict[key])
+            return self.dict[key]
+        return -1
+            
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.dict.keys():##move to end and update
+            self.move_to_end(key, value)
+        else:
+            self.dict[key] = value
+            if len(self.dict.keys()) > self.size: ##delete first entry
+                key = list(self.dict)[0] ###chekc the syntax
+                del self.dict[key]
+     
+    def move_to_end(self, key: int, val: int) -> None:
+        del self.dict[key]
+        self.dict[key] = val
+        
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
