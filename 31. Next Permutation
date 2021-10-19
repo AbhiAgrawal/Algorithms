@@ -1,0 +1,32 @@
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        ##leetcode solution nicely explained
+        ##start from end and see whenever non increasing element came say x at index i.
+        ##find a value from index i to end just next greater number than x (say y)
+        ## reverse x and y
+        ### now reverse sort form i+1 to end
+        ## corner case.. when entire number completely reversed
+        if len(nums) < 2:
+            return nums
+        n=len(nums)
+        i=n-2
+        while (i>=0):
+            if nums[i]<nums[i+1]:
+                break
+            i-=1
+        if i<0: ### you saw that from end to start its just increasing. so thats highest number.. so return reverse of it
+            return nums.reverse()
+        next_greater = nums[i+1]
+        j=n-1 ###start from end 
+        while j>=i+1:
+            if nums[j]>nums[i]: ###you found next higher
+                break
+            j-=1    
+        nums[i],nums[j]=nums[j],nums[i]###swap the 2 numbers
+        nums[i+1:n] = nums[n-1:i:-1]#### reverse from i+1 to n
+        return nums
+        
+            
