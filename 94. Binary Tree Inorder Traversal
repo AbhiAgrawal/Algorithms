@@ -9,7 +9,7 @@ class Solution:
         
         arr=[]
         if root is None:
-            return arr
+            return
         
         def inorder(root):
             nonlocal arr
