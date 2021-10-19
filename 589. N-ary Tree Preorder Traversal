@@ -1,0 +1,49 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    ###Iterative prereq:https://leetcode.com/problems/binary-tree-postorder-traversal/
+    def preorder(self, root: 'Node') -> List[int]:
+        stack=[]
+        res=[]
+        if root is None:
+            return res
+        stack.append(root)
+        while stack:
+            node = stack.pop()
+            res.append(node.val)
+            if node.children:
+                for c in children[::-1]:## go reverse.. we did same thing for left right preorder traversal.. check prereq
+                    stack.append(c)
+        return res           
+            
+    
+    
+    
+    
+    
+    
+    
+    
+    ###below code is recursive.. 
+    def preorder(self, root: 'Node') -> List[int]:
+        
+        res=[]
+        
+        def recursive(root):
+            if root is None:
+                return
+            res.append(root.val)
+            if root.children:
+                for node in root.children:
+                    recursive(node)
+            
+        
+        recursive(root)
+        return res
+        
