@@ -1,0 +1,52 @@
+class Solution:
+    ##almost same as https://leetcode.com/problems/next-permutation/
+    ##if integer is converted to array then applied next permutation and converted back to int
+    def nextGreaterElement(self, n: int) -> int:
+        if n<=9: ### if n<10 then definitely you cant find anything higher than that
+            return -1
+        s = str(n)
+        digit_list=[]
+        for c in s:
+            digit_list.append(int(c))
+        
+        next_perm = self.nextPermutation(digit_list)
+        if next_perm is None:
+            return -1
+        
+        ## convert arr back to number
+        hi = 2**31-1
+        result=0
+        for i in range(0,len(digit_list)):
+            if result> int((hi-digit_list[i])//10): ###check overflow
+                return -1
+            result=result*10+digit_list[i]
+        return result               
+       
+    
+        
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n=len(nums)
+        i=n-2
+        while (i>=0):
+            if nums[i]<nums[i+1]:
+                break
+            i-=1
+        if i<0: ### you saw that from end to start its just increasing. so thats highest number.. so return null of it
+            return None###this is difference from next permutation
+        next_greater = nums[i+1]
+        j=n-1 ###start from end 
+        while j>=i+1:
+            if nums[j]>nums[i]: ###you found next higher
+                break
+            j-=1    
+        nums[i],nums[j]=nums[j],nums[i]###swap the 2 numbers
+        nums[i+1:n] = nums[n-1:i:-1]#### reverse from i+1 to n
+        return nums    
+        
+        
+        
+        
+        
