@@ -1,0 +1,35 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    ##classsic bfs queue problem.. but here distance will also be helpful
+    ##also calc max height .. will help while printing use dictionary to store all items per level.
+    def levelOrder(self, root: 'Node') -> List[List[int]]:
+        queue=deque()
+        res=[]
+        dict=defaultdict(list)
+        if root is None:
+            return res
+        distance=0
+        queue.append([root,distance])
+        max_dist=0
+        while queue:
+            node, distance = queue.popleft()
+            dict[distance].append(node.val) ### key is distance form root and val is all nodes val of the same level as list
+            max_dist=max(distance, max_dist) ### calc max height
+            if node.children:
+                for c in node.children:
+                    queue.append([c, distance+1])
+        for i in range(0,max_dist+1): ##runfor loop from root to bottom
+            res.append(dict[i])
+        return res    
+        
+                 
+            
+
+        
