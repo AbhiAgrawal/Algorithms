@@ -1,24 +1,43 @@
 class Solution:
     
-    ###very nicely explained soluiton in leetcode.. basically create hash map of nums2 
+    ###leetcode solns here did approach 3.. but check approach 2 as well..
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        stack=[]
         map = dict()
-        res = []
-        n = len(nums2)
-        for i, num in enumerate(nums2):
-            map[num] = i
-        for num in nums1:
-            i = map[num]
-            j = i
-            while j < n:
-                if nums2[j]>num:
-                    res.append(nums2[j])
-                    break
-                j+=1    
-            if j == n:
-                res.append(-1)
+        for n in nums2:
+            while stack and n>stack[-1]:
+                map[stack.pop()] = n
+            stack.append(n)
+        while stack:
+            map[stack.pop()] = -1
+        output=[]
+        for n in nums1:
+            if n not in map:
+                output.append(-1)
+            output.append(map[n])
+        return output        
+        
+        
+        
+        
+        
+        ###approach 2 but little slower
+#         res = []
+#         n = len(nums2)
+#         for i, num in enumerate(nums2):
+#             map[num] = i
+#         for num in nums1:
+#             i = map[num]
+#             j = i
+#             while j < n:
+#                 if nums2[j]>num:
+#                     res.append(nums2[j])
+#                     break
+#                 j+=1    
+#             if j == n:
+#                 res.append(-1)
                     
-        return res            
+#         return res            
         
         
         
