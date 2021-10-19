@@ -1,0 +1,27 @@
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        stack=[]
+        map = dict()
+        
+        ##1st for loop is exactly same as https://leetcode.com/problems/next-greater-element-i/
+        for i,n in enumerate(nums):
+            while stack and n>stack[-1][1]:
+                map[stack.pop()[0]] = n
+            stack.append([i,n])
+            
+        ###run again and now you will be able to sill more items.. because some of the items are already in the stack from prev indices    
+        for i,n in enumerate(nums):
+            while stack and n>stack[-1][1]:
+                map[stack.pop()[0]] = n
+            if i != stack[-1][0]: ###if u see same element then on the top of the stack.. then no point of pushing again
+                stack.append([i,n]) 
+                
+        output=[]    
+        for i in range(0,len(nums)):
+            if i in map:
+                output.append(map[i])
+            else:
+                output.append(-1)
+        return output        
+            
+            
