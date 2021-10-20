@@ -1,0 +1,17 @@
+class Solution:
+    ##stack problem
+    def simplifyPath(self, path: str) -> str:
+        path=re.sub('/+', '/', path) ##this is regex converting more than one / to single forward /
+        dirs = path.split("/") 
+        stack=[]
+        for dir in dirs:
+            if dir == "" or dir == ".":
+                continue
+            elif dir == "..":
+                if stack:
+                    stack.pop()
+            else:
+                stack.append(dir)
+        return "/"+"/".join(stack)            
+            
+        
