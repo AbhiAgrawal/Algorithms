@@ -1,0 +1,60 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    ##running bfs .. prereq: https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+    ### since p or q might not be there.. adding count variable
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        queue=deque()
+        queue.append([root, root]) ##it is the same basically we want to save curr, parent
+        path=dict() 
+        count = 0
+        while queue:
+            node, parent = queue.popleft()
+            path[node]=parent ### this is will (node as key, parent as val)
+            if node == p or node == q:
+                count+=1
+            if count == 2: ### you have already encountered p and q so dont traverse complete tree
+                break    
+            if node.left:
+                queue.append([node.left, node])
+            if node.right:
+                queue.append([node.right, node])
+                
+        def ancestorPaths(p, path):
+            path_p=[]
+            path_p.append(p) 
+            start=p
+            while start.val !=path[start].val: ###root is pointing to root in path dict.. till then keep on looping
+                path_p.append(path[start])
+                start = path[start] ##point start to curr's parent
+            return path_p        
+        
+        if count < 2:
+            return None
+        
+        path_p = ancestorPaths(p, path) ## path_p contains all the ancestors of p node .. root at the end
+        path_q = ancestorPaths(q, path) ## path_q contains all the ancestors of q node .. root at the end
+        
+        
+        ip = len(path_p)-1 ###start from root.. 
+        iq = len(path_q)-1
+        while True: ##find common ancestor
+            ##if anyone has reached 0 that means that is the LCA
+            if path_p[ip].val != path_q[iq].val:
+                return path_p[ip+1]
+            if ip == 0:
+                return path_p[0]
+            elif iq == 0:
+                return path_q[0]      
+            ip-=1
+            iq-=1
+            
+        return root    
+        
+        
+        
