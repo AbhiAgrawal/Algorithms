@@ -1,0 +1,34 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    ###leetcode nicely explains with a axis diagram.. using bfs but also 
+    def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        dict=defaultdict(list)## this will have col as a key and value is a list of nodes
+        if root is None:
+            return []
+        queue=deque()
+        res=[]
+        queue.append([root,0]) ##basically inserting root.val, col.. starting with 0
+        max_col = -sys.maxsize-1
+        min_col = sys.maxsize
+        while queue:
+            node, col = queue.popleft()
+            dict[col].append(node.val)
+            
+            max_col = max(max_col, col)
+            min_col = min(min_col, col)
+            
+            if node.left:
+                queue.append([node.left,col-1]) ###now col will be -1 for left
+            if node.right:
+                queue.append([node.right,col+1])    ###coll will be +1 for right
+        for i in range(min_col, max_col+1): ## go for min col to max col 
+            res.append(dict[i])
+        
+        return res
+        
+        
