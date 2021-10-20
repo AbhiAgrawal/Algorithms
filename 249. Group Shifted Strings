@@ -1,0 +1,14 @@
+class Solution:
+    ##https://leetcode.com/problems/group-shifted-strings/discuss/282285/Python-Solution-with-Explanation-(44ms-84)
+    ###also read this https://leetcode.com/problems/group-shifted-strings/discuss/282285/Python-Solution-with-Explanation-(44ms-84)/519376
+    def groupStrings(self, strings: List[str]) -> List[List[str]]:
+        dict=defaultdict(list)
+        for s in strings:
+            key=[] ###key is basically a list
+            for i in range(1,len(s)):
+                diff= (ord(s[i])-ord(s[i-1])+26)%26  ##this is to keep difference as positive.. ex: za
+                key.append(str(diff)) ###keep appending.. make diff as string since finally will be joining using ','
+            dict[",".join(key)].append(s)
+        return dict.values()    
+        
+        
