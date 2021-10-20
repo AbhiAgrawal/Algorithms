@@ -1,5 +1,5 @@
 class MinStack:
-    ##leetcode v nicely explains it
+    ##leetcode v nicely explains it.please note.. here they have not asked to pop min value.. then its a diff implementation
     def __init__(self):
         self.stack=[]
         
