@@ -1,0 +1,20 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+        self.parent = None
+"""
+
+class Solution:
+    ###prereq: https://leetcode.com/problems/intersection-of-two-linked-lists/
+    ##this is basically intersection of 2 linked list problem
+    def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
+        pA=p
+        pB=q
+        while pA != pB:
+            pA=q if pA is None else pA.parent
+            pB=p if pB is None else pB.parent
+        return pA    
