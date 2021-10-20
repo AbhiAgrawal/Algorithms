@@ -1,0 +1,21 @@
+class Solution:
+    ## good Q to assk.. is x=0 allowed? also x=0 and n is -ve is that allowed? what should we do if that is input?
+    ##leet code has good solution
+    def myPow(self, x: float, n: int) -> float:
+        if x == 0:
+            return 0
+        if n<0:
+            x= 1/x
+            n=abs(n)
+        
+        def fastpow(x, n):
+            if n == 0:
+                return 1.0
+            half = fastpow(x,int(n/2))
+            if n%2==0:
+                return half*half
+            else:
+                return half*half*x
+    
+        return fastpow(x,n)        
+        
