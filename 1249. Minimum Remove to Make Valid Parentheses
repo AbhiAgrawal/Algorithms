@@ -1,0 +1,33 @@
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        ###very simple:::: keep set of invalid_indices. finally create final_string excluding invlid indices
+        invalid_indices=set()
+        stack=[]
+        CLOSE=")"
+        OPEN="("
+        ###no need to track chracters.. only open and close.. push if open.. pop if close
+        for i,c in enumerate(s):
+            if c == OPEN:
+                stack.append(i) ##if open just push the index into stack, put both 
+            elif c == CLOSE:
+                if len(stack) == 0: ###if staack is empty, so close its invalid, add in invalid_indices
+                    invalid_indices.add(i)
+                else:###that means there is open bracket index in the stack
+                    stack.pop() ##since we got a corresponding open for close.
+        while stack: ###add other open invalid indices
+            invalid_indices.add(stack.pop()) 
+        ##construct
+        final_string = []
+        for i,c in enumerate(s):
+            if i not in invalid_indices:
+                final_string.append(c)
+        return "".join(final_string) ##convert builder to string
+    
+    
+                
+                        
+        
+            
+            
+        
+        
