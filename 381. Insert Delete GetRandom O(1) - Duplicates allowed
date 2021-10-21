@@ -1,0 +1,41 @@
+class RandomizedCollection:
+    ### similar to https://leetcode.com/problems/insert-delete-getrandom-o1/
+    ###remove is lil more work.. check nicely.
+    def __init__(self):
+        self.map=defaultdict(set) ##map of val to set of indices where that val exist
+        self.lst = list()
+        
+
+    def insert(self, val: int) -> bool:
+        ##duplicates are allowed.. so always insert    
+        self.lst.append(val)
+        last_index=len(self.lst)-1
+        self.map[val].add(last_index)
+        return len(self.map[val]) == 1 ##that means val was not existing earlier.. len was 0 now it has become one
+        
+
+    def remove(self, val: int) -> bool:
+        if len(self.map[val])==0:##that means val does not exist in map:
+            return False
+        
+        remove_index, last_item = self.map[val].pop(), self.lst[-1]
+        self.lst[remove_index] = last_item
+        self.map[last_item].add(remove_index)
+        self.map[last_item].remove(len(self.lst)-1)
+        self.lst.pop()
+        return True
+        
+        
+
+    def getRandom(self) -> int:
+        last_index = len(self.lst)-1
+        idx = random.randint(0,last_index)
+        return self.lst[idx]
+        
+
+
+# Your RandomizedCollection object will be instantiated and called as such:
+# obj = RandomizedCollection()
+# param_1 = obj.insert(val)
+# param_2 = obj.remove(val)
+# param_3 = obj.getRandom()
