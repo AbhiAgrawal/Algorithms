@@ -1,0 +1,28 @@
+class Solution:
+    
+    ###soltiuon 1 sorted(nums)[-k]
+    ###soltiuon 2 return heapq.nlargest(k, nums)[-1]
+    ##soluton 3 quick select ref: https://www.youtube.com/watch?v=x2LEyLvW0Lw&ab_channel=OsirisSalazar
+    ##https://leetcode.com/problems/kth-largest-element-in-an-array/discuss/245344/my-quick-select-python-code
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        random.shuffle(nums)
+        return self.findKthSmallest(nums, 0, len(nums) - 1, len(nums) - k)
+    
+    def findKthSmallest(self, nums, l, r, k):
+        pos = self.partition(nums, l, r)
+        if pos == k:
+            return nums[pos]
+        elif pos < k:
+            return self.findKthSmallest(nums, pos + 1, r, k)
+        else:
+            return self.findKthSmallest(nums, l, pos - 1, k)
+    
+    def partition(self, nums, l, r):
+        current = l
+        while l < r:
+            if nums[l] < nums[r]:
+                nums[current], nums[l] = nums[l], nums[current]
+                current += 1
+            l += 1
+        nums[current], nums[r] = nums[r], nums[current]
+        return current
