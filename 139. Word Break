@@ -1,0 +1,15 @@
+class Solution:
+    ###very nicely solution in leetcode is explained.. please note approach 1, 2 and 3 are exactly the same
+    ##1 is recursive with no memoization, 2 is recursive with memoization and 3 is iterative(bfs)
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        @lru_cache
+        def recur(s, word_dict,start):
+            if start == len(s):
+                return True
+            for end in range(1, len(s)+1):###you want to run till len(s) inlcusive so that when you do s[start:end] then till can run till len(s)-1.
+                if s[start:end] in word_dict and recur(s,word_dict, end):
+                    return True
+            return False   
+        
+        return recur(s, frozenset(wordDict),0)
+      
