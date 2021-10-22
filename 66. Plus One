@@ -1,0 +1,14 @@
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        result = deque()
+        
+        carry=1
+        for i in range(len(digits)-1,-1,-1):
+            carry,sum=divmod(carry+digits[i],10)
+            result.appendleft(sum)
+        if carry == 1:
+            result.appendleft(carry)
+        return result    
+        
+        
+        
