@@ -1,0 +1,35 @@
+class Solution:
+    def minAddToMakeValid(self, s: str) -> int:
+        bal=0
+        ans=0
+        for c in s:
+            if c =="(": bal+=1
+            elif c == ")":
+                if bal == 0: ans+=1
+                else: bal-=1
+        ans+=bal
+        return ans
+        
+    
+
+    ##obvious thought of using stack
+    # def minAddToMakeValid(self, s: str) -> int:
+    #     stack=[]
+    #     count=0
+    #     for c in s:
+    #         if c == "(":   stack.append("(")
+    #         elif c == ")":
+    #             if len(stack) == 0:  count+=1
+    #             else: stack.pop()
+    #     count+=len(stack)
+    #     return count
+        
+        ###below soln is clever but costly
+        # class Solution {
+        #     public int minAddToMakeValid(String S) {
+        #         while(S.contains("()")) {
+        #                S= S.replace("()","");
+        #         }
+        #         return S.length();
+        #     }
+        # }
