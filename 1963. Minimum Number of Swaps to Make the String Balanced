@@ -1,0 +1,15 @@
+class Solution:
+    ###First cancel out all the valid pairs, then you will be left with something like]]][[[, and the answer will be ceil(m/2). Where m is the number of pairs left. 
+    ###https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/
+    def minSwaps(self, s: str) -> int:
+        ans=0 ##ans is number of mismatched pairs
+        bal=0
+        for c in s:
+            if c =="[": bal+=1
+            else:
+                if bal == 0:
+                    ans+=1
+                else:
+                    bal-=1
+        return int((ans+1)//2)
+        
