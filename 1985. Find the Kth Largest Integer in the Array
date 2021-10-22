@@ -1,0 +1,10 @@
+class Solution:
+    ###also go through https://leetcode.com/problems/kth-largest-element-in-an-array/
+    def kthLargestNumber(self, nums: List[str], k: int) -> str:
+        heap=[]
+        for s in nums:
+            heapq.heappush(heap,int(s))
+            if len(heap)>k:
+                heapq.heappop(heap)
+        return str(heap[0])
+        
