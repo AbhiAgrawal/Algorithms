@@ -1,0 +1,11 @@
+
+class Solution:
+    ## this is another good soln https://leetcode.com/problems/top-k-frequent-elements/discuss/740374/Python-5-lines-O(n)-buckets-solution-explained
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        if k == len(nums):
+            return nums
+        
+        count=Counter(nums)
+        return heapq.nlargest(k,count.keys(),key=count.get)
+        
+        
