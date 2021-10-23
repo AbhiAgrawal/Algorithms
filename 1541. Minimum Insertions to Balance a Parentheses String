@@ -1,5 +1,6 @@
 class Solution:
     ### similar to https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/
+    ##very nice explanation in https://leetcode.com/problems/minimum-insertions-to-balance-a-parentheses-string/discuss/780221/Python-Simple-and-Fast-or-Time-O(n)-or-Space-O(1)
     def minInsertions(self, s: str) -> int:
         bal=0
         ans=0
