@@ -29,6 +29,7 @@ class Solution:
                 word = s[start:end]
                 if dp[start] and word in wordSet:
                     dp[end] = True
+                    break
         #print(dp)
         return dp[len(s)]
         
