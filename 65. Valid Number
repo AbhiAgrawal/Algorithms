@@ -1,0 +1,75 @@
+class Solution:
+    def isNumber(self, s: str) -> bool:
+        s=s.lower()
+        seen_digit = seen_exponent = seen_dot =  False
+        for i, c in enumerate(s):
+            if c.isdigit():
+                seen_digit = True
+            elif c in ["+", "-"]:
+                if i > 0 and s[i - 1] != "e":
+                    return False
+            elif c == 'e':
+                if seen_exponent or not seen_digit:
+                    return False
+                seen_exponent = True
+                seen_digit = False
+            elif c == ".":
+                if seen_dot or seen_exponent:
+                    return False
+                seen_dot = True
+            else:
+                return False
+        
+        return seen_digit
+    
+    
+    
+    
+    
+    
+    ####my soln
+#     def isNumber(self, s: str) -> bool:
+        
+#         def isdecimal(s):
+#             if s[0] == '+' or s[0] == '-':
+#                 s=s[1:]
+#             if (len(s) == 0) or "+" in s or "-" in s:
+#                 return False
+#             if "." in s:
+#                 split = s.split(".")
+#                 if len(split)>2: return False
+#                 if split[0] == "" and split[1] == "":
+#                     return False
+#                 return (split[0]=="" or split[0].isnumeric()) and (split[1] == "" or split[1].isnumeric())
+#             else:
+#                 return isnumber(s)
+        
+        
+#         def isnumber(s):
+#             if s[0] == '+' or s[0] == '-':
+#                 s=s[1:]
+#             if (len(s) == 0) or "+" in s or "-" in s:
+#                 return False
+#             return s.isnumeric()
+
+#         e_count=0
+#         s=s.lower()
+#         for c in s:
+#             if c.isalpha() and c!='e':
+#                 return False
+#             elif c == 'e':
+#                 e_count+=1
+#         if e_count>1 or s[0] == 'e' or s[-1] == 'e': return False
+#         if e_count==1:
+#             two = s.split("e")
+#             boolean = isnumber(two[1]) ##when i m passing directly in below return..its failing
+#             return isdecimal(two[0]) and boolean
+#         elif "." in s:
+#             return isdecimal(s)
+#         else:
+#             return isnumber(s)
+            
+#         return True
+    
+        
+        
