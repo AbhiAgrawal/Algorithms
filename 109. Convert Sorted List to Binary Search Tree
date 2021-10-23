@@ -1,0 +1,41 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+##based on https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/ and slow fast pointer to calc mid
+class Solution:
+    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+        
+        
+        def constructBST(head):
+            if head is None:
+                return None
+            if head.next is None:
+                return TreeNode(head.val)
+            slow=fast=head
+            prev=None
+            while fast is not None and fast.next is not None:
+                prev=slow
+                slow=slow.next
+                fast=fast.next.next
+            ## 4 things.. left head will be head, slow will be new root and right head will be slow.next and cutting the ties between left, mid and right            
+            mid_head = slow
+            prev.next = None
+            right_head = slow.next
+            mid_head.next = None
+            
+            root = TreeNode(mid_head.val)
+            root.left = constructBST(head)
+            root.right = constructBST(right_head)
+            return root
+        
+        
+        return constructBST(head)
+        
