@@ -1,0 +1,19 @@
+class Solution:
+    ### similar to https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/
+    def minInsertions(self, s: str) -> int:
+        bal=0
+        ans=0
+        s = s.replace("))","}")
+        for c in s:
+            if c =="(":
+                bal+=1
+            elif c == "}":
+                if bal == 0: ans+=1
+                else:   bal-=1
+            else: #####c == ')'
+                if bal == 0: ##it should be ()) wesaw 1 close we need 1 open and another close
+                    ans+=2
+                else:  #####() 
+                    bal-=1
+                    ans+=1   ##()) we saw () so we need one close so ans+=1 and we saw one open so bal-=1
+        return ans+bal*2           
