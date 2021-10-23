@@ -1,0 +1,34 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+###Convert the tree to a sorted array using an in-order traversal.
+###Construct a new balanced tree from the sorted array recursively.
+class Solution:
+    def balanceBST(self, root: TreeNode) -> TreeNode:
+        sorted_arr=[]
+        
+        def inorder(root):
+            if root:
+                inorder(root.left)
+                sorted_arr.append(root.val)
+                inorder(root.right)
+        
+        inorder(root)
+        
+        def constructBST(sorted_arr):
+            if not sorted_arr:
+                return None
+            mid = len(sorted_arr)//2
+            root = TreeNode(sorted_arr[mid])
+            root.left = constructBST(sorted_arr[:mid])
+            root.right = constructBST(sorted_arr[mid+1:])
+            return root
+        
+        return constructBST(sorted_arr)
+            
+        
+        
+        
