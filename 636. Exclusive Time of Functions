@@ -1,0 +1,25 @@
+class Solution:
+    ##standard stack problem
+    ##https://leetcode.com/problems/exclusive-time-of-functions/discuss/209173/Python-solution
+    def exclusiveTime(self, n: int, logs: List[str]) -> List[int]:
+        stack=[]
+        res=[0]*n
+        for log in logs:
+            ID, typ, time = log.split(":")
+            ID = int(ID)
+            time = int(time)
+            if typ == "start":
+                if stack:###if stack is not empty
+                    res[stack[-1][0]]+=time-stack[-1][1]##calc the prev function time elapsed
+                stack.append([ID, time]) ###add the new function
+            else:##its a end
+                res[ID] += time-stack.pop()[1]+1##cal the time taken stack top would be same id but start
+                if stack:
+                    stack[-1][1] = time+1### now stack would be earlier ID update the time
+        return res            
+            
+        
+                
+                
+                
+        
