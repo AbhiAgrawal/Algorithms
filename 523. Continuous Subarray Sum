@@ -1,0 +1,51 @@
+class Solution:
+  ###O(n) solution as cumulative summ is getting precomputed tht will take O(N)
+###you cna do o(k) as well then dont need cumulative instead use just dict which will contain od values
+###https://www.youtube.com/watch?v=3kD0nuwyPj8 first half gives good explanation
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        n=len(nums) 
+        ## consective 0s means (0+0)%n is 0
+        for i in range(1,n):
+            if nums[i] == 0 and nums[i-1] == 0:
+                return True
+ 
+        cumulative_sum=[0]*n
+        summ=0
+        for i,num in enumerate(nums):
+            summ=(summ+num)%k
+            cumulative_sum[i]=summ
+        
+        ##if anywhere cumulative[i]==0 that means from 0th index to ith index total sum %6==0
+        for i in range(1,n):
+            if cumulative_sum[i] == 0:
+                return True
+        dict={}
+        for i in range(n):
+            mod = cumulative_sum[i]
+            if mod in dict.keys() and abs(dict[mod] - i)>1:
+                return True
+            elif mod not in dict.keys():
+                dict[mod] = i
+        return False    
+    
+    
+    ###O(n2) solution as summ is getting precomputed
+    # def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+    #     n=len(nums)
+    #     for i in range(0,n-1):
+    #         summ = nums[i]
+    #         for j in range(i+1,n):
+    #             summ+=nums[j]
+    #             if summ%k == 0:
+    #                 return True
+    #     return False    
+
+    ###Below is O(n3) solution sum is also O(n)
+    # def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+    #     n=len(nums)
+    #     for i in range(0,n-1):
+    #         for j in range(i+1,n):
+    #             if sum(nums[i:j+1])%k == 0:
+    #                 return True
+    #     return False        
+        
