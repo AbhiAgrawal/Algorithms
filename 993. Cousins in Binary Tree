@@ -1,0 +1,26 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    ##running bfs
+    def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
+        if root.val == x or root.val == y:
+            return False
+        
+        queue = deque()
+        queue.append([root,None, 0])
+        found = [] ### add the 2 cousins that is x and y
+        while queue:
+            node, parent, depth = queue.popleft()
+            for child in [node.left, node.right]:
+                if child:
+                    queue.append([child, node, depth+1])
+                    if child.val in [x,y]: ##if value is equal to x or y
+                        found.append([child.val,node.val, depth+1])
+                    if len(found) == 2: ##once you found 2 cousins
+                        if (found[0][1] != found[1][1] and found[0][2] == found[1][2]):
+                            return True
+        return False           
