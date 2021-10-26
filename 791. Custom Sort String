@@ -1,0 +1,15 @@
+class Solution:
+    ##very simple just create the counter.. start with order.. put them together and again go through counter and see which are missing.
+    def customSortString(self, order: str, s: str) -> str:
+        counter = Counter(s)
+        answer=[]
+        for c in order:
+            val = counter[c]
+            if val > 0:
+                answer.append(c*val)
+                counter[c] = 0
+        for key, val in counter.items():
+            if val>0:
+                answer.append(key*val)
+        return "".join(answer)        
+        
