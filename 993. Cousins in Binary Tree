@@ -18,9 +18,9 @@ class Solution:
             for child in [node.left, node.right]:
                 if child:
                     queue.append([child, node, depth+1])
-                    if child.val in [x,y]: ##if value is equal to x or y
+                    if child.val in [x,y]: ##if value is equal to x or y add in found
                         found.append([child.val,node.val, depth+1])
-                    if len(found) == 2: ##once you found 2 cousins
-                        if (found[0][1] != found[1][1] and found[0][2] == found[1][2]):
-                            return True
+            if len(found) == 2: ##once you found 2 cousins
+                if (found[0][1] != found[1][1] and found[0][2] == found[1][2]):
+                    return True
         return False           
