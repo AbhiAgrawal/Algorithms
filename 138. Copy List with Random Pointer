@@ -1,0 +1,39 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
+class Solution:
+    ##approach 3 leet code
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        if head is None:
+            return None
+        ptr=head
+
+        while ptr:
+            newNode = Node(ptr.val)
+            newNode.next = ptr.next
+            ptr.next = newNode
+            ptr = newNode.next
+        
+        ptr = head
+        while ptr:
+            if ptr.random is not None:
+                ptr.next.random = ptr.random.next
+            ptr=ptr.next.next    
+        
+        
+        ptr_old_list=head
+        ptr_new_list=head.next
+        head_new = head.next
+        while ptr_old_list:
+            ptr_old_list.next = ptr_old_list.next.next
+            ptr_new_list.next = ptr_old_list.next.next if ptr_new_list.next else None
+            ptr_old_list = ptr_old_list.next
+            ptr_new_list = ptr_new_list.next
+        
+        return head_new
