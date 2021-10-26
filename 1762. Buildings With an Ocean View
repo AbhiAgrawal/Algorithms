@@ -1,0 +1,41 @@
+class Solution:
+    #### O(n) and O(1)
+    def findBuildings(self, heights: List[int]) -> List[int]:
+        #corner cases
+        if heights is None: return None
+        n = len(heights)
+        if n == 1: return [0]
+        if n == 0: return []
+        
+        res=deque()
+        maximum = heights[n-1]
+        res.appendleft(n-1)
+        for i in range(n-2,-1,-1):
+            if heights[i]>maximum:
+                res.appendleft(i)
+            maximum = max(maximum, heights[i])
+        return res    
+        
+    
+    
+    ###below soln is O(n) and O(n)
+#     def findBuildings(self, heights: List[int]) -> List[int]:
+#         if heights is None: return None
+#         n = len(heights)
+#         if n == 1: return [0]
+#         if n == 0: return []
+        
+#         maximum_height = [0]*(n-1)
+#         maximum_height[-1] = n-1
+#         res=[]
+        
+#         for i in range(n-2,0,-1):
+#             maximum_height[i-1] = max(maximum_height[i],heights[i])
+            
+#         for i in range(0,n-1):
+#             if heights[i]>maximum_height[i]:
+#                 res.append(i)
+#         res.append(n-1) 
+        
+#         return res
+        
