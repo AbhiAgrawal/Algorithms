@@ -1,0 +1,41 @@
+# """
+# This is BinaryMatrix's API interface.
+# You should not implement it, or speculate about its implementation
+# """
+#class BinaryMatrix(object):
+#    def get(self, row: int, col: int) -> int:
+#    def dimensions(self) -> list[]:
+
+class Solution:
+    ### check the 3 leetcode solutions .. it will some understanding
+    def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
+        [rows,cols]=binaryMatrix.dimensions()
+        minimum_index = cols
+
+        for row in range(rows):
+            l,r = 0,minimum_index-1
+            
+            ## below two ifs are to make things faster .. you can skip if needed..
+            if minimum_index == 0: ###already reached min
+                break
+            if binaryMatrix.get(row,r) == 0: ### if mat[row][r] == 0.. so that row cant help in calculating min as min is already r+1. 
+                continue
+            
+            while l<r:
+                mid = l+(r-l)//2
+                val = binaryMatrix.get(row, mid)
+                if val == 0:
+                    l=mid+1
+                else:
+                    r=mid
+            
+            
+            if r >= 0 and binaryMatrix.get(row, r) == 1: ###r> 0 .. protecting out of bounds 
+                minimum_index = min(minimum_index, r)
+        if minimum_index!=cols:
+            return minimum_index
+        else:
+            return -1
+                
+            
+        
