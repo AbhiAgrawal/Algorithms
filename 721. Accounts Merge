@@ -1,0 +1,36 @@
+class Solution:
+    ###refer https://leetcode.com/problems/accounts-merge/discuss/1195613/91-DFS-and-BFS-with-explanation-both-iterative-and-recursive-in-python-fast-and-easy
+    ###basically we want to find all connected components
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        ##first build the groph. we can build something similar to adj matrix
+        em_to_name=dict()
+        em_graph=defaultdict(set)
+        
+        for account in accounts:
+            for email in account[1:]:
+                em_graph[account[1]].add(email)##append connect 1st email with all other emails
+                em_graph[email].add(account[1])##append connect other emails with 1st email. its undirected graph
+                em_to_name[email] = account[0]
+        
+        seen=[]
+        ans=[]
+        for email in  em_graph:
+            if email not in seen:
+                q=deque()
+                q.append(email)
+                seen.append(email)
+                connected = []
+                connected.append(email)
+                while q:
+                    node = q.popleft()
+                    for neighbor in em_graph[node]:
+                        if neighbor not in seen:
+                            q.append(neighbor)
+                            connected.append(neighbor)
+                            seen.append(neighbor)
+                            
+                ##all connected emails are done
+                list=[em_to_name[connected[0]]]
+                list.extend(sorted(connected))
+                ans.append(list)
+        return ans
