@@ -19,7 +19,6 @@ class Solution:
             i-=1
         if i<0: ### you saw that from end to start its just increasing. so thats highest number.. so return reverse of it
             return nums.reverse()
-        next_greater = nums[i+1]
         j=n-1 ###start from end 
         while j>=i+1:
             if nums[j]>nums[i]: ###you found next higher
