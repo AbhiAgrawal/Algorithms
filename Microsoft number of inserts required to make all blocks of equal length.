@@ -31,3 +31,5 @@ def solution(S):
 print(solution("babaaaaaa"))    
         
         
+input string contains 'a' and 'b'. blocks are defined as contiguos elements which have same alphabets. eg, i/p babaa has 4 blocks b, a, b, aa.
+number of inserts required to make all blocks of equal length.
