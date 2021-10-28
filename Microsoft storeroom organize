@@ -1,0 +1,26 @@
+import collections
+def solution(A, R):
+    if A is None or len(A) <=R:
+        return 0
+    result = 0
+    n = len(A)
+    counter=collections.Counter(A[R:n])
+    result = len(counter)
+    j = 0
+    curr_unique = result
+    for i in range(R,n):
+        counter[A[j]]+=1 
+        if counter[A[j]]== 1:
+            curr_unique+=1 
+        j+=1 
+        
+        counter[A[i]]-=1 
+        if counter[A[i]]== 0:
+            curr_unique -=1 
+        result = max(result, curr_unique)
+    return result    
+    
+print(solution([2,3,2], 1))    
+        
+        
+https://leetcode.com/discuss/interview-question/1521473/Microsoft-India-FTE-(Engage)-or-Codility-OA-or-October-2021
