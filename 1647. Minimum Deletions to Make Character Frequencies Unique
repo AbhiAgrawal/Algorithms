@@ -1,0 +1,19 @@
+class Solution:
+    def minDeletions(self, s: str) -> int:
+        if s is None or len(s) < 2:
+            return s
+        count = Counter(s)
+        nums=sorted(count.values(), reverse=True) ##nums is just freq values sorted in reverse
+        n = len(nums)
+        count = 0
+        prev_max = nums[0] ##cur_max is previ max freq
+        for i in range(1,n):
+            if nums[i]<prev_max: #no deletions needed as already nums[i]
+                prev_max = nums[i]
+            else:
+                if prev_max != 0: ##not making prev_max  negative
+                    prev_max = prev_max - 1 ###calc prev_max
+                count= count + abs(nums[i] - prev_max) ##calc number of deletions of that char
+                
+        
+        return count
