@@ -1,0 +1,40 @@
+class Solution:
+    def maximumSwap(self, originalNum: int) -> int:
+        num = originalNum
+        if num < 10:
+            return num
+        
+
+
+        num = [int(s) for s in str(num)]
+        n = len(num)
+        
+        # Record the current maximum when 
+        # iterating the array
+        cur_max = float('-inf')
+        # Record the first maximum index and the last minimum index
+        max_idx, min_idx = -1, -1
+        # Record the swap indices
+        # Note that min_idx must be smaller than max_idx
+        pair = []
+        
+        # Iterate backward
+        for i in range(n-1, -1, -1):
+            if num[i] > cur_max:
+                cur_max = num[i]
+                max_idx = i
+            elif num[i] < cur_max:
+                min_idx = i
+                pair = (min_idx, max_idx) ##create pair only during min calc
+                
+        ###swap
+        if pair:
+            a, b = pair
+            num[a], num[b] = num[b], num[a]
+        ans = 0
+        for i in range(n):
+            ans += 10**(n-1-i) * num[i]
+        return ans
+        
+    
+        
