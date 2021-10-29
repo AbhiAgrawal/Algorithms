@@ -1,0 +1,26 @@
+class Solution:
+    def numWays(self, s: str) -> int:
+        hashmap={}
+        counter = Counter(s)
+        numOnes = counter['1']
+        if numOnes%3 != 0: ##that means 1s cannot be divided into 3 parts
+            return 0
+        if numOnes == 0: ##only 0s.. then its a combination problem ex:0000 3C2
+            n = len(s)
+            return ((n-1)*(n-2)//2)%(10**9 + 7)
+        ##track all 1s with indices.. for 10101.. hashmap will have {1:0, 2:2, 3:4}
+        count=0
+        for i,n in enumerate(s):
+            if n == '1':
+                count+=1
+                hashmap[count] = i
+                
+        numOnesInEachGroup = numOnes//3
+        noOfLeftZeros = hashmap[numOnesInEachGroup+1] - hashmap[numOnesInEachGroup]-1
+        noOfRightZeros = hashmap[2*numOnesInEachGroup+1] - hashmap[2*numOnesInEachGroup]-1
+        return ((noOfLeftZeros+1)*(noOfRightZeros+1))%(10**9 + 7)
+        
+        
+        
+        
+        
