@@ -1,0 +1,31 @@
+class Solution:
+    ###https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/discuss/769698/Python-Clear-explanation-Powerful-Ultimate-Binary-Search-Template.-Solved-many-problems
+    ##TC O(n * log(sum of array))O(n∗log(sumofarray)) and SC O(1) 
+    ###exactly same as https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+    def splitArray(self, nums: List[int], m: int) -> int:
+        sum_nums = sum(nums)
+        
+        left = max(ceil(sum_nums/m), max(nums))
+        right = sum_nums
+        
+        def feasible(max_sum):
+            part = 1
+            total=0
+            for num in nums:
+                total+=num
+                if total>max_sum:
+                    total = num
+                    part+=1
+                    if part>m:
+                        return False
+            return True       
+                
+        while left<right:
+            mid = left+(right-left)//2
+            if feasible(mid):
+                right = mid
+            else:
+                left = mid+1
+        return left        
+        
+        
