@@ -1,0 +1,37 @@
+class Solution:
+    #### just watch this video https://www.youtube.com/watch?v=6kTZYvNNyps
+    ##check complexity in leet code complexity analysis.. nicely explained
+
+    def alienOrder(self, words: List[str]) -> str:
+        adj = {c:set() for w in words for c in w} ###initialize adj matrix. set is used to avoid dups
+        ###build adj matrix
+        for i in range(len(words)-1):
+            w1,w2 = words[i],words[i+1]
+            min_len = min(len(w1),len(w2))
+            if len(w1)>len(w2) and w1[:min_len] == w2[:min_len]: ##if apple and app
+                return ""
+            for j in range(min_len):
+                if w1[j]!=w2[j]:
+                    adj[w1[j]].add(w2[j])
+                    break## once you have detected mismatch break.
+                    
+        visit = {} ##False=node is visited True Node is visited and is current path
+        res = [] ##this will be initially stored in post order dfs ..other words reverse dfs
+        
+        def dfs(c):
+            if c in visit:
+                return visit[c]
+            visit[c] = True ##visited and is in current Path
+            
+            for nei in adj[c]:
+                if dfs(nei):
+                    return True ##that means there is a cycle
+            visit[c] = False ##since new dfs will be run.. so remove it from current path and since its visited already.. mark it False
+            res.append(c)
+       
+        for c in adj:
+            if dfs(c): ##if we get get True.. that means there is a cycle
+                return ""
+        res.reverse()
+        return "".join(res)
+        
