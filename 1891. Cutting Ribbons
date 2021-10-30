@@ -1,0 +1,33 @@
+class Solution:
+    ###similar to https://leetcode.com/problems/split-array-largest-sum/
+    ###https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/discuss/769698/Python-Clear-explanation-Powerful-Ultimate-Binary-Search-Template.-Solved-many-problems
+    def maxLength(self, ribbons: List[int], k: int) -> int:
+        summ = sum(ribbons)
+        if summ<k:
+            return 0
+        
+        left,right = 1,summ//k ## min is 1 length each and max is max you can go is summ//k
+        
+        
+        def feasible(length):
+            count = 0
+            for ribbon in ribbons:
+                count += (ribbon//length)
+                if count>=k: ##we got k ribbons
+                    return True
+            return False    
+         
+        while left < right:
+            mid = left+(right-left)//2
+            pair = [left,right]
+            if feasible(right): ##if right is feasible.. thats the max. so return it
+                return right
+            if feasible(mid):
+                left=mid
+            else:
+                right = mid - 1
+            if pair[0] == left and pair[1] == right: ##just making sure infinite recursion
+                break        
+        return left    
+                
+        
