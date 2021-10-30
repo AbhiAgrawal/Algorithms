@@ -1,0 +1,33 @@
+class Solution:
+    ##https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/discuss/769698/Python-Clear-explanation-Powerful-Ultimate-Binary-Search-Template.-Solved-many-problems.
+    def shipWithinDays(self, weights: List[int], days: int) -> int:
+        sum_weights = sum(weights)
+        
+        left = max(ceil(sum_weights/days), max(weights))
+        right = sum_weights
+        
+        def feasible(capacity):
+            curr_day = 1
+            total = 0
+            for w in weights:
+                total+=w
+                if total>capacity: ##reset
+                    total = w
+                    curr_day+=1
+                    if curr_day > days:
+                        return False
+            return True        
+        
+        while left<right:
+            mid = left+(right-left)//2
+            if feasible(mid):
+                right = mid
+            else:
+                left = mid+1
+        return left        
+        
+        
+        
+        
+        
+        
