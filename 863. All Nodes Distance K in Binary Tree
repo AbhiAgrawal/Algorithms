@@ -1,0 +1,60 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    
+    ##this could be done using dfs &/or bfs any combination.. 
+    def distanceK(self, root: TreeNode, target: TreeNode, K: int) -> List[int]:
+        if K == 0: ##if dist is 0 you will return target
+            return [target.val]
+        
+        
+        adj = defaultdict(list)
+        
+        ### just building adj matrix usng dfs.. PS this is 2 way adj matrix 
+        def dfs(node):
+            for child in [node.left, node.right]:
+                if child:
+                        adj[node].append(child)
+                        adj[child].append(node)
+                        dfs(child) 
+         
+        dfs(root)
+
+        res, visited = [], set()
+        
+        ##using bfs .. dfs has less book keeping but bfs is easier to understand :P
+        def bfs(node, d):
+            queue=deque()
+            queue.append([node,0])
+            visited.add(node)
+            while queue:
+                node,dist = queue.popleft()
+                for v in adj[node]:
+                    if v not in visited:
+                        new_dist = dist+1
+                        if new_dist < K: ##new child dist is less than K
+                            queue.append([v, new_dist])
+                            visited.add(v)
+                        elif new_dist == K:
+                            res.append(v.val)
+                            
+        bfs(target,0)                    
+                            
+        ###you could use dfs2 which is dfs instead.. 
+        # def dfs2(node, d):
+        #     if d < K:
+        #         visited.add(node)
+        #         for v in adj[node]:
+        #             if v not in visited:
+        #                 dfs2(v, d + 1)
+        #     else:
+        #         res.append(node.val)
+        # dfs2(target, 0)
+        return res
+            
+        
