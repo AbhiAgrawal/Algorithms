@@ -1,0 +1,27 @@
+class Solution:
+    ##similar https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+###https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/discuss/769698/Python-Clear-explanation-Powerful-Ultimate-Binary-Search-Template.-Solved-many-problems
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        summ = sum(piles)
+        left,right = ceil(summ/h),summ
+        
+        def feasible(threshold):
+            hour = 0
+            for p in piles:
+                if p<=threshold:
+                    hour+=1
+                else:
+                    hour+=ceil(p/threshold)
+                if hour>h:
+                    return False
+            return True    
+        
+
+        while left<right:
+            mid = left+(right-left)//2
+            if feasible(mid):
+                right = mid
+            else:
+                left = mid+1
+        return left
+        
