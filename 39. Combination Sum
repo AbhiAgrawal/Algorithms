@@ -1,0 +1,17 @@
+class Solution:
+    ##https://leetcode.com/problems/combination-sum/discuss/16502/A-general-approach-to-backtracking-questions-in-Java-(Subsets-Permutations-Combination-Sum-Palindrome-Partitioning)
+    ###https://leetcode.com/problems/combination-sum/discuss/16510/Python-dfs-solution.
+    ###https://leetcode.com/problems/combination-sum-ii/discuss/750378/Python3-DFS-solutionstemplates-to-6-different-classic-backtracking-problems-and-more
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        if not candidates: return []
+        res = []
+        candidates.sort()
+        def dfs(idx, path, cur):
+            if cur > target: return
+            if cur == target:
+                res.append(path)
+                return
+            for i in range(idx, len(candidates)):
+                dfs(i, path+[candidates[i]], cur+candidates[i])
+        dfs(0, [], 0)
+        return res
