@@ -1,0 +1,65 @@
+class Solution:
+    
+    ##nicely explained https://leetcode.com/problems/minimum-cost-for-tickets/discuss/630868/explanation-from-someone-who-took-2-hours-to-solve
+    ##recursive soltuion using memoizations
+    ###Time Complexity: O(N), where N is the number of unique days in your travel plan. len(days)
+#####Space Complexity: O(N)
+    def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+        
+        dp=dict() ##day start  to cost ##using memoization
+        
+        def recurse(days):
+            if len(days) == 0: ##if days arr is empty return 0
+                return 0
+            
+            if days[0] in dp.keys(): ### if dp[days[0]] is already calculated
+                return dp[days[0]]
+            
+            ##Find leftmost index greater than or equal to day7 = days[0]+7
+            days7_list = []
+            if (days[0]+7)<=days[-1]: ##if days exists after days[0]+7, [1,2,8] atleast 8 shjould be there
+                day7_ind=bisect_left(days, days[0]+7)
+                days7_list = days[day7_ind:]
+            
+            ##Find leftmost index greater than or equal to day30 = days[0]+30
+            days30_list = [] 
+            if (days[0]+30)<=days[-1]: ##if days exists after days[0]+30, [1,2,31]
+                day30_ind=bisect_left(days, days[0]+30)
+                days30_list = days[day30_ind:]
+            
+             ###save the response in first day in shrinked  in days[0]
+            dp[days[0]]= min(costs[0]+recurse(days[1:]),costs[1]+recurse(days7_list), 
+                       costs[2]+recurse(days30_list))
+            print(dp)
+            
+            return dp[days[0]]
+        
+        return recurse(days)
+    
+    
+    ###this will be exponential as everytime we are calculating same thngs..
+    ###below is recursive solution but no memoization
+    def mincostTicketsRecurse(self, days: List[int], costs: List[int]) -> int:
+        
+        
+        def recurse(days):
+            if len(days) == 0: ##if days arr is empty return 0
+                return 0
+            
+            ##Find leftmost index greater than or equal to day7 = days[0]+7
+            days7_list = []
+            if (days[0]+7)<=days[-1]: ##if days exists after days[0]+7
+                day7_ind=bisect_left(days, days[0]+7)
+                days7_list = days[day7_ind:]
+            
+            ##Find leftmost index greater than or equal to day30 = days[0]+30
+            days30_list = [] 
+            if (days[0]+30)<=days[-1]: ##if days exists after days[0]+30
+                day30_ind=bisect_left(days, days[0]+30)
+                days30_list = days[day30_ind:]
+            
+             ###save the response in first day in shrinked  in days[0]
+            return min(costs[0]+recurse(days[1:]),costs[1]+recurse(days7_list), 
+                       costs[2]+recurse(days30_list))
+        
+        return recurse(days)
