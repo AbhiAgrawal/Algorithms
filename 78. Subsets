@@ -1,0 +1,30 @@
+class Solution:
+    ###check approach 1 AND 3 leetcode
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)
+        output = []
+        
+        for i in range(2**n, 2**(n+1)):
+            # generate bitmask, from 0..00 to 1..11
+            bitmask = bin(i)[3:]
+            
+            # append subset corresponding to that bitmask
+            # new_list=[]
+            # for j in range(n):
+            #     if bitmask[j] == '1':
+            #         new_list.append(nums[j])
+            # output.append(new_list)        
+            output.append([nums[j] for j in range(n) if bitmask[j] == '1'])
+        
+        return output
+    
+    
+#       def subsets(self, nums: List[int]) -> List[List[int]]:
+#             n = len(nums)
+#             output = [[]]
+
+#             for num in nums:
+#                 list = [curr + [num] for curr in output]
+#                 output.extend(list) ##same as output+=list
+
+#             return output 
