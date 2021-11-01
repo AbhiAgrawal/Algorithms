@@ -5,35 +5,25 @@ class Solution:
     ###Time Complexity: O(N), where N is the number of unique days in your travel plan. len(days)
 #####Space Complexity: O(N)
     def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+        N = len(days)
+        durations = [1, 7, 30]
         
-        dp=dict() ##day start  to cost ##using memoization
-        def recurse(days):
-            if len(days) == 0: ##if days arr is empty return 0
+        @lru_cache
+        def dp(i):# How much money to do days[i]+ ith index
+            if i>=N: ##if i > len(days)
                 return 0
             
-            if days[0] in dp.keys(): ### if dp[days[0]] is already calculated
-                return dp[days[0]]
             
-            ##Find leftmost index greater than or equal to day7 = days[0]+7
-            days7_list = []
-            if (days[0]+7)<=days[-1]: ##if days exists after days[0]+7, [1,2,8] atleast 8 shjould be there
-                day7_ind=bisect_left(days, days[0]+7)
-                days7_list = days[day7_ind:]
-            
-            ##Find leftmost index greater than or equal to day30 = days[0]+30
-            days30_list = [] 
-            if (days[0]+30)<=days[-1]: ##if days exists after days[0]+30, [1,2,31]
-                day30_ind=bisect_left(days, days[0]+30)
-                days30_list = days[day30_ind:]
-            
-             ###save the response in first day in shrinked  in days[0]
-            dp[days[0]]= min(costs[0]+recurse(days[1:]),costs[1]+recurse(days7_list), 
-                       costs[2]+recurse(days30_list))
-            print(dp)
-            
-            return dp[days[0]]
+            ans = float('inf')
+            j = i
+            for c, d in zip(costs,durations):
+                while j<N and days[j]<(days[i]+d): ##instead of using bisect left just move j till days[j]<days[i]+d or j reaches end
+                    j+=1
+                ans = min(c+dp(j),ans)
+    
+            return ans
         
-        return recurse(days)
+        return dp(0)
     
     
     ###this will be exponential as everytime we are calculating same thngs..
