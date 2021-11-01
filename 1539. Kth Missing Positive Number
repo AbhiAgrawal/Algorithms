@@ -1,0 +1,29 @@
+class Solution:
+    ##https://leetcode.com/problems/kth-missing-positive-number/discuss/779999/JavaC%2B%2BPython-O(logN)
+    def findKthPositive(self, arr: List[int], k: int) -> int:
+        n = len(arr)
+        l,r = 0,n
+        while l<r:
+            m = l+(r-l)//2
+            if (arr[m]-1-m) < k:
+                l = m + 1
+            else:
+                r = m
+        return l + k        
+    
+    
+    
+    
+#     def findKthPositive(self, arr: List[int], k: int) -> int:
+#         count = 0
+#         prev = 0
+#         length = len(arr)
+#         for n in arr:
+#             for j in range(prev+1, n):
+#                 count+=1
+#                 if count == k:
+#                     return j
+#             prev = n
+            
+#         return arr[length-1] + (k-count)
+        
