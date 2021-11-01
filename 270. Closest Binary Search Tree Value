@@ -1,0 +1,28 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    ##see this first https://leetcode.com/problems/search-in-a-binary-search-tree/
+    def closestValue(self, root: Optional[TreeNode], target: float) -> int:
+        minDiff,closest = abs(root.val-target), root.val
+        
+        def searchClosest(node):
+            if node is None:
+                return
+            nonlocal closest, minDiff
+            diff = abs(node.val - target)
+            if minDiff>diff:
+                minDiff = diff
+                closest = node.val
+            if minDiff == 0:
+                return
+            if target<node.val:
+                searchClosest(node.left)
+            else:
+                searchClosest(node.right)
+                
+        searchClosest(root)
+        return closest
