@@ -2,20 +2,11 @@ class Solution:
     ##same as https://leetcode.com/problems/find-the-middle-index-in-array/
     def pivotIndex(self, nums: List[int]) -> int:
         n = len(nums)
-        cumulative_left_sum = [0]*n
-        cumulative_right_sum = [0]*n
-        summ = 0
-        for i in range(1,n):
-            summ+=nums[i-1]
-            cumulative_left_sum[i] = summ
-        summ = 0    
-        for i in range(n-2,-1,-1):
-            summ+=nums[i+1]
-            cumulative_right_sum[i] = summ
-            
+        total_sum = sum(nums)
+        left_sum = 0
         for i,v in enumerate(nums):
-            if cumulative_left_sum[i] == cumulative_right_sum[i]:
+            if left_sum == total_sum-left_sum-v:
                 return i
+            left_sum+=v
         return -1    
-            
         
