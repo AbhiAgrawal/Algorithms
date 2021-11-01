@@ -1,0 +1,68 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children if children is not None else []
+"""
+
+class Solution:
+    
+    def diameter(self, root: 'Node') -> int:
+        diameter = 0
+        
+        def longest_path(node):
+            if not node:
+                return 0
+            nonlocal diameter
+            # recursively find the longest path in
+            # both left child and right child
+            maximum_1,maximum_2 = 0,0
+            for child in node.children:
+                height = longest_path(child)
+                if height>maximum_1:
+                    maximum_1,maximum_2 = height, maximum_1
+                elif  height> maximum_2:
+                    maximum_2 = height
+
+            # update the diameter if left_path plus right_path is larger
+             ##since it will go through only 2 children
+            diameter = max(diameter, maximum_1+maximum_2)
+
+            # return the longest one between left_path and right_path;
+            # remember to add 1 for the path connecting the node and its parent
+            return max(maximum_1,maximum_1)+1
+
+        longest_path(root)
+        return diameter
+
+
+    
+    #same as https://leetcode.com/problems/diameter-of-binary-tree/
+    def diameter2(self, root: 'Node') -> int:
+        """
+        :type root: 'Node'
+        :rtype: int
+        """
+        diameter = 0
+
+        def longest_path(node):
+            if not node:
+                return 0
+            nonlocal diameter
+            # recursively find the longest path in
+            # both left child and right child
+            paths=list()
+            for child in node.children:
+                paths.append(longest_path(child))
+
+            # update the diameter if left_path plus right_path is larger
+            largest_2_numbers = heapq.nlargest(2, paths) ##find 2 max .. since itwill go through only 2 children
+            diameter = max(diameter, sum(largest_2_numbers))
+
+            # return the longest one between left_path and right_path;
+            # remember to add 1 for the path connecting the node and its parent
+            return max(paths)+1 if paths else 1
+
+        longest_path(root)
+        return diameter
