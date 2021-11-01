@@ -1,0 +1,12 @@
+class Solution:
+    ##exact same as https://leetcode.com/problems/kth-missing-positive-number/ with small changes
+    def missingElement(self, arr: List[int], k: int) -> int:
+        n = len(arr)
+        l,r = 0,n
+        while l<r:
+            m = l+(r-l)//2
+            if (arr[m]-arr[0]-m) < k:
+                l = m + 1
+            else:
+                r = m
+        return l + k  + arr[0] - 1
