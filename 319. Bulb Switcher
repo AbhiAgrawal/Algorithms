@@ -1,0 +1,7 @@
+class Solution:
+    def bulbSwitch(self, n: int) -> int:
+        ###this is a math problem .. basically if number of divisors should be odd then it would be on it will be on otherwise off
+        ###https://leetcode.com/problems/bulb-switcher/discuss/77104/Math-solution..
+        return int(sqrt(n))
+        
+        
