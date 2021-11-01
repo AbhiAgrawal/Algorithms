@@ -7,7 +7,6 @@ class Solution:
     def mincostTickets(self, days: List[int], costs: List[int]) -> int:
         
         dp=dict() ##day start  to cost ##using memoization
-        
         def recurse(days):
             if len(days) == 0: ##if days arr is empty return 0
                 return 0
