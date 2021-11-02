@@ -1,0 +1,39 @@
+class Solution:
+    ###https://leetcode.com/problems/spiral-matrix/discuss/394774/python-3-solution-for-spiral-matrix-one-of-the-most-easiest-you-will-never-forget/1026252
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        height = len(matrix)
+        width = len(matrix[0])
+        
+        left,right = 0,width-1
+        top, bottom = 0,height-1
+        
+        res=[]
+        
+        while top<bottom and left<right:
+            for col in range(left, right):
+                res.append(matrix[top][col])
+            
+            for row in range(top, bottom):
+                res.append(matrix[row][right])
+            
+            for col in range(right, left,-1):
+                res.append(matrix[bottom][col])
+                
+            for row in range(bottom, top,-1):
+                res.append(matrix[row][left])
+            
+            top+=1
+            bottom-=1
+            left+=1
+            right-=1
+         
+        if len(res) < height*width:
+            for col in range(left, right+1):
+                for row in range(top,bottom+1):
+                    res.append(matrix[row][col])
+        
+        
+        
+            
+        return res    
+        
