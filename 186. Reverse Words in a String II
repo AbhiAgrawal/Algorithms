@@ -1,0 +1,20 @@
+class Solution:
+    def reverseWords(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        s.reverse()
+        l,r = 0,0     
+        def reverse(s,start,end):
+            while start<end:
+                    s[start],s[end] = s[end],s[start]
+                    start,end=start+1,end-1
+            return        
+        
+        for r in range(len(s)):
+            if s[r] == ' ': ##space is encountered
+                reverse(s,l,r-1)
+                l=r+1
+            elif r == len(s)-1:### encountered end of string
+                start,end=l,r
+                reverse(s,l,r)
