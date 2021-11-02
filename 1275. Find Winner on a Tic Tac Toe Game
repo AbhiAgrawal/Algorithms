@@ -1,0 +1,48 @@
+class Solution:
+    ###same as https://leetcode.com/problems/design-tic-tac-toe/.. refer
+    def tictactoe(self, moves: List[List[int]]) -> str:
+        rows=[0]*3
+        cols=[0]*3
+        diagonal=0
+        antidiag=0
+        
+        
+        def move(row, col, player):
+            nonlocal rows,cols,diagonal,antidiag
+            n = len(rows)
+            if player == 1:  
+                current_player = 1 
+            else:
+                current_player = -1
+
+            rows[row]+=current_player
+            cols[col]+=current_player
+
+            if row == col:
+                diagonal+= current_player 
+
+            if col == n - row-1: ###antidiag
+                antidiag +=current_player
+
+            ###if anything has become n
+            if(abs(rows[row]) == n or abs(cols[col]) == n or abs(diagonal) == n or abs(antidiag) == n):
+                return player
+            return 0
+        
+        result = 0
+        for i,m in enumerate(moves):
+            if i%2 == 0:
+                result = move(m[0],m[1],1)
+            else:
+                result = move(m[0],m[1],-1)
+        
+        if result == 1:
+            return "A"
+        elif result == -1:
+            return "B"
+        elif len(moves) == 9:
+            return "Draw"
+        return "Pending"
+         
+        
+        
