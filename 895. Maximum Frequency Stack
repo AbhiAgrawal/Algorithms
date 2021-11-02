@@ -1,0 +1,48 @@
+class FreqStack:
+    ##O(1) and O(N) solution leetcode soln
+    
+    
+    def __init__(self):
+        self.freq=defaultdict(int)
+        self.group=defaultdict(list)
+        self.maxfreq=0
+    
+    def push(self, x):
+        f = self.freq[x]+1
+        self.freq[x]+=1
+        self.group[f].append(x)
+        if f>self.maxfreq:
+            self.maxfreq = f
+    
+    def pop(self):
+        val = self.group[self.maxfreq].pop()
+        self.freq[val]-=1
+        if len(self.group[self.maxfreq]) == 0:
+            self.maxfreq-=1
+        return val    
+    
+
+
+    
+    
+    #### O(logN) and O(N) solution ##https://leetcode.com/problems/maximum-frequency-stack/discuss/163435/Python-Simple-PriorityQueue
+#     def __init__(self):
+#         self.heap = []
+#         self.m = collections.defaultdict(int)
+#         self.counter = 0
+        
+#     def push(self, x):
+#         self.m[x]+=1
+#         heapq.heappush(self.heap,(-self.m[x], counter x))
+#         self.counter+=1
+    
+#     def pop(self):
+#         toBeRemoved = heapq.heappop(self.heap)
+#         self.m[toBeRemoved[2]]-=1 ##contraints : It is guaranteed that there will be at least one element in the stack before calling pop.
+#         return toBeRemoved[2]
+
+
+# Your FreqStack object will be instantiated and called as such:
+# obj = FreqStack()
+# obj.push(val)
+# param_2 = obj.pop()
