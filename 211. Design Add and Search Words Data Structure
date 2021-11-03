@@ -1,0 +1,46 @@
+class Trie:
+
+    def __init__(self):
+        self.end=False
+        self.c = {}
+
+
+class WordDictionary:
+
+    def __init__(self):
+        self.root = Trie()
+        
+
+    def addWord(self, word: str) -> None:
+        node=self.root
+        for w in word:
+            if w not in node.c:
+                node.c[w] = Trie()
+            node = node.c[w]
+        node.end = True    
+
+    def search(self, word: str) -> bool:
+        node = self.root
+        stack=[]
+        stack.append([node,0])
+        while stack:
+            node,i = stack.pop()
+            
+            if i == len(word): ##we reached the end
+                ##we cant put return node.end.. try for inserting made instead of mad.. it will give wrong result
+                if node.end:
+                    return True##whethere word is ending there 
+            
+            elif word[i] == '.':
+                for child in node.c:
+                    stack.append([node.c[child], i+1])
+            elif word[i] in node.c:  
+                stack.append([node.c[word[i]],i+1])
+        return False    
+        
+
+
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
