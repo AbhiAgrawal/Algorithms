@@ -1,0 +1,57 @@
+class Trie:
+    
+    ##similar to https://leetcode.com/problems/implement-trie-prefix-tree/
+    def __init__(self):
+        self.count=0 ##this includes total prefixes as well
+        self.c = {}
+        self.end_count = 0 ##this includes only words ending basically total occurenes of words
+        
+
+    def insert(self, word: str) -> None:
+        node = self
+        for w in word:
+            if w not in node.c:
+                node.c[w] = Trie()
+            node = node.c[w]
+            node.count+=1 ##every letter needs to be added
+        node.end_count += 1    
+        
+    def prefixWord(self, word: str) -> None:
+        node = self
+        for w in word:
+            if w not in node.c:
+                return None
+            node = node.c[w]
+        return node    
+    
+    
+    def countWordsEqualTo(self, word: str) -> int:
+        node = self.prefixWord(word)
+        if not node:
+            return 0
+        return node.end_count
+        
+
+    def countWordsStartingWith(self, prefix: str) -> int:
+        node = self.prefixWord(prefix)
+        if not node:
+            return 0
+        return node.count    
+        
+
+    def erase(self, word: str) -> None:
+        node = self
+        for w in word:
+            if w not in node.c:
+                node.c[w] = Trie()
+            node = node.c[w]
+            node.count-=1 ###every letter needs to be subtracted
+        node.end_count-=1
+
+
+# Your Trie object will be instantiated and called as such:
+# obj = Trie()
+# obj.insert(word)
+# param_2 = obj.countWordsEqualTo(word)
+# param_3 = obj.countWordsStartingWith(prefix)
+# obj.erase(word)
