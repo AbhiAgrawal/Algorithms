@@ -1,0 +1,52 @@
+class Node:
+    def __init__(self):
+        self.children = {}
+        self.contents=""
+###typical trie https://leetcode.com/problems/design-in-memory-file-system/discuss/426854/python-scalable-trie-solution
+class FileSystem:
+
+    def __init__(self):
+        self.root = Node()
+        
+
+    def find(self, path:str) -> Node:
+        node = self.root
+        if len(path) == 1:##ex "/"
+            return self.root
+    
+        for p in path.split("/")[1:]:
+            if p not in node.children:
+                node.children[p] = Node()
+            node = node.children[p]
+        return node    
+        
+    def ls(self, path: str) -> List[str]:
+        node = self.find(path)
+        if node.contents: ##if contents exists that means last node is filename
+            path_list = path.split("/")
+            return [path_list[-1]] ##return filename open close brackets ar eimportant
+        return sorted(node.children.keys()) ##return all children under that node in sorted order
+            
+        
+
+    def mkdir(self, path: str) -> None:
+        node = self.find(path) ## find method already does that of creating folders if not present
+        
+
+    def addContentToFile(self, filePath: str, content: str) -> None:
+        node = self.find(filePath) ### find the file and then add the contents
+        node.contents+= content ###appends the given content to original content.
+        
+        
+
+    def readContentFromFile(self, filePath: str) -> str:
+        node = self.find(filePath) ##get the file and retrieve the contents
+        return node.contents
+
+
+# Your FileSystem object will be instantiated and called as such:
+# obj = FileSystem()
+# param_1 = obj.ls(path)
+# obj.mkdir(path)
+# obj.addContentToFile(filePath,content)
+# param_4 = obj.readContentFromFile(filePath)
