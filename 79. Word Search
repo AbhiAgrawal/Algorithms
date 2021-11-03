@@ -1,0 +1,32 @@
+class Solution:
+    ##https://leetcode.com/problems/word-search/discuss/27660/Python-dfs-solution-with-comments.
+    ##backtracking(dfs)
+    ##check tc and sc in leetcode soltion O(N.3^L) and O(N)
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        
+        if not board:
+            return False
+        if not word:
+            return False
+        
+        def dfs(board, i, j, word):
+            if len(word) == 0: ##all characters are checked
+                return True
+            if i<0 or i>=len(board) or j<0 or j>=len(board[0]) or board[i][j]!=word[0]:
+                return False
+            
+            tmp = board[i][j] ##backtracking kicks in save the data of current letter in board
+            board[i][j] = '#' ###to make sure we dont check already visited cells
+            
+            res = dfs(board, i+1, j, word[1:]) or dfs(board, i, j+1, word[1:]) or dfs(board, i-1, j, word[1:]) or dfs(board, i, j-1, word[1:])
+            
+            board[i][j] = tmp ##after all letters are checked.. reset the letter of next orund of entire dfs
+            return res
+            
+        
+        for row in range(len(board)):
+            for col in range(len(board[0])):
+                if dfs(board,row,col,word):
+                    return True
+        return False        
+        
