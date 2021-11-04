@@ -1,0 +1,92 @@
+##check tc and sc in leetcode solution https://leetcode.com/problems/word-search-ii/discuss/59790/Python-dfs-solution-(directly-use-Trie-implemented).
+
+class TrieNode:
+    def __init__(self):
+        self.children={}
+        self.end=False
+        
+class Trie:
+    def __init__(self):
+        self.root=TrieNode()
+        
+    def insert(self, word: str)->None:
+        node = self.root
+        for w in word:
+            if w not in node.children:
+                node.children[w] = TrieNode()
+            node = node.children[w]
+        node.end = True    
+        
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+        
+        result=[]
+    
+        def dfs(board, i,j, path, node):
+            if node.end:
+                result.append(path)
+                node.end = False ##since we have already encountered
+            
+            if i<0 or i>=len(board) or j<0 or j>=len(board[0]):
+                return
+            
+            tmp = board[i][j]
+            if tmp not in node.children:
+                return
+            node = node.children[tmp]
+           
+            board[i][j]="#"
+            dfs(board, i+1,j,path+tmp, node)
+            dfs(board, i,j+1,path+tmp, node)
+            dfs(board, i-1,j,path+tmp, node)
+            dfs(board, i,j-1,path+tmp, node)
+            board[i][j]=tmp
+            
+        for row in range(len(board)):
+            for col in range(len(board[0])):
+                dfs(board, row, col, "", trie.root) ##start from root node..
+                
+        return result
+
+    
+    
+    
+    ##we can do same. as 79. https://leetcode.com/problems/word-search/ run a for loop for each word
+##below soln will throw tle for large number of words
+#     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+#         if not board:
+#             return False
+#         if not words:
+#             return False
+        
+#         result=[]
+#         def dfs(board, i, j, word):
+#             if len(word) == 0: ##all characters are checked
+#                 return True
+#             if i<0 or i>=len(board) or j<0 or j>=len(board[0]) or board[i][j]!=word[0]:
+#                 return False
+            
+#             tmp = board[i][j] ##backtracking kicks in save the data of current letter in board
+#             board[i][j] = '#' ###to make sure we dont check already visited cells
+            
+            
+#             res = dfs(board, i+1, j, word[1:]) or dfs(board, i, j+1, word[1:]) or dfs(board, i-1, j, word[1:]) or dfs(board, i, j-1, word[1:])
+            
+#             board[i][j] = tmp ##after all letters are checked.. reset the letter of next orund of entire dfs
+#             return res
+        
+#         def check_word_in_board(word):
+#             for row in range(len(board)):
+#                 for col in range(len(board[0])):
+#                     if dfs(board,row,col,word):
+#                         return True
+        
+#         for word in words:
+#             if check_word_in_board(word):
+#                 result.append(word)
+#                 continue
+#         return result 
