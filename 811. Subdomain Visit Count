@@ -1,0 +1,17 @@
+class Solution:
+    def subdomainVisits(self, cpdomains: List[str]) -> List[str]:
+        domain_to_count=defaultdict(int)
+        
+        for count_domain in cpdomains:
+            count,domain = map(str,count_domain.split(' ')) ##split into 2 
+            cnt = int(count)
+            split_domains = domain.split('.')
+            for i in range(len(split_domains)):
+                domain_to_count[".".join(split_domains[i:])]+=cnt
+        
+        result=[]
+        for domain,count in domain_to_count.items():
+            result.append(str(count)+ " "+ domain)
+        
+        return result
+        
