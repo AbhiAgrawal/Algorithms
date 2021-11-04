@@ -1,0 +1,26 @@
+class Solution:
+    ##https://leetcode.com/problems/alert-using-same-key-card-three-or-more-times-in-a-one-hour-period/discuss/876864/JavaPython-3-HashMapdict-%2B-Sliding-Window.
+    def alertNames(self, keyName: List[str], keyTime: List[str]) -> List[str]:
+        name_to_times = defaultdict(list)
+        ##build map name to various times in minutes
+        for name, time in zip(keyName, keyTime):
+            time_min_str = time.split(":")
+            time_min = int(time_min_str[0])*60+int(time_min_str[1])
+            name_to_times[name].append(time_min)
+        
+        ##now sort and see the time windows of 3 using dequeue
+        result=[]
+        for name, time_list in name_to_times.items():
+            time_list.sort()    
+            q = deque()    
+            for time in time_list:
+                q.append(time)
+                if q[-1] - q[0]>60:
+                    q.popleft()
+                if len(q)==3:
+                    result.append(name)
+                    break
+        return sorted(result)           
+                    
+            
+            
