@@ -1,0 +1,28 @@
+class Solution:
+    ##nciely explained https://leetcode.com/problems/longest-happy-string/discuss/564248/Python-HEAP-solution-with-explanation/494260
+    def longestDiverseString(self, a: int, b: int, c: int) -> str:
+        ##build max priority queue using min heap
+        count_arr=[['a',a],['b',b],['c',c]]
+        pq=[]
+        for c,count in count_arr:
+            if count != 0: ##only put is count is not 0.. 
+                heapq.heappush(pq,(-count,c))
+        
+        res=[]
+        while pq: ###pq is not empty
+            count, token = heapq.heappop(pq) 
+            if len(res)>=2 and res[-2] == res[-1] == token:
+                if not pq: ##no more characters rem in pq
+                    break
+                count, token = heapq.heapreplace(pq,(count, token)) ##this will first pop another item and then push current item 
+
+            res.append(token)
+            count=count+1 ##since count is stored as neg
+            if count !=0: ##count is not 0 add back the popped item
+                heapq.heappush(pq,(count,token))
+        return "".join(res)    
+        
+        
+        
+        
+        
