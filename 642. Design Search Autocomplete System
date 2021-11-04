@@ -1,0 +1,61 @@
+class TrieNode:
+    def __init__(self):
+        self.children={}
+        self.end = False
+        self.count=0
+
+
+class AutocompleteSystem:
+    ##https://leetcode.com/problems/design-search-autocomplete-system/discuss/460803/Python-Trie-Solution-easy-to-understand-with-explanation
+
+    def __init__(self, sentences: List[str], times: List[int]):
+        self.searchTerm=""
+        self.root = TrieNode()       
+        
+        for i in range(len(sentences)):
+            self.addTerms(sentences[i], times[i])
+            
+    def addTerms(self, sentence: str, times: int)->None:
+        curr = self.root
+        for s in sentence:
+            if s not in curr.children:
+                curr.children[s] = TrieNode()
+            curr = curr.children[s]
+        curr.end = True
+        curr.count+=times
+        
+    def search(self)-> List[str]:    
+        curr = self.root
+        result=[]
+        for s in self.searchTerm:
+            if s not in curr.children:
+                return result
+            curr = curr.children[s]
+        path = self.searchTerm
+        
+        self.dfs(curr, path, result)
+        
+        return [item[1] for item in sorted(result)[:3]]
+    
+    def dfs(self, node: TrieNode, path: str, res:List[str])->None:
+        if node.end:
+            res.append([-node.count,path])
+        
+        for c in node.children:
+            self.dfs(node.children[c], path+c, res)
+
+        
+    def input(self, c: str) -> List[str]:
+        if c == "#":
+            self.addTerms(self.searchTerm,1)
+            self.searchTerm = ""
+            return []
+        else:
+            self.searchTerm+=c
+            return self.search()
+        
+
+
+# Your AutocompleteSystem object will be instantiated and called as such:
+# obj = AutocompleteSystem(sentences, times)
+# param_1 = obj.input(c)
