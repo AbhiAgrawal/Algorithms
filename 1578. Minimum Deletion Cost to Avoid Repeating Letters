@@ -1,0 +1,14 @@
+class Solution:
+    def minCost(self, s: str, cost: List[int]) -> int:
+        totalCost = 0
+        s = s+"#" ##just dummy at the end
+        l = 0
+        for r in range(1,len(s)):
+            if s[r]!=s[l]:
+                if r-l > 1: ##2 or more repeated characters
+                    lst = cost[l:r] ##these have repeated characters
+                    totalCost+=(sum(lst) - max(lst)) ##just remove max element and take sunm of rest
+                l=r ##move l to r as they are non different so reset l to latest position
+        return totalCost    
+            
+        
