@@ -1,0 +1,25 @@
+class Solution:
+    ##https://leetcode.com/problems/restore-ip-addresses/discuss/31211/Adding-a-python-solution-also-requesting-for-improvement
+    ##backtracking but i prefer for loop above https://leetcode.com/problems/restore-ip-addresses/discuss/31140/Python-easy-to-understand-solution-(backtracking)
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        result=[]
+        
+        def is_valid(lst):
+            for i in lst:
+                if i[0] =="0" and i!="0":
+                    return False
+                if not 0<=int(i)<=255:
+                    return False
+            return True    
+        
+        for i in [1,2,3]:
+            for j in [i+1,i+2,i+3]:
+                for k in [j+1,j+2,j+3]:
+                    if k>=len(s):###k already reached the end of string
+                        continue
+                    lst = [s[:i],s[i:j],s[j:k],s[k:]]
+                    if is_valid(lst):
+                        result.append(".".join(lst))
+        return result               
+        
+        
