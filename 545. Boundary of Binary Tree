@@ -1,0 +1,51 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+##dont get scared v simple https://leetcode.com/problems/boundary-of-binary-tree/discuss/577130/Python-3%3A-left-(iterative)-right-(iterative)-leaves-(DFS)-approach
+class Solution:
+    def boundaryOfBinaryTree(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        if not root.left and not root.right:
+            return [root.val]
+        
+        top = [root.val]
+        
+        ##left
+        node = root.left
+        left=[]
+        while node:
+            left.append(node.val)
+            if node.left:
+                node = node.left
+            else:##go to right
+                node = node.right     
+        left = left[:-1] ##skip last element as its leaf    
+        
+        ##right
+        node = root.right
+        right=[]
+        while node:
+            right.append(node.val)
+            if node.right:
+                node = node.right
+            else:##go to left
+                node = node.left
+        right = right[:-1] ##skip last element as its leaf        
+        
+        leaves = self.getLeaves(root)
+        
+        return [root.val]+left+leaves+right[::-1] ##right in reverse order
+    
+    def getLeaves(self, root: Optional[TreeNode]) -> List[int]:
+        if root is None:
+            return []
+        if root.left is None and root.right is None:
+            return [root.val]
+        return self.getLeaves(root.left) + self.getLeaves(root.right)
+        
+        
+        
