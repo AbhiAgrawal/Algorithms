@@ -1,0 +1,34 @@
+class Solution:
+    def validIPAddress(self, IP: str) -> str:
+        ipv4_output="IPv4"
+        ipv6_output="IPv6"
+        neither="Neither"
+        
+        if "." in IP: ##potentially IPV4
+            split_ips = IP.split('.')
+            if len(split_ips) !=4:
+                return neither
+            for i in split_ips:
+                if not i.isnumeric(): ##characters other than number
+                    return neither
+                if not (0<=int(i)<=255): ##not in between 0 and 255
+                    return neither
+                if i[0] == '0' and len(i)>1:##;eading zeros
+                    return neither
+            return ipv4_output
+        if ":" in IP: ##potentially IPV6
+            split_ips = IP.split(':')
+            if len(split_ips) !=8:
+                return neither
+            for i in split_ips:
+                if not (1<=len(i)<=4):###1 <= xi.length <= 4
+                    return neither
+                for c in i:###xi is a hexadecimal string which may contain digits, lower-case English letter ('a' to 'f') and upper-case English letters ('A' to 'F').
+                    if c not in "0123456789abcdefABCDEF":
+                        return neither
+            return ipv6_output
+        return neither
+        
+                
+            
+        
