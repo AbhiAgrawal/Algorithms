@@ -1,0 +1,19 @@
+class Solution:
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        ##continuously find max start and min end
+        points.sort() ##sorting based on 0th index
+        max_start, min_end = points[0][0],points[0][1] ##add 1,6
+        arrows = 1
+        for start,end in points[1:]:
+            if max_start<=start<=min_end or max_start<=end<=min_end: ##since 1<=2<=6 or 1<=8<=6
+                ##so new range is 2,6
+                max_start = max(max_start,start) ##max_start is 2
+                min_end = min(min_end,end) ##min_end is 6
+            else:
+                ##no common so arrows+=1 and update max_start and min_end
+                arrows+=1
+                max_start,min_end = start,end
+                
+        return arrows        
+                
+        
