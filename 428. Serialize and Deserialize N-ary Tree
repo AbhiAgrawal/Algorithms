@@ -1,0 +1,55 @@
+"""
+# Definition for a Node.
+class Node(object):
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+#https://leetcode.com/problems/serialize-and-deserialize-n-ary-tree/discuss/1369291/428-Python3-Neat-DFS-and-BFS
+class Codec:
+    def serialize(self, root: 'Node') -> str:
+        """Encodes a tree to a single string.
+
+        :type root: Node
+        :rtype: str
+        """
+        res = collections.deque()
+        q = collections.deque([root])
+
+        while q:
+            node = q.popleft()
+            if node:
+                res.append(node.val)
+                res.append(len(node.children))
+                for child in node.children:
+                    q.append(child)
+
+        output = " ".join(str(x) for x in res) if res else ""
+
+        return output
+
+    def deserialize(self, data: str) -> 'Node':
+        """Decodes your encoded data to tree.
+
+        :type data: str
+        :rtype: Node
+        """
+        if not data:
+            return None
+
+        data = collections.deque(data.split())
+        root = Node(int(data.popleft()), [])
+        num_children = int(data.popleft())
+        q1 = collections.deque([root])  # to place nodes
+        # to place length of node.children
+        q2 = collections.deque([num_children])
+
+        while q1 and q2:
+            node, num_children = q1.popleft(), q2.popleft()
+            for _ in range(num_children):
+                child, num = Node(int(data.popleft()), []), int(data.popleft())
+                node.children.append(child)
+                q1.append(child)
+                q2.append(num)
+
+        return root
