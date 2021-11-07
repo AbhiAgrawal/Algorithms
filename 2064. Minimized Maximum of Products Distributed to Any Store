@@ -1,0 +1,26 @@
+class Solution:
+    ##similar https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+###https://leetcode.com/problems/minimized-maximum-of-products-distributed-to-any-store/discuss/1563722/Python-short-binary-search-explained
+    def minimizedMaximum(self, n, Q):
+        left,right = 1,sum(Q)
+        
+        def feasible(mid):
+            store = 0
+            for q in Q:
+                store+=(ceil(q/mid))
+            if store<=n:
+                return True
+            return False    
+        
+
+        while left<right:
+            mid = left+(right-left)//2
+            pair = [left,right]
+            if feasible(mid):
+                right = mid
+            else:
+                left = mid+1
+            if pair[0] == left and pair[1] == right:
+                return left
+        return left
+        
