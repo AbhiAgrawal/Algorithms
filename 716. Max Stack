@@ -1,0 +1,53 @@
+class MaxStack:
+    ##this is o(log n ) solution but have to go through it https://leetcode.com/problems/max-stack/discuss/140017/Fast-and-Simple-Python-Solution-(lazy-updates-beating-100)
+    
+    
+    
+    ###below is O(1) for each but popmax is O(n)
+    ###follow up is tricky.. similar to https://leetcode.com/problems/min-stack/ but popmax is tricky.. you need to pop the maximu element as well
+    def __init__(self):
+        self.stack=[]
+        
+
+    def push(self, x: int) -> None:
+        if self.stack:
+            self.stack.append([x, max(x,self.stack[-1][1])])
+        else:
+            self.stack.append([x,x])
+        
+
+    def pop(self) -> int:
+        return self.stack.pop()[0]
+        
+
+    def top(self) -> int:
+        return self.stack[-1][0]
+        
+
+    def peekMax(self) -> int:
+        return self.stack[-1][1]
+        
+
+    def popMax(self) -> int:
+        temp_stack=[]
+        result = -inf
+        while True:
+            if self.stack[-1][0] != self.stack[-1][1]:
+                temp_stack.append(self.pop())
+            else: ##we got the max value
+                result = self.stack.pop()[0]
+                break
+                
+        while temp_stack:
+            self.push(temp_stack.pop())
+        return result
+        
+
+
+# Your MaxStack object will be instantiated and called as such:
+# obj = MaxStack()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.peekMax()
+# param_5 = obj.popMax()
