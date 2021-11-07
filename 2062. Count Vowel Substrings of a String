@@ -1,0 +1,22 @@
+class Solution:
+    ###below is O(n2)
+    def countVowelSubstrings(self, word: str) -> int:
+        if len(word)<5:
+            return 0
+        counter = Counter(word[:5])
+        
+        total_count = 0 
+        for i in range(len(word)-4):
+            if word[i] not in "aeiou":
+                continue
+            for j in range(i+5,len(word)+1):
+                if word[j-1] not in "aeiou":
+                    continue
+                cnter = Counter(word[i:j])
+                if cnter['a']>0 and cnter['e']>0 and cnter['i']>0 and cnter['o']>0 and cnter['u']>0 and len(cnter.keys()) == 5:
+                    total_count+=1           
+        return total_count            
+        
+        
+        
+        
