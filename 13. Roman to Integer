@@ -1,0 +1,17 @@
+class Solution:
+    ##just go from left to right and first check first 2 characters if not there then check first char
+    def romanToInt(self, s: str) -> int:
+        rom_to_int = {"M":1000,"CM":900,"D":500,"CD":400,"C":100,"XC":90,"L":50,"XL":40,"X":10,"IX":9,"V":5,"IV":4,"I":1}        
+        if s in rom_to_int:
+            return rom_to_int[s]
+        res=0
+        i=0
+        while s:
+            if len(s)>=2 and s[0:2] in rom_to_int: ##check first 2 characters
+                res+=rom_to_int[s[0:2]] ###add to result
+                s = s[2:] ##shrink
+            else:
+                res+=rom_to_int[s[0]]##add to res
+                s = s[1:] ##shrink
+        return res        
+        
