@@ -1,0 +1,16 @@
+class Solution:
+    ##check leetcode O(n) O(n) solution approach.1..basically maintain two arrays MaxLeft[N] and MinRight[N]
+    ###and then in 3rd iteration look for if (maxLeft[i - 1] <= minRight[i]) 
+    
+    #https://leetcode.com/problems/partition-array-into-disjoint-intervals/discuss/175904/Explained-Python-simple-O(N)-time-O(1)-space/1020150 orignal post has the explanation
+    def partitionDisjoint(self, A: List[int]) -> int:
+        disjoint=0
+        max_so_far=A[0]
+        leftMax=A[0]
+        for i,val in enumerate(A):
+            max_so_far = max(val,max_so_far)
+            
+            if leftMax>A[i]:##we should include i in left partiton
+                disjoint=i
+                leftMax = max_so_far
+        return disjoint+1##index is disjoint but lenght of left will be +1        
