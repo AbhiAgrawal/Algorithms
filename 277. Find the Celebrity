@@ -1,0 +1,42 @@
+# The knows API is already defined for you.
+# return a bool, whether a knows b
+# def knows(a: int, b: int) -> bool:
+
+class Solution:
+    ##see leetcode approach 2 .. very nicely explained
+    ##https://leetcode.com/problems/find-the-celebrity/discuss/71228/JavaPython-O(n)-calls-O(1)-space-easy-to-understand-solution
+    def findCelebrity(self, n: int) -> int:
+        x = 0
+        for i in range(1,n):
+            if knows(x,i):
+                x=i 
+        ##x is potential candidate..
+        for i in range(n):
+            if x != i and knows(x,i): ##if 
+                return -1
+        
+        for i in range(n):
+            if x !=i and not knows(i,x):
+                return -1
+        
+        return x
+    
+    
+    
+    ##might be o(n2) solution
+    # def findCelebrity(self, n: int) -> int:
+    #     not_celebrity=set()
+    #     for i in range(n):
+    #         count = 0
+    #         if i in not_celebrity:
+    #             continue
+    #         for j in range(n):
+    #             if i == j: continue ##no point node if celebrity knows himself
+    #             if knows(i,j): break ##if node knows anyone just break.. this means def he is not celebrity
+    #             if knows(j,i):
+    #                 not_celebrity.add(j)
+    #                 count+=1
+    #         if count == n-1: ##should have n-1 directed edges
+    #             return i
+    #     return -1   
+        
