@@ -1,0 +1,11 @@
+class Solution:
+    ##amazing solutions
+    def maxChunksToSorted(self, A: List[int]) -> int:
+        ##basically maintain 2 sums s1 and s2. s1 is current arr and s2 is maintainting sorted arr .. if s1==s2 that means all the numbers previous to that needs to be put in 1 chunk..
+        res, s1, s2 = 0, 0, 0
+        for a, b in zip(A, sorted(A)): ##ex: zip([4,1,2,5,20,3,10,40],[1,2,5,20,3,10,40])
+            s1 += a
+            s2 += b
+            if s1 == s2:##first time s1==s2 at index 6 i.e 10 from 0 to 6 is one chunk
+                res+=1
+        return res
