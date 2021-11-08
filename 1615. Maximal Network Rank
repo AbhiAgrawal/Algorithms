@@ -1,0 +1,27 @@
+class Solution:
+    ##just find number connections for each pair.. if pair itself has connection to each other count as 1
+    def maximalNetworkRank(self, n: int, roads: List[List[int]]) -> int:
+        ##https://leetcode.com/problems/maximal-network-rank/discuss/888983/Clean-Python-3-hashmap-O(N2)
+        connected=defaultdict(set)
+        
+        for n1,n2 in roads:
+            connected[n1].add(n2)
+            connected[n2].add(n1)
+            
+        maximum=0
+        
+        
+        for i in range(n):
+            for j in range(i+1,n):
+                connected_len = len(connected[i])+len(connected[j])
+                if j in connected[i]:## If a road is directly connected to both cities, it is only counted once.
+                    connected_len-=1
+                maximum = max(connected_len, maximum)    
+        return maximum        
+            
+            
+            
+        
+        
+        
+        
