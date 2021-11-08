@@ -22,7 +22,7 @@ class Solution:
                     node_parent_tuple.append([child,node])
         
         total=0
-        for node,parent in node_parent_tuple[1:]:
+        for node,parent in reversed(node_parent_tuple[1:]):
             deficit = node.val-1
             parent.val+=deficit
             total+=abs(deficit)
