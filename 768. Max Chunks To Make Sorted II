@@ -2,7 +2,7 @@ class Solution:
     ##amazing solutions
     def maxChunksToSorted(self, A: List[int]) -> int:
         ##this is O(n) and O(n)
-        ##https://leetcode.com/problems/max-chunks-to-make-sorted-ii/discuss/113465/JavaPython-Easy-and-Straight-Froward/767548
+        ##https://leetcode.com/problems/max-chunks-to-make-sorted-ii/discuss/1158845/Python3-stack-O(n)-8-lines-56ms-100
         
         
         
