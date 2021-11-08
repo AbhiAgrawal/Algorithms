@@ -1,0 +1,33 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+##bfs solution https://leetcode.com/problems/distribute-coins-in-binary-tree/discuss/668052/Python-bfs-bottom-up-solution
+    
+    #     Below is the basic intuition behind this problem:
+
+# Root asks the left subtree, how much do you need or you've got extra? I'll give that/take it away to/from you via our direct edge, and pass it to right child, and if something remains, I'll take it.
+# Same question is asked to the right child.
+# Answer will be the sum of values(absolute) returned after the asked questions from the left(Left) and right(Right).
+# But what should the root return to its parent? It will return that how much does "his tree" need/has extra. That will be the signed sum of its Left+Right (question's answer) + same question asked to current root node.
+    def distributeCoins(self, root: Optional[TreeNode]) -> int:
+        node_parent_tuple=[]
+        node_parent_tuple.append([root,None])
+        for node, parent in node_parent_tuple:
+            for child in (node.left,node.right):
+                if child:
+                    node_parent_tuple.append([child,node])
+        
+        total=0
+        for node,parent in node_parent_tuple[1:]:
+            deficit = node.val-1
+            parent.val+=deficit
+            total+=abs(deficit)
+        
+        return total
+            
+            
+        
