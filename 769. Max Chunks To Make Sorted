@@ -1,0 +1,16 @@
+class Solution:
+    ###excellend explanation https://leetcode.com/problems/max-chunks-to-make-sorted/discuss/1225805/Python-Easy-Sol(28ms)-with-Detailed-Explanation
+    def maxChunksToSorted(self, arr: List[int]) -> int:
+        max_so_far = arr[0]
+        chunks=0
+        for i,val in enumerate(arr):
+            if max_so_far<val:
+                max_so_far=val
+            if i == max_so_far:
+                chunks+=1
+        return chunks       
+        
+                
+        
+        
+        
