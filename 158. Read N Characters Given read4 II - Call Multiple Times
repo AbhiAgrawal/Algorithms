@@ -1,0 +1,22 @@
+# The read4 API is already defined for you.
+# def read4(buf4: List[str]) -> int:
+##https://leetcode.com/problems/read-n-characters-given-read4-ii-call-multiple-times/discuss/989807/Clean-Python-solution
+class Solution:
+    
+    def __init__(self):
+        self.buf4 = [''] * 4
+        self.i4 = 0
+        self.count = 0
+        
+    def read(self, buf: List[str], n: int) -> int:
+        read = 0
+        while read < n:
+            if self.i4 == self.count:
+                self.i4 = 0
+                self.count = read4(self.buf4)
+                if self.count == 0:
+                    break
+            buf[read] = self.buf4[self.i4]
+            self.i4 += 1
+            read += 1
+        return read
