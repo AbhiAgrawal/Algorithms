@@ -1,0 +1,8 @@
+class Solution:
+    ##https://leetcode.com/problems/minimum-moves-to-equal-array-elements-ii/discuss/94932/Why-median-is-better-than-average/99363
+    ##similar to https://leetcode.com/problems/minimum-moves-to-equal-array-elements/
+    def minMoves2(self, nums: List[int]) -> int:
+        median = sorted(nums)[len(nums) // 2]##we can find find median in o(n) using quick select
+        return sum(abs(num - median) for num in nums) 
+        
+        
