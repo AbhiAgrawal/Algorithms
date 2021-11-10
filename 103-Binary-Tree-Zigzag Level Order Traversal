@@ -22,10 +22,9 @@ class Solution:
             
             for i in range(level_length):
                 node = queue.popleft()
-                if node.left is not None:
-                    queue.append(node.left)
-                if node.right is not None:
-                    queue.append(node.right)
+                for child in [node.left,node.right]:
+                    if child:
+                        queue.append(child)
                 levels[level].append(node.val)
             level +=1
             
