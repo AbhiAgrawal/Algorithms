@@ -1,0 +1,21 @@
+class Solution:
+    ###similar to https://leetcode.com/problems/longest-happy-string/
+    def strWithout3a3b(self, a: int, b: int) -> str:
+        pq=[]
+        heapq.heappush(pq,[-a,'a'])  
+        heapq.heappush(pq,[-b,'b'])
+        res=[]
+        while pq:
+            count, token = heapq.heappop(pq)  
+            if len(res)>=2 and res[-2] == res[-1] == token:
+                if not pq: ##pq is empty
+                    break
+                else:     
+                    count, token = heapq.heapreplace(pq,[count, token])        
+            res.append(token)
+            count+=1
+            if count != 0:
+                heapq.heappush(pq,[count, token])    
+        return "".join(res)        
+        
+        
