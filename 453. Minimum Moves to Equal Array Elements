@@ -1,0 +1,12 @@
+class Solution:
+    ###https://leetcode.com/problems/minimum-moves-to-equal-array-elements/discuss/146855/One-Line-Python
+    ##incrementing n-1 elements by 1 is equivalent to decrement one element by 1
+    ##so basically find number of decremeentns to match min val
+    ### 1,2,3 ---> (3-1) + (2-1) is number of moves... this is equivalent (3+2) - 2*1 ..this is equivalent to 
+    ###(sum-min) - (length-1)*min
+    
+    
+    
+    def minMoves(self, nums: List[int]) -> int:
+        minimum = min(nums)
+        return (sum(nums)-minimum) - (len(nums)-1)*minimum
