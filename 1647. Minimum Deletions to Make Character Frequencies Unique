@@ -13,7 +13,7 @@ class Solution:
             else:
                 if prev_max != 0: ##not making prev_max  negative
                     prev_max = prev_max - 1 ###calc prev_max
-                count= count + abs(nums[i] - prev_max) ##calc number of deletions of that char
+                count+= nums[i] - prev_max ##calc number of deletions of that char
                 
         
         return count
