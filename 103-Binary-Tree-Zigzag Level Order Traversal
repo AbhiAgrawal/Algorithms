@@ -10,32 +10,27 @@ class Solution:
         if root is None:
             return []
         
-        levels = []
+        levels = defaultdict(list)
         
         queue = deque()
         level_length = 0
         level = 0
-        queue.append(root)
+        queue.append([root,1])
         while queue:
-            level_length = len(queue)
-            levels.append([])
-            
-            for i in range(level_length):
-                node = queue.popleft()
-                for child in [node.left,node.right]:
+            node,level = queue.popleft()
+            levels[level].append(node.val)
+            for child in [node.left,node.right]:
                     if child:
-                        queue.append(child)
-                levels[level].append(node.val)
-            level +=1
-            
-        #####below lines are only differeny from binary-tree-level-order-traversal/     
-        if len(levels) <= 1:
-            return levels
-        ### from 1 to len -1 reverse the list incr by 2
-        for i in range(1,len(levels),2):
-            levels[i] = levels[i][::-1]
-            
-        return levels
+                        queue.append([child,level+1])
+        output=[]
+        count=1
+        while len(levels[count]) !=0:
+            if count%2 == 0:
+                output.append(levels[count][::-1])
+            else:
+                output.append(levels[count])
+            count+=1      
+        return output
             
             
         
