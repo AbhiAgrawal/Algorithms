@@ -1,0 +1,22 @@
+class Solution:
+    ##prereq https://leetcode.com/problems/longest-palindromic-subsequence/
+    ###see hints
+    def isValidPalindrome(self, s: str, k: int) -> bool:
+        n = len(s)
+        length = self.calcMaxLenLongComSubseqTable(s,n,s[::-1],n)
+        return (n-length)<=k 
+        
+   
+            
+    def calcMaxLenLongComSubseqTable(self, text1: str, n: int, text2: str, m: int) -> int:
+        DP = [[0 for i in range(m+1)] for j in range(n+1)]
+        for i in range(n+1):
+            for j in range(m+1):
+                if(i == 0 or j == 0):
+                    DP[i][j] = 0
+                elif(text1[i-1] == text2[j-1]):
+                    DP[i][j] = 1 + DP[i-1][j-1]
+                else:
+                    DP[i][j] = max(DP[i-1][j],DP[i][j-1])
+        return DP[n][m] 
+        
