@@ -1,0 +1,16 @@
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        N = len(grid)
+        dis = [[-1] * N for _ in range(N)]
+        dis[0][0]=1
+        q=deque()
+        if grid[0][0] == 0:
+            q.append([0,0])
+        while q:
+            r,c = q.popleft()
+            for i,j in [(r+1,c+1),(r,c+1),(r,c-1),(r+1,c),(r-1,c),(r-1,c-1),(r-1,c+1),(r+1,c-1)]:
+                if 0<=i<N and 0<=j<N and grid[i][j]==0 and dis[i][j]==-1:
+                    q.append([i,j])
+                    dis[i][j]=dis[r][c]+1
+        return dis[-1][-1]    
+        
