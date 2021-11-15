@@ -1,0 +1,51 @@
+class Solution:
+    def shortestBridge(self, grid: List[List[int]]) -> int:
+        m,n=len(grid), len(grid[0])
+        startI,startJ = -1,-1
+        
+        ##find a 1 
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    startI,startJ = i,j
+                    break
+        
+        ##find all ocnnected 1's . This is first island.. using dfs all connected 1s of one island
+        seen = set()
+        seen.add((startI, startJ))
+        stack=[]
+        stack.append((startI, startJ))
+        while stack:
+            (i,j)=stack.pop()
+            for (ii,jj) in [(i+1,j),(i-1,j),(i,j+1),(i,j-1)]:
+                if 0<=ii<m and 0<=jj<n and grid[ii][jj] == 1 and (ii,jj) not in seen:
+                    stack.append((ii, jj))
+                    seen.add((ii, jj))
+        
+        # bfs 
+        # ans = 0
+        # queue = list(seen)
+        # while queue:
+        #     newq = []
+        #     for i, j in queue: 
+        #         for ii, jj in (i-1, j), (i, j-1), (i, j+1), (i+1, j): 
+        #             if 0 <= ii < m and 0 <= jj < n and (ii, jj) not in seen: 
+        #                 if grid[ii][jj] == 1: return ans 
+        #                 newq.append((ii, jj))
+        #                 seen.add((ii, jj))
+        #     queue = newq
+        #     ans += 1
+        # return ans    
+        ##add all the seens in queue with distance starting at 0
+        q=deque()
+        for (i,j) in seen:
+            q.append((i,j,0))
+        while q:
+            (i,j, dist) = q.popleft()
+            for (ii,jj) in [(i+1,j),(i-1,j),(i,j+1),(i,j-1)]:
+                if 0<=ii<m and 0<=jj<n and (ii,jj) not in seen: 
+                    if grid[ii][jj] == 1:
+                        return dist
+                    q.append((ii,jj,dist+1))
+                    seen.add((ii,jj))
+        return -1  
