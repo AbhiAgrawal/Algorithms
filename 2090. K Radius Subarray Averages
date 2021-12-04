@@ -1,0 +1,20 @@
+class Solution:
+    
+    ##this is typical sliding window problem
+    def getAverages(self, nums: List[int], k: int) -> List[int]:
+        n = len(nums)
+        output=[-1]*n
+        if k==0: ###if k is 0.. its same as nums output ex: nums = [100000], k = 0
+            return nums
+        if n<2*k+1: ###ex: nums = [8], k = 100000.. if k =1, then n should be >=3
+            return output
+        
+        summ=sum(nums[0:2*k+1]) ##take intial sum ex: [7,4,3,9,1,8,5,2,6], k = 3 initial sum 7 + 4 + 3 + 9 + 1 + 8 + 5
+        output[k]=summ//(2*k+1)
+        start = 0 ##mark start of window
+        end = 2*k #end of window
+        for i in range(k+1,n-k):
+            summ=summ-nums[start]+nums[end+1]##remove 1st item since its out of window.. and end last item of new window that is end+1 index
+            output[i] = summ//(2*k+1)
+            start,end = start+1,end+1 ##move the sliding window
+        return output    
