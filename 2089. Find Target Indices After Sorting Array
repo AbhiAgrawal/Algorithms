@@ -1,0 +1,30 @@
+class Solution:
+    ##one of the best solutions https://leetcode.com/problems/find-target-indices-after-sorting-array/discuss/1608500/Python-O(n)-simplest-and-cleanest-solution
+    ##TC O(N)  SC O(1)
+    def targetIndices(self, nums: List[int], target: int) -> List[int]:
+        output=[]
+        count_less_than_target, count_equal_to_target = 0,0
+        for num in nums:
+            if num<target:
+                count_less_than_target+=1
+            elif num == target:    
+                count_equal_to_target +=1
+        for i in range(0,count_equal_to_target):
+            output.append(count_less_than_target+i)
+        return output    
+        
+    
+    
+    
+    
+    
+    ##below code is simple.. sort and then check indices of nums[i] == target
+    ###TC O(nlogn) SC O(n)
+#     def targetIndices(self, nums: List[int], target: int) -> List[int]:
+#         nums.sort()
+#         output=[]
+#         for i,v in enumerate(nums):
+#             if v == target:
+#                 output.append(i)
+#         return output        
+        
