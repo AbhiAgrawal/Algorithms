@@ -1,0 +1,21 @@
+class Solution:
+    ##simple solution
+    ##1. find minIndex and maxIndex
+    ##between minIndex and maxIndex, find startIndex and endIndex.. 
+    ##3 scenarios,.. remove both form left, remove both from right, remove one from left and one from right.. see what is min
+    def minimumDeletions(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n<=2:
+            return n
+        minIndex,maxIndex = 0,0
+        for i,v in enumerate(nums):
+            if v<nums[minIndex]:
+                minIndex = i
+            if v>nums[maxIndex]:    
+                maxIndex = i
+        
+        startIndex,endIndex = min(minIndex, maxIndex),max(minIndex, maxIndex)
+        
+        return min(endIndex+1, n-startIndex,startIndex+1+n-endIndex)
+                
+        
