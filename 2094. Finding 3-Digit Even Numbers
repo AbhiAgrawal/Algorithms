@@ -1,0 +1,16 @@
+class Solution:
+    def findEvenNumbers(self, digits: List[int]) -> List[int]:
+        output=set()
+        for i in range(len(digits)):
+            for j in range(len(digits)):
+                if i==j: ##indices should not be same
+                    continue
+                for k in range(len(digits)):
+                    if j==k or i==k:##indices should not be same
+                        continue
+                    if digits[i] == 0 or digits[k]%2 == 1: ##first digit should not be 0 and last digit should not be odd
+                        continue
+                    output.add(digits[i]*100+digits[j]*10+digits[k])
+        return sorted(list(output))            
+                    
+        
