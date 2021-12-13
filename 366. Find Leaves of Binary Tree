@@ -1,0 +1,31 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    ##https://leetcode.com/problems/find-leaves-of-binary-tree/discuss/83822/Python-short-and-clear-solution-with-one-DFS-and-building-solution-on-the-go/927995
+    def findLeaves(self, root: Optional[TreeNode]) -> List[List[int]]:
+        
+        
+        ans=[]
+        final_output=[]
+        
+        def recurse(node):
+            if not node:
+                return 
+            if node.left is None and node.right is None:
+                ans.append(node.val)
+                return 
+            
+            node.left = recurse(node.left)
+            node.right = recurse(node.right)
+            return node
+        
+        while root:
+            root = recurse(root)
+            final_output.append(list(ans))
+            ans.clear()
+        
+        return final_output
