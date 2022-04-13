@@ -1,0 +1,84 @@
+https://www.geeksforgeeks.org/find-the-minimum-positive-integer-such-that-it-is-divisible-by-a-and-sum-of-its-digits-is-equal-to-b/
+
+
+
+
+// Java implementation of the approach
+import java.util.*;
+class Solution
+{
+
+// Array that stores visited digits
+static int visited[][]= new int[501][5001];
+
+// Structure for queue Node.
+static class Node {
+	int a, b;
+	String str;
+	Node(int a1,int b1,String s)
+	{
+		a=a1;
+		b=b1;
+		str=s;
+	}
+}
+
+// Function to return the minimum number such that it is
+// divisible by 'a' and sum of its digits is equals to 'b'
+static int findNumber(int a, int b)
+{
+	// Create queue
+	Queue<Node> q= new LinkedList<Node>();
+
+	// Initially queue is empty
+	Node temp =new Node( 0, 0, "" );
+
+	// Initialize visited to 1
+	visited[0][0] = 1;
+
+	// Push temp in queue
+	q.add(temp);
+
+	// While queue is not empty
+	while (q.size()!=0) {
+
+		// Get the front of the queue and pop it
+		Node u = q.peek();
+		q.remove();
+
+		// If popped element is the required number
+		if (u.a == 0 && u.b == b)
+
+			// Parse int from string and return it
+			return Integer.parseInt(u.str);
+
+		// Loop for each digit and check the sum
+		// If not visited then push it to the queue
+		for (int i = 0; i < 10; i++) {
+			int dd = (u.a * 10 + i) % a;
+			int ss = u.b + i;
+			if (ss <= b && visited[dd][ss]==0) {
+				visited[dd][ss] = 1;
+				q.add(new Node( dd, ss, u.str + (char)('0' + i) ));
+			}
+		}
+	}
+
+	// Required number not found return -1.
+	return -1;
+}
+
+// Driver code.
+public static void main(String args[])
+{
+	//initialize visited
+	for(int i=0;i<500;i++)
+		for(int j=0;j<500;j++)
+			visited[i][j]=0;
+	
+	int a = 25, b = 1;
+	System.out.println(findNumber(a, b));
+	
+}
+}
+//contributed by Arnab Kundu
