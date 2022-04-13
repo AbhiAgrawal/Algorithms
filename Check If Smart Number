@@ -1,0 +1,60 @@
+
+A number is called smart iff it's digits can be partitioned into two sets, such that sum of both sets is equal. Forr example 52139 is a smart number since 5 + 2+ 3= 9 + 1, but 3288 isn't a smart number. Given a range [a , b], find the count of smart number within the range.
+
+constraint: a <= b <= 2 x 10 ^ 5
+
+Example 1 :
+Input : [1,100]
+Output: 9
+Explanation : 11,22, 33, 44,55,66,77,88,99 are the only smart numbers in this range.
+
+Example 2:
+Input: [1,1000]
+Output: 135
+
+
+public int checkAllSmartNumbersBetwA_B (int a, int b) {
+        int ans = 0;
+        for (int i = a;i<=b;i++) {
+            if (ifSmartNumber(i)) {
+                ans++;
+            }
+        }
+        return ans;
+
+    }
+
+    public boolean ifSmartNumber (int n) {
+        if (n < 10) { // smart number is only above 10
+            return false;
+        }
+        String str = String.valueOf(n);
+        int[] nums = new int[str.length()];
+        for (int i = 0;i < str.length();i++) {
+            nums[i] = Character.getNumericValue(str.charAt(i));
+        }
+        return canPartition(nums);
+    }
+
+
+    public boolean canPartition(int[] nums) {
+        int totalSum = 0;
+        // find sum of all array elements
+        totalSum = Arrays.stream(nums).sum();
+        // if totalSum is odd, cannot be partitioned
+        if (totalSum % 2 != 0) return false;
+        int subSetSum = totalSum / 2;
+        int n = nums.length;
+        boolean dp[][] = new boolean[n + 1][subSetSum + 1];
+        dp[0][0] = true;
+        for (int i = 1; i <= n; i++) {
+            int curr = nums[i - 1];
+            for (int j = 0; j <= subSetSum; j++) {
+                if (j < curr)
+                    dp[i][j] = dp[i - 1][j];
+                else
+                    dp[i][j] = dp[i - 1][j] || (dp[i - 1][j - curr]);
+            }
+        }
+        return dp[n][subSetSum];
+    }
