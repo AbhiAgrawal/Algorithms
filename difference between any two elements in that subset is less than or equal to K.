@@ -1,0 +1,39 @@
+Given an array of integers arr and another integer K, find the size of the largest subset in the array such that the difference between any two elements in that subset is less than or equal to K.
+I/P: arr = {12,32,43,12,15,8}, K = 30 => O/P: 5
+Constraints: 1 < arr.size() < 1000, 1 <= arr[i] <= 10^9, 1 <= K <= 10^12
+
+
+
+//sort array and then apply binary search
+    public static int findMaxSubArray(int[] arr, int K) {
+        if (arr == null || arr.length == 0) {
+            return -1;
+        }
+        Arrays.sort(arr);
+        int maxSubsetLen = 1;
+        for (int i = 0; i < arr.length-1; i++){
+            int lo = i+1, hi = arr.length - 1;
+            if(arr[lo]-arr[i]>K) continue;
+            if(arr[hi]-arr[i]<=K) {
+                maxSubsetLen = Math.max(maxSubsetLen, hi-i+1);
+                continue;
+            }
+
+            while (lo<=hi) {
+                int mid = (lo+hi)/2;
+                if (arr[mid]-arr[i]<=K) {
+                    lo = mid + 1;
+                    maxSubsetLen = Math.max(maxSubsetLen, mid-i+1);
+                }else {
+                    hi = mid - 1;
+                }
+                if(lo >= hi) {
+                    break;
+                }
+            }
+
+        }
+
+
+        return maxSubsetLen;
+    }
