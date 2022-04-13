@@ -1,0 +1,43 @@
+Given an array of positive integers, find the sum of the highest and second highest recurring element of that array. An element is said to be recurring if and only if it apperas two or more times in that array. If two or more elements have the same frequency, then the highest element has to be considered.
+I/P: arr = {4,2,4,5,2,3,1,2} => O/P: 6
+Constraints: 1 < arr.size() < 10^5, 1 <= arr[i] <= 10^9
+Note: If there are no recurring elements in the array, return -1. If there is only recurring element in the array, return that element. If there are two or more recurring elements, return the sum as described above.
+
+
+public static int findSumOfHighestAndSecondHighestFrequency(int[] arr) {
+        Map<Integer, Integer> countMap = new HashMap<>();
+        for (int k : arr) {
+            countMap.put(k, countMap.getOrDefault(k,0)+1);
+        }
+        if(countMap.size() == arr.length) { // entire arr is unique
+            return -1;
+        }
+        int ans = 0;
+        int highestNumber = arr[0], highestFreq = 1;
+        for (Map.Entry<Integer, Integer> entry : countMap.entrySet()) {
+            if (entry.getValue() > highestFreq) { // we found higher freq
+                highestNumber = entry.getKey();
+                highestFreq = entry.getValue();
+            } else if (entry.getValue() == highestFreq && highestNumber < entry.getKey()) { // we found same freq but higher number.
+                highestNumber = entry.getKey();
+            }
+        }
+        ans = highestNumber;
+        countMap.remove(highestNumber); // remove highest freq
+        highestFreq = -1;
+        // again search for highest freq.. but this would be second highest as highest freq is removed above
+        for (Map.Entry<Integer, Integer> entry : countMap.entrySet()) {
+            if (entry.getValue() == 1) continue; // we need to consider only recurring element
+            if (entry.getValue() > highestFreq) { // we found higher freq
+                highestNumber = entry.getKey();
+                highestFreq = entry.getValue();
+            } else if (entry.getValue() == highestFreq && highestNumber < entry.getKey()) { // we found same freq but higher number.
+                highestNumber = entry.getKey();
+            }
+        }
+        if (highestFreq > 1) {
+            ans+=highestNumber;
+        }
+        return ans;
+
+    }
