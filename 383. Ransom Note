@@ -1,0 +1,16 @@
+class Solution:
+    #https://leetcode.com/problems/ransom-note/editorial/
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        magazineMap = defaultdict(int)
+        ransomNoteMap = defaultdict(int)
+
+
+        magazineMap = collections.Counter(magazine)
+        ransomNoteMap = collections.Counter(ransomNote)
+
+        for char, count in ransomNoteMap.items():
+            if magazineMap[char] < count:
+                return False
+        return True
+
+        
