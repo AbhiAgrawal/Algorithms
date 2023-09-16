@@ -28,7 +28,35 @@ class Solution:
                         DP[i][j] = DP[i-1][j]
                     else:
                         DP[i][j] = DP[i-1][j] or DP[i-1][j - curr]
-        return DP[n][partSum]                
+        return DP[n][partSum]          
+
+
+
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        #https://github.com/AbhiAgrawal/Algorithms/blob/main/416-partition-equal-subset-sum
+
+        summ = sum(nums)
+        if summ%2 != 0 or len(nums)<2:
+            return False
+        return self.subsetSum(nums, summ//2)
+
+    def subsetSum(self, nums: List[int], summ: int) -> bool:
+        rows, cols = (len(nums)+1, summ+1)
+        DP = [[False for i in range(cols)] for j in range(rows)]
+
+        for j in range(rows):
+            DP[j][0] = True
+
+        for i in range(1,rows):
+            for j in range(1, cols):
+                curr = nums[i-1]
+                if curr<=j:
+                    DP[i][j] = DP[i-1][j-curr] or DP[i-1][j]
+                else:
+                    DP[i][j] = DP[i-1][j]
+        return DP[rows-1][cols-1]     
 
         
         
