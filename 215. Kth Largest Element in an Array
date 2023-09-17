@@ -26,3 +26,16 @@ class Solution:
             l += 1
         nums[current], nums[r] = nums[r], nums[current]
         return current
+
+
+
+    #best solution -- clean TC- o(nlogk)  SC- o(k)
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        heap = nums[:k]
+        heapq.heapify(heap)
+
+        for n in nums[k:]:
+            if n>heap[0]:
+                heapq.heappushpop(heap,n)
+        return heap[0]        
