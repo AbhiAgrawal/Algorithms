@@ -7,7 +7,7 @@
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
 
-        #https://leetcode.com/problems/maximum-depth-of-binary-tree/editorial/
+        #https://www.youtube.com/watch?v=hTM3phVI6YQ
         stack = []
         if root is not None:
             stack.append([1,root])
