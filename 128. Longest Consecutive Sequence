@@ -1,0 +1,19 @@
+class Solution:
+    #check editorial answer
+    def longestConsecutive(self, nums: List[int]) -> int:
+
+        longestConsecutive = 0
+        sett = set(nums)
+        visited_nums = set()
+
+        for n in nums:
+            if n-1 not in sett: #if there is [1,0] and currently n is 1 so 1-1 0 exist so skip becasue when will be 0 that it wil check
+                curr_num=n
+                curr_streak = 1
+                while (curr_num+1) in sett:
+                    curr_num+=1
+                    curr_streak+=1
+                longestConsecutive = max(longestConsecutive, curr_streak)
+        return longestConsecutive      
+
+        
