@@ -1,0 +1,14 @@
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        #editorial solution 2 pointers
+        sLen, tLen = len(s), len(t)
+        sPtr,tPtr = 0,0
+        while sPtr<sLen and tPtr<tLen:
+            if s[sPtr] == t[tPtr]:
+                #we found a match increment both
+                sPtr+=1
+            tPtr+=1
+        if sPtr == sLen:
+            return True
+        else:
+            return False         
