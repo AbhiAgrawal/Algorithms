@@ -1,0 +1,39 @@
+# class Solution:
+#     def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
+#         res = []
+#         for i in range(len(nums)-k+1):
+#             temp = sorted(nums[i:i+k])
+         
+#             if k % 2 != 0:
+#                 res.append(temp[k//2])
+#             else:
+#                 avg = (temp[k//2] + temp[k//2-1])/2
+#                 res.append(avg)
+#         return res
+
+##Above TC is (n-k)klogk and below is klogk + (n-k)*logk
+
+
+##simple solution 1. take a window of size and sort 
+##    2. iterate thrugh rest of items.. remove the first item and add the current item
+
+class Solution:
+    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
+        medians = []
+        window = sorted(nums[0:k])
+
+        medians.append(self.getMedian(window, k))
+
+        for i in range(k,len(nums)):
+            window.remove(nums[i-k]) #remove the first item
+            #Locate the insertion point for x in a to maintain sorted order. and then add the item
+            window.insert(bisect_left(window,nums[i]),nums[i]) 
+            medians.append(self.getMedian(window, k))
+        return medians    
+
+    def  getMedian(self, window: List[int], k:int)->int:
+        if k %2 == 0:
+            return (window[k//2] +window[k//2-1])/2
+        else:
+            return window[k//2]
+        
