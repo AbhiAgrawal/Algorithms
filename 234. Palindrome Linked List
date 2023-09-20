@@ -4,46 +4,29 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    ##combination of fast and slow pointers and reversing a linked list..
-    ##its a lengthy solution but very easy
-    #https://leetcode.com/problems/middle-of-the-linked-list/ and https://leetcode.com/problems/reverse-linked-list/
+    ##https://leetcode.com/problems/palindrome-linked-list/solutions/891218/python-3-o-n-time-and-o-1-space-with-algorithm-explanation/
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev=None
+        curr=head
+        while curr:
+            newCurr=curr.next
+            curr.next=prev
+            prev=curr
+            curr=newCurr
+        return prev  
+
+    
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
-        ##corner cases with 0,1 or 2 nodes
-        if head is None or head.next is None:
-            return True
-        if head.next.next is None and head.val != head.next.val:
-            return False
-        
-        ##get middle elemment
         slow, fast = head, head
-        pre = None
         while fast is not None and fast.next is not None:
-            pre = slow
             slow = slow.next
             fast = fast.next.next
+        fast = head
 
-        pre.next = None ##broke the linked list into 2 halves  
-        
-        ##reverse the second half.. slow is the middle element
-        curr = slow
-        prev = None
-        while curr.next is not None:
-            tmp = curr
-            curr = curr.next
-            tmp.next = prev
-            prev = tmp
-        curr.next = prev 
-        ##curr is new head
-        head2 = curr
-        head1 = head
-        while head1 is not None and head2 is not None:
-            if head1.val != head2.val:
+        slow = self.reverseList(slow)    
+
+        while slow is not None:
+            if slow.val != fast.val:
                 return False
-            head1 = head1.next
-            head2 = head2.next
-        return True    
-        
-            
-        
-        
-        
+            slow,fast = slow.next, fast.next
+        return True
