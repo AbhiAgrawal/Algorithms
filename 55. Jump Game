@@ -1,4 +1,5 @@
 class Solution:
+#https://www.youtube.com/watch?v=Yan0cv2cLy8
     def canJump(self, nums: List[int]) -> bool:
         n = len(nums)
         last_pos = n-1
