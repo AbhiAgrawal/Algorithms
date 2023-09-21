@@ -1,0 +1,13 @@
+class Solution:
+    #https://www.youtube.com/watch?v=dJ7sWiOoK7g
+    def jump(self, nums: List[int]) -> int:
+        l=r=0
+        result = 0
+        while r<len(nums)-1:#we dont want till end as we have already reached the goal so no point of going inside while loop instead we want to iterate only till second last item as that has the potential to go inside while loop to find last item if it can jump or not
+            farthest = 0
+            for i in range(l,r+1):
+                farthest = max(farthest,i+nums[i])
+            l,r=r+1,farthest
+            result+=1
+        return result        
+        
