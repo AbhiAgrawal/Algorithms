@@ -5,40 +5,19 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    ### same as https://leetcode.com/problems/path-sum/
+    #https://leetcode.com/problems/path-sum-ii/solutions/2305359/python-3-dfs-easy/
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
-        pathList = []
-        self.recurseTree(root,targetSum,[],pathList)
-        return pathList
-    
-    def recurseTree(self, root: Optional[TreeNode], sum: int, path:List[int], pathList:List[List[int]]) -> None:
         if root is None:
-            return
-        path.append(root.val)
-        sum-=root.val
-        if root.left is None and root.right is None and sum == 0:
-            pathList.append(list(path))                            
-        else:    
-            self.recurseTree(root.left, sum, path, pathList)
-            self.recurseTree(root.right, sum, path, pathList)
-        path.pop() 
-    
-    
-    ####iterative mode.. same as https://leetcode.com/problems/sum-root-to-leaf-numbers/solution/
-    def pathSum1(self, root: Optional[TreeNode], sum: int) -> List[List[int]]:
-        root_to_leaf = []
-        stack = []
-        stack.append((root,[],sum))
-        
-        while stack:
-            root, path,sum = stack.pop()
-            if root is not None:
-                path.append(root.val)
-                sum-=root.val
-                if root.left is None and root.right is None and sum == 0:
-                    root_to_leaf.append(path)
-                else:    
-                    stack.append((root.right, path, sum))    
-                    stack.append((root.left, list(path), sum)) ## dont have same path create a new path
-                  
-        return root_to_leaf    
+            return []
+        ans=[]
+
+        def dfs(node, res):
+
+            if node.left is None and node.right is None and sum(res) == targetSum:
+                ans.append(res)                    
+            if node.left:
+                dfs(node.left, res+[node.left.val])
+            if node.right:
+                dfs(node.right,res+[node.right.val])
+        dfs(root,[root.val])    
+        return ans
