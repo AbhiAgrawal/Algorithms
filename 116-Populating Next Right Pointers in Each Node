@@ -10,38 +10,27 @@ class Node:
     ### same as https://leetcode.com/problems/binary-tree-level-order-traversal/  with slight changes
 
 class Solution:
-    def connect(self, root: 'Node') -> 'Node':
-        """
-        :type root: TreeNode
-        :rtype: List[float]
-        """
-        levels = []
-        if root is None:
-            return root
-        level_length = 0
-        level = 0
-        queue = deque()
-        queue.append(root)
-        while queue:
-            level_length = len(queue)
-            levels.append([])     
-            for i in range(level_length):
-                node = queue.popleft()
-                levels[level].append(node) ###append the node
-                if node.left:
-                    queue.append(node.left)
-                if node.right:
-                    queue.append(node.right)
-                    
-            level+=1
-            
-        #####return the node
-        for row in range(1,len(levels)):
-            if(len(levels[row]) > 1):
-                for i in range(len(levels[row]) - 1):
-                    levels[row][i].next = levels[row][i+1]  
+    ## prereqisite https://leetcode.com/problems/binary-tree-level-order-traversal/submissions/ 
+    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        result=[]
+        q = deque()
+        q.append(root)
+        while len(q) != 0:
+            level=[]
+            for i in range(len(q)):
+                node = q.popleft()
+                if node is not None:
+                    level.append(node)
+                    q.append(node.left)
+                    q.append(node.right)
+            if len(level) != 0:
+                result.append(level)
 
-        return root 
+        for row in range(len(result)):
+            for i in range(len(result[row]) - 1): ##we dont have to do last node of the level as it will point to None
+                result[row][i].next = result[row][i+1]
+
+        return root
             
         
         
