@@ -7,33 +7,23 @@
 class Solution:
     ###same as level order traversal
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        levels = []
+        result=[]
+        q=deque()
         if root is None:
             return []
-        level_length = 0
-        level = 0
-        queue = deque()
-        queue.append(root)
-        result = []
-        while queue:
-            level_length = len(queue)
-            levels.append([])     
-            for i in range(level_length):
-                node = queue.popleft()
-                levels[level].append(node.val)
-                
-                
-                if node.left:
-                    queue.append(node.left)
-                if node.right:
-                    queue.append(node.right)
-            level+=1
-        
-        
-        #####below is the only change
-        for list in levels:
-            result.append(list[-1])
-        return result    
+
+        q.append(root)
+        while q:
+            level=[]
+            for i in range(len(q)):
+                node = q.popleft()
+                if node.left is not None:
+                    q.append(node.left)
+                if node.right is not None:    
+                    q.append(node.right)
+                level.append(node.val)
+            result.append(level[-1]) ##here is the deifferent.. just taking last item
+        return result  
             
         
         
