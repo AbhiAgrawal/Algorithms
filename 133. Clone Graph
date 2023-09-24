@@ -9,6 +9,7 @@ class Node:
 class Solution:
     ##simialr to https://leetcode.com/problems/copy-list-with-random-pointer/
     ### use leetcode soln bfs
+    ###visited key is old node and value is copied node
     def cloneGraph(self, node: 'Node') -> 'Node':
         if not node:
             return node
