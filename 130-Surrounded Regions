@@ -1,65 +1,45 @@
 class Solution:
-    #get all border r, c for which node is O. then run bfs on all those nodes and mark them E for all adjoining Os
+     #get all border r, c for which node is O. then run bfs on all those nodes and mark them E for all adjoining Os
     #finally mark all Os (that is part of border O) to X and all Es to O
     def solve(self, board: List[List[str]]) -> None:
         """
         Do not return anything, modify board in-place instead.
         """
-        if not board or not board[0]:
-            return
-    
-        rows = len(board)
-        cols = len(board[0])
+        if len(board) == 0 or len(board[0]) == 0:
+            return None
+        rowC = len(board)
+        colC = len(board[0])
+
+        ##run through top and bottom boundary
+        for i in [0,rowC-1]:
+            for j in range(colC):
+                if board[i][j] == 'O':
+                    board[i][j] = 'E'
+                    self.bfs(board,i,j,rowC, colC)
+
+        ##run through left and right boundary
+        for i in range(rowC):
+            for j in [0,colC-1]:
+                if board[i][j] == 'O':
+                    board[i][j] = 'E'
+                    self.bfs(board,i,j,rowC, colC)
         
-        if rows <= 2 or cols <=2:
-            return board
-    
-        #get all the border 0s in a 2D array
-        pair_indices_0 = []
-        for i in range(cols):
-            if board[0][i] == 'O':
-                pair_indices_0.append([0,i]) 
-            if board[rows-1][i] == 'O':
-                pair_indices_0.append([rows-1,i])
-        #first row and last row is already seen so starting from index 1 to row-1        
-        for i in range(1,rows-1):
-            if board[i][0] == 'O':
-                pair_indices_0.append([i,0])
-            if board[i][cols-1] == 'O':
-                pair_indices_0.append([i,cols-1])
+        for i in range(rowC):
+            for j in range(colC):
+                if board[i][j] == 'O':
+                    board[i][j] = 'X'
+                if board[i][j] == 'E':         
+                    board[i][j] = 'O'
+
+        return
+
+    def bfs(self, board: List[List[str]], row: int, col: int, len_rows:int, len_cols:int) ->None:
+        q=deque()
+        q.append([row,col])
+        while q:
+            r,c = q.popleft()
+            for xr,xc in [[-1,0],[1,0],[0,-1],[0,1]]:
+                if 0<=r+xr<len_rows and 0<=c+xc<len_cols and board[r+xr][c+xc]=='O':
+                    q.append([r+xr,c+xc])
+                    board[r+xr][c+xc] = 'E'
         
-        
-        for pair in pair_indices_0:
-            if board[pair[0]][pair[1]] == 'O':
-                self.runBFS(board, pair[0],pair[1])
-        
-        #convert all Os to Xs and all Es to Os
-        for r in range(len(board)):
-            for c in range(len(board[0])):
-                if board[r][c]=='O':
-                    board[r][c]='X'
-                elif board[r][c]=='E':
-                    board[r][c]='O'        
-        return board
-    
-    def runBFS(self, board: List[List[str]], r: int, c: int)-> None:
-        neighbours = []
-        board[r][c]='E'
-        neighbours.append([r,c])
-        while not len(neighbours) == 0:
-            pair = neighbours.pop(0)
-            r1 = pair[0]
-            c1 = pair[1]
-            if(r1-1>=0 and board[r1-1][c1] == 'O'):
-               board[r1-1][c1]='E'
-               neighbours.append([r1-1,c1])
-            if(r1+1<len(board) and board[r1+1][c1] == 'O'):
-               board[r1+1][c1]='E'
-               neighbours.append([r1+1,c1])
-            if(c1+1<len(board[0]) and board[r1][c1+1] == 'O'):
-               board[r1][c1+1]='E'
-               neighbours.append([r1,c1+1])
-            if(c1-1>=0 and board[r1][c1-1] == 'O'):
-               board[r1][c1-1]='E'
-               neighbours.append([r1,c1-1])
-            
