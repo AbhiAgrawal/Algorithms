@@ -1,0 +1,15 @@
+class Solution:
+    #https://leetcode.com/problems/summary-ranges/solutions/1805476/python-simple-python-solution-using-iterative-approach-o-n/
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        result=[]
+        i=0
+        while i<len(nums):
+            s=e=i
+            while e+1<len(nums) and nums[e]+1==nums[e+1]:
+                e=e+1
+            if s==e:
+                result.append(str(nums[s]))
+            else:
+                result.append(str(nums[s]) + "->" + str(nums[e]))
+            i=e+1
+        return result     
