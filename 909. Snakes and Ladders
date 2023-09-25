@@ -1,0 +1,16 @@
+class Solution:
+    def snakesAndLadders(self, board: List[List[int]]) -> int:
+        n = len(board)
+        need = {1: 0}## this is a map for source and time to start from source obviously 0 and source is 1
+        bfs = [1]
+        for x in bfs:
+            for i in range(x + 1, x + 7):
+                a, b = int((i - 1) / n), (i - 1) % n ##calc row and col
+                row,col=~a,b if a % 2 == 0 else ~b
+                nxt = board[row][col]
+                if nxt > 0: i = nxt
+                if i == n * n: return need[x] + 1 ## whatever need[x] is, plus + 1
+                if i not in need: ## not yet visited
+                    need[i] = need[x] + 1
+                    bfs.append(i)
+        return -1
