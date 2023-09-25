@@ -32,7 +32,7 @@ class Solution:
                 spaces = maxWidth - len(l)# we just need to left assigned it
                 line = l + ' '*spaces ### ADD leading spaces
             else:
-                spaces = maxWidth - len(l) + k-1 # total number of spaces we need insert  
+                spaces = maxWidth - len(l) + k-1 # total number of spaces we need insert. k-1 is number of spaces  
                 space = spaces//(k-1)# average number of spaces we should insert between two words
                 left = spaces%(k-1)# number of 'left' words, i.e. words that have 1 more space than the other words on the right side
                 if left > 0:
