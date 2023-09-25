@@ -1,4 +1,7 @@
 class Solution:
+
+
+####not using split https://leetcode.com/problems/reverse-words-in-a-string/solutions/2808468/python3-faster-than-97-without-using-split/
     def reverseWords(self, s: str) -> str:
 #         _RE_COMBINE_WHITESPACE = re.compile(r"\s+")
 #         s = _RE_COMBINE_WHITESPACE.sub(" ", s).strip()
