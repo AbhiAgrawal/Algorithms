@@ -1,4 +1,6 @@
 class Solution:
+### https://leetcode.com/problems/snakes-and-ladders/solutions/173378/diagram-and-bfs/?envType=study-plan-v2&envId=top-interview-150
+### shortest path distance using bfs
     def snakesAndLadders(self, board: List[List[int]]) -> int:
         n = len(board)
         need = {1: 0}## this is a map for source and time to start from source obviously 0 and source is 1
