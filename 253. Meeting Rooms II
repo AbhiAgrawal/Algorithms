@@ -13,37 +13,26 @@ class Solution:
                 heapq.heappop(pq)
             heapq.heappush(pq,end)    
         return len(pq)        
-            
 
 
+###Below neetcode solution is best and easy to understand
 
+class Solution:
+    ###best solution https://www.youtube.com/watch?v=FdzJmTCVyJU
+    #TC nlogn SC O(n)
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        start = sorted([i[0] for i in intervals])
+        end = sorted([i[1] for i in intervals])
 
-
-#     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
-        
-#         length = len(intervals)
-        
-#         if(length == 0):
-#             return 0
-#         if(length == 1):
-#             return 1
-        
-#         intervals.sort()
-#         max_count=1
-#         dictionary = defaultdict(int) ##room number to start and end 
-        
-#         dictionary[1] = intervals[0][1]
-#         for i in range(1,len(intervals)):
-#             start, end = intervals[i]
-#             is_space=False
-#             for j in range(1,max_count+1):
-#                 #lst = dictionary[j]
-#                 if start>=dictionary[j]:
-#                     is_space=True
-#                     dictionary[j] = end
-#                     break
-#             if is_space == False:
-#                 dictionary[max_count+1] = end
-#                 max_count+=1
-#         return max_count        
+        res,count = 0,0
+        s=e=0
+        while s<len(intervals):
+            if start[s]<end[e]:
+                count+=1
+                s+=1
+            else:
+                count-=1
+                e+=1
+            res=max(res,count)
+        return res             
             
