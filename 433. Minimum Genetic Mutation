@@ -1,0 +1,29 @@
+class Solution:
+    ###this is exact same as https://leetcode.com/problems/word-ladder/
+    def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:
+        queue=deque()
+        if endGene not in bank or not startGene or not endGene or not bank:
+            return -1
+        all_combo_dict=defaultdict(list)
+        L=len(startGene)
+
+        ##create all_combo_dict check the link why its used
+        for gene in bank:
+            for i in range(L):
+                all_combo_dict[gene[:i]+"*"+gene[i+1:]].append(gene)
+
+        queue.append([startGene,0]) ##this is only differemce.. word ladder started with 1 this is starting with 0
+        visited=set()
+        visited.add(startGene)
+        while queue:
+            curr,level = queue.popleft()
+            for i in range(L):
+                int_gene=curr[:i]+"*"+curr[i+1:]
+                for gene in all_combo_dict[int_gene]:
+                    if gene==endGene:
+                        return level+1
+                    if gene not in visited:
+                        visited.add(gene)
+                        queue.append([gene,level+1])
+        return -1
+        
