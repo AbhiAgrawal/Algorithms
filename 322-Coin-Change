@@ -4,10 +4,7 @@ class Solution:
         
         if(amount == 0):
             return 0
-        
         n = len(coins)
-        
-        
         DP = [[0 for i in range(amount+1)] for j in range(n+1)]
         
         DP[0][0] = 1
@@ -31,6 +28,42 @@ class Solution:
         if(DP[n][amount] == math.inf):
             return -1
         return DP[n][amount] 
+
+
+
+###just coinChange method very short solution https://leetcode.com/problems/coin-change/solutions/2058537/python-easy-2-dp-approaches/
+class Solution:
+    def __init__(self):
+        self.memo = {}
+
+    def coinChangeRecursive(self, coins: List[int], amount: int) -> int:            
+        def coinChangeIn(rem):
+            if rem < 0:
+                return math.inf
+            if rem == 0:                    
+                return 0              
+            result=math.inf
+            for x in coins:
+                result=min(result, coinChangeIn(rem-x)+1)
+            return result         
+        
+        ans = coinChangeIn(amount)
+        return -1 if ans == math.inf else ans   
+
+    def coinChange(self, coins: List[int], amount: int) -> int:                
+        def coinchangeInner(rem):
+            if rem<0:
+                return math.inf
+            if rem==0:
+                return 0
+            if rem in self.memo:
+                return self.memo[rem]
+            self.memo[rem]=min(coinchangeInner(rem-x)+1 for x in coins)
+            return self.memo[rem]
+
+
+        ans=coinchangeInner(amount)
+        return -1 if ans==math.inf else ans
         
                 
                 
