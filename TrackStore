@@ -1,0 +1,22 @@
+def get_n_most_played_by_country(n, cc):
+    try:
+        track_store=TrackStore.latest(timeout=1000)
+    except IOError as e:
+        raise e
+    country_tracks = track_store.get_tracks(cc)
+    sorted_tracks = sorted(country_tracks,key=lambda x:x.count, reverse=True)
+    return sorted_tracks[:n]
+    
+def get_n_most_played_globally(n):    
+    try:
+        track_store=TrackStore.latest(timeout=1000)
+    except IOError as e:
+        raise e
+    tracks_counter = defaultdict(int)    
+    countries = track_store.getCountries()
+    for country in countries:
+        country_tracks = track_store.get_tracks(country)
+        for trackInfo in country_tracks:
+            tracks_counter[trackInfo.urn]+=trackInfo.count
+    sorted_tracks = sorted(tracks_counter.items,key=lambda x:x[1], reverse=True)    
+    return sorted_tracks[:n]
