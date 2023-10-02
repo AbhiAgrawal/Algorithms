@@ -1,0 +1,42 @@
+import collections
+import math
+
+def minWindow(original, t):
+    ### leetcode solution is good refer approach one
+    dict_t = collections.Counter(t)
+    l,r=0,0
+    formed = 0
+    required = len(dict_t)
+    dict_window = collections.defaultdict(int)
+    
+    ans = float(math.inf),None, None
+    s=original.split(" ")
+    
+    while r < len(s):
+        word = s[r]
+        dict_window[word] += 1 ##add into dictionary
+        
+        ### update valid_substring_count
+        if word in dict_t and dict_window[word] == dict_t[word]:
+            formed += 1
+        
+        while l<=r and formed == required:
+            c1 = s[l]
+                
+            if r-l+1 < ans[0]:
+                ans = (r-l+1,l,r)
+                
+            dict_window[c1] -= 1
+            if c1 in dict_t and dict_window[c1] < dict_t[c1]:
+                formed -=1    
+            
+            l+=1
+        r+=1
+
+    if ans[1] is None:
+        return ""
+    else:
+        return " ".join(s[ans[1]:ans[2]+1])
+        
+print(minWindow("far whale is naughty over ohoho whale naughty far the over",["over", "naughty"]))        
+        
