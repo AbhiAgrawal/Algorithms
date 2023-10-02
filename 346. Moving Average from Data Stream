@@ -8,11 +8,11 @@ class MovingAverage:
 
     def next(self, val: int) -> float:
         self.queue.append(val)
-        if len(self.queue) <=self.size:
-            self.run_sum+=val
-        else:
+        self.run_sum+=val
+            
+        if len(self.queue) >self.size:
             remove_first = self.queue.popleft()
-            self.run_sum+=val-remove_first
+            self.run_sum-=remove_first
         return float(self.run_sum/len(self.queue))
         
 
