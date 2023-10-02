@@ -1,0 +1,38 @@
+Find sum of path between two nodes
+class Node:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+    
+    def getFullPath(self, src: Node, dest:Node)->Optional[List[Node]]:
+        if src is None:
+            return None
+        if src == dest:
+            return [src]
+        for child in [src.left, src.right]:
+            subpath = self.getFullPath(child, dest)
+            if subpath is not None:
+                return [src]+subpath
+        return None 
+        
+    def sum_path(self, root: Node, node1:Node, node2: Node)->int:
+        if node1 == node2:
+            return node1.val
+        path1 = self.getFullPath(root, node1)
+        path2 = self.getFullPath(root, node2)
+        
+        l1,l2=len(path1),len(path2)
+        i=0
+        while i<l1 and i<l2 and path1[i] == path2[i]:
+            i+=1
+        summ = path1[i-1].val
+        for node in path1[i:]:
+            summ+=node.val
+        for node in path2[i:]:
+            summ+=node.val    
+        return summ    
+    
+
+    
+  
