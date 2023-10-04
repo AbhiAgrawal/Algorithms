@@ -26,3 +26,18 @@ class Solution:
             #output.append([nums[j] for j in range(n) if bitmask[j] == '1'])
         
         return output
+
+
+Another solution based on https://leetcode.com/problems/combination-sum-ii/solutions/750378/Python3-DFS-solutionstemplates-to-6-different-classic-backtracking-problems-and-more/
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        result=[]
+        nums=sorted(nums)
+        def dfs(idx, path):
+            if path not in result:
+                result.append(path)
+            for i in range(idx,len(nums)):
+                dfs(i+1,path+[nums[i]])
+        dfs(0,[])
+        return result        
+        
