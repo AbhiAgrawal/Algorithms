@@ -44,7 +44,7 @@ class Solution:
         for i in range(len(s)-1,-1,-1):
             for w in wordDict:
                 lenW = len(w)
-                if i+lenW <=len(s) and s[i:i+lenW] in wordDict:
+                if i+lenW <=len(s) and s[i:i+lenW]==w: ##just check if word matches
                     dp[i]=dp[i+lenW]
                 if dp[i]:
                     break
