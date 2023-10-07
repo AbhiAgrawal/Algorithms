@@ -1,0 +1,29 @@
+class Solution:
+    ##same as number of islands
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        graph=defaultdict(list)
+
+        for edge in edges:
+            graph[edge[0]].append(edge[1])
+            graph[edge[1]].append(edge[0])
+        visited=[]
+        count=0
+        for i in range(0,n):
+            visited.append(False)
+        for i in range(0,n):
+            if not visited[i]:
+                count+=1
+                self.bfs(i,visited, graph)
+        return count        
+
+
+    def bfs(self, i:int, visited:List[bool], graph:dict[int, List[int]])->None:
+        queue=deque()
+        queue.append(i)
+        visited[i]=True
+        while len(queue) !=0:
+            node = queue.popleft()
+            for nei in graph[node]:
+                if not visited[nei]:
+                    visited[nei]=True
+                    queue.append(nei)
