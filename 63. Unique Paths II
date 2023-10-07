@@ -1,0 +1,34 @@
+class Solution:
+    ###prerequisite https://leetcode.com/problems/unique-paths/
+    ###if obstacle is there corresponding DP will be 0
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        m=len(obstacleGrid)
+        n=len(obstacleGrid[0])
+
+        if obstacleGrid[0][0]==1 or obstacleGrid[m-1][n-1] == 1:
+            return 0
+
+        DP = [[0 for _ in range(n)] for _ in range(m)]
+        DP[0][0]=1
+
+        for i in range(1,m):
+            if obstacleGrid[i][0] == 1: 
+                DP[i][0]=0
+            else:
+                DP[i][0]=DP[i-1][0]    
+
+        for j in range(1,n):
+            if obstacleGrid[0][j] == 1: 
+                DP[0][j]=0    
+            else:
+                DP[0][j]=DP[0][j-1]     
+
+                    
+
+        for i in range(1,m):
+            for j in range(1,n):
+                DP[i][j]=DP[i-1][j]+DP[i][j-1]
+                if obstacleGrid[i][j] == 1:
+                    DP[i][j]=0
+        return DP[m-1][n-1]
+        
