@@ -36,4 +36,38 @@ class Solution:
             return (window[k//2] +window[k//2-1])/2
         else:
             return window[k//2]
+
+
+
+
+from collections import deque
+import bisect
+class StreamHandler:
+    def __init__ (self, window:int):
+        self.size = window
+        self.window = []
+        self.orig_arr = deque()
+    
+    def callback(self, x: int)->int:
+        self.orig_arr.append(x)
+        if len(self.orig_arr)>self.size:## we need to remove an item
+            removed_val = self.orig_arr.popleft()
+            self.window.remove(removed_val)
+        self.window.insert(bisect.bisect_left(self.window,x),x)    
+
+        return self.getMedian()
+        
+    def getMedian(self)->int:
+        k = len(self.window)
+        if k %2 == 0:
+            return (self.window[k//2] +self.window[k//2-1])/2
+        else:
+            return self.window[k//2]    
+
+s = StreamHandler(3)
+print(s.callback(10))
+print(s.callback(7))
+print(s.callback(3))
+print(s.callback(4))
+print(s.callback(1))
         
