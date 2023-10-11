@@ -5,6 +5,13 @@ def get_n_most_played_by_country(n, cc):
         raise e
     country_tracks = track_store.get_tracks(cc)
     sorted_tracks = sorted(country_tracks,key=lambda x:x.count, reverse=True)
+
+"""
+    result = heapq.nlargest(n, country_tracks, key=lambda x:x.count)
+    return result
+
+"""
+
     return sorted_tracks[:n]
     
 def get_n_most_played_globally(n):    
@@ -14,9 +21,14 @@ def get_n_most_played_globally(n):
         raise e
     tracks_counter = defaultdict(int)    
     countries = track_store.getCountries()
+    urn_to_track = dict()
     for country in countries:
         country_tracks = track_store.get_tracks(country)
         for trackInfo in country_tracks:
             tracks_counter[trackInfo.urn]+=trackInfo.count
-    sorted_tracks = sorted(tracks_counter.items,key=lambda x:x[1], reverse=True)    
-    return sorted_tracks[:n]
+            urn_to_track[trackInfo.urn] = trackInfo
+    sorted_tracks = sorted(tracks_counter.items,key=lambda x:x[1], reverse=True)
+    result = []
+    for i in range(n):
+        result.append(urn_to_track[sorted_tracks[i]])
+    return result
