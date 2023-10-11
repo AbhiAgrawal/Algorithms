@@ -1,5 +1,6 @@
 class Solution:
     ###https://www.youtube.com/watch?v=cjWnW0hdF1Y nicely explaind
+    ##start from last element.. and go backwards.. for every element a[i], check all next elements till end a[i+1] till end and see if anyone is greater a[i] say a[i+2] is greater than a[i] so whatever value of a[i+2] +1 will be the answer for a[i]
     def lengthOfLIS(self, nums: List[int]) -> int:
         n = len(nums)
         dp = [1 for _ in range(n)] ##default value will be 1 for all values. if its decreasing values
@@ -9,3 +10,6 @@ class Solution:
                     dp[i]=max(dp[i],1+dp[j])
         print(dp)            
         return max(dp)
+
+
+        
