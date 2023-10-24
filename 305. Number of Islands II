@@ -1,0 +1,75 @@
+class Solution:
+    ##https://leetcode.com/problems/number-of-islands-ii/solutions/3103135/clear-python-union-find-w-path-compression-rank/
+    ##and check robert sedge union find with compression and that will help to understand
+    def numIslands2(self, m: int, n: int, positions: List[List[int]]) -> List[int]:
+        parent = {}
+        size=defaultdict(int)
+        res = [0 for i in range(len(positions))]
+        count=0
+
+        def root(node):
+            while parent[node] != node:
+                node = parent[node]
+            return parent[node]   
+
+        def union(n1, n2):
+            root1, root2 = root(n1), root(n2)
+            if root1 == root2: ##they are already connected
+                return False
+            if size[root1]>size[root2]:
+                parent[root2] = root1
+                size[root1]+=1
+            else:
+                parent[root1] = root2
+                size[root2]+=1
+            return True    
+
+        for idx, (i,j) in enumerate(positions):
+            if (i,j) not in parent:
+                parent[i,j] = (i,j)
+                count+=1
+            for dx,dy in [(0,1),(1,0),(0,-1),(-1,0)]:
+                x,y = i+dx,j+dy
+                if (x,y) in parent:
+                    if union((i,j),(x,y)):
+                        count-=1
+            res[idx] = count
+        return res
+
+    ### this is using numIslands but this TLE
+    def numIslands2TLESolution(self, m: int, n: int, positions: List[List[int]]) -> List[int]:
+        grid = [['0' for _ in range(n)] for _ in range(m)]
+        result=[]
+        for r,c in positions:
+            grid[r][c] = '1'
+            B = copy.deepcopy(grid)##create a deep copy so that grid get reset in bfs function check last line.. to avoid it.. create a deep copy 
+            val = self.numIslands(B) 
+            result.append(val) 
+        return result    
+
+
+
+    def numIslands(self, grid: List[List[str]]) -> int:
+        if len(grid) == 0 or len(grid[0]) == 0:
+            return None
+        count=0
+        for r in range(len(grid)):
+            for c in range(len(grid[0])):
+                if grid[r][c] == '1':
+                    count+=1
+                    self.bfs(grid,r,c)        
+        return count
+
+    def bfs(self, grid: List[List[str]], r:int, c:int) -> None:
+        len_rows, len_cols = len(grid), len(grid[0])
+        visited = [[False for i in range(len_cols)] for j in range(len_rows)]
+        queue=[]
+        queue.append([r,c])
+        while len(queue)>0:
+            pair = queue.pop(0)
+            r,c = pair[0],pair[1]
+            for xr,xc in [[-1,0],[1,0],[0,-1],[0,1]]:
+                if 0<=r+xr<len_rows and 0<=c+xc<len_cols and grid[r+xr][c+xc]=='1':
+                    queue.append([r+xr,c+xc])
+                    grid[r+xr][c+xc] = '0'
+        
