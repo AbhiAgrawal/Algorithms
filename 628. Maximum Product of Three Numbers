@@ -1,0 +1,28 @@
+class Solution:
+    ##refer below solution to understand sort and then find between 2 max... based on that u can understand final solution
+    """
+    class Solution:
+    def maximumProduct(self, nums: List[int]) -> int:
+        nums.sort()
+        return max(nums[-1]*nums[-2]*nums[-3],nums[0]*nums[1]*nums[-1])
+        #please do upvote as it makes me to code more.
+    nlogn and space o(1)
+    sort... and then either take last 3values.. if all3 are positive ex: 2,3,4,5
+    or take first so highest 2 -ves and one last value.. which might be highest positive ex: -4,-3,-2,0,1,2    
+    """
+
+
+
+    def maximumProduct(self, nums: List[int]) -> int:
+        smallestTwo = [float('inf')]*2
+        largestThree = [float('-inf')]*3
+        for num in nums:
+            if num <= smallestTwo[0]:
+                smallestTwo[0] = num
+                smallestTwo.sort(reverse=True)
+            if num >= largestThree[0]:
+                largestThree[0] = num
+                largestThree.sort()
+        return max(smallestTwo[0]*smallestTwo[1]*largestThree[2], 
+                   largestThree[0]*largestThree[1]*largestThree[2])
+        
