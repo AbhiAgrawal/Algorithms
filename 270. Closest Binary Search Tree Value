@@ -26,3 +26,30 @@ class Solution:
                 
         searchClosest(root)
         return closest
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def closestValue(self, root: TreeNode, target: float, min_diff=math.inf) -> int:
+        self.min_diff,self.result = abs(root.val-target), root.val  
+
+        def dfs(node):
+            if not node:
+                return
+            
+            ###this is for situations.. where input is 4 and 3 and target is 3.5 so we want to chose minimum bval
+            if abs(node.val - target) == self.min_diff and self.result>node.val:
+                self.min_diff,self.result = abs(node.val - target), node.val             
+            elif abs(node.val - target) < self.min_diff:
+                self.min_diff,self.result = abs(node.val - target), node.val  
+            dfs(node.left)    
+            dfs(node.right)
+
+        dfs(root)
+        
+        return self.result
