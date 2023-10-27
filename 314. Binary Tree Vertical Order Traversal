@@ -5,30 +5,30 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    ###leetcode nicely explains with a axis diagram.. using bfs but also 
-    def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        dict=defaultdict(list)## this will have col as a key and value is a list of nodes
-        if root is None:
+    ###leetcode nicely explains with a axis diagram.. use bfs
+"""
+If we look at a binary tree horizontally, each node can be aligned to a specific column, based on its relative offset to the root node of the tree.
+
+
+Let us assume that the root node has a column index of 0, then its left child node would have a column index of -1 and its right child node would have a column index of +1, and so on.
+"""
+   def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
             return []
-        queue=deque()
-        res=[]
-        queue.append([root,0]) ##basically inserting root.val, col.. starting with 0
-        max_col = -sys.maxsize-1
-        min_col = sys.maxsize
-        while queue:
-            node, col = queue.popleft()
-            dict[col].append(node.val)
-            
-            max_col = max(max_col, col)
-            min_col = min(min_col, col)
-            
+
+        columns=defaultdict(list)
+        q=deque()
+        q.append([root,0])
+        while q:
+            node, val = q.popleft()
+            columns[val].append(node.val)
             if node.left:
-                queue.append([node.left,col-1]) ###now col will be -1 for left
+                q.append([node.left,val-1])
             if node.right:
-                queue.append([node.right,col+1])    ###coll will be +1 for right
-        for i in range(min_col, max_col+1): ## go for min col to max col 
-            res.append(dict[i])
-        
-        return res
-        
-        
+                q.append([node.right,val+1])
+
+        ##return [columns[x] for x in range(min(columns), max(columns)+1)]        
+        result=[]
+        for key in range(min(columns), max(columns)+1):
+            result.append(columns[key])
+        return result 
