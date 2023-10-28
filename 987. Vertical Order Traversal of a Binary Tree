@@ -9,36 +9,31 @@ class Solution:
     ##interesting.. question.. its almost same as above leet code.. when its same row and col then numbers should be in sorted order.. whereas in medium it was from left to right 
     ##we will need row info per col as well.. because in that row,col has multople values then instead of going from left to right we need to sort
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
-        dict=defaultdict(list)## this will have col as a key and value is a list of nodes
-        if root is None:
+        if not root:
             return []
-        queue=deque()
-        res=[]
-        queue.append([root,0,0]) ##basically inserting root.val,row, col.. starting with 0,0
-        max_col = -sys.maxsize-1
-        min_col = sys.maxsize
-        max_row = -sys.maxsize-1
-        min_row = sys.maxsize
-        while queue:
-            node, row, col = queue.popleft()
-            dict[(row,col)].append(node.val)
-            
+
+        row_columns=defaultdict(list)
+        q=deque()
+        q.append([root,0,0]) ###first 0 is row and 2nd is col
+        max_row=0
+        max_col,min_col = -sys.maxsize-1,sys.maxsize
+        while q:
+            node, row, col = q.popleft()
+            row_columns[(row,col)].append(node.val)
+            if node.left:
+                q.append([node.left,row+1,col-1])
+            if node.right:
+                q.append([node.right,row+1,col+1])
+            max_row = max(max_row,row)
             max_col = max(max_col, col)
             min_col = min(min_col, col)
-            
-            max_row = max(max_row, row)
-            min_row = min(min_row, row)
-            
-            if node.left:
-                queue.append([node.left,row+1,col-1]) ###now col will be -1 for left
-            if node.right:
-                queue.append([node.right,row+1,col+1])    ###coll will be +1 for right
+    
+        result=[]
         for i in range(min_col, max_col+1): ## go for min col to max col 
             temp=[]
-            for j in range(min_row, max_row+1):
-                row_col_list=dict[(j,i)] ###j is row and i is col
+            for j in range(0, max_row+1):
+                row_col_list=row_columns[(j,i)] ###j is row and i is col
                 row_col_list.sort()
                 temp.extend(row_col_list)
-            res.append(temp)
-        
-        return res
+            result.append(temp)
+        return result 
